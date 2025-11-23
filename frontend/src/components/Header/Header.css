@@ -1,0 +1,28 @@
+.cursor-default {
+    cursor: default;
+}
+
+.pre-header {
+    background-color: #fffcf9;
+    color: #616161;
+    font-size: 14px;
+}
+
+.header .nav-link:not(.logo):hover {
+    color: #339886 !important;
+}
+
+.header .nav-link.active {
+    color: #fff !important;
+}
+
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item:focus {
+    background-color: transparent !important;
+    color: #616161 !important;
+}
+
+.dropdown-menu .dropdown-item.active {
+    background-color: transparent !important;
+    color: #fff !important;
+}
