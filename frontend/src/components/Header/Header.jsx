@@ -60,6 +60,7 @@ function Header() {
                         <Offcanvas.Body>
                             <Nav activeKey={location.pathname} className="ms-auto">
                                 <Nav.Link as={Link} to="/services" eventKey="/services">Услуги</Nav.Link>
+                                <Nav.Link as={Link} to="/price-clinic" eventKey="/price-clinic">Цены</Nav.Link>
                                 <Nav.Link as={Link} to="/doctors" eventKey="/doctors">Врачи</Nav.Link>
                                 <Nav.Link as={Link} to="/contacts" eventKey="/contacts">Контакты</Nav.Link>
                                 <NavDropdown

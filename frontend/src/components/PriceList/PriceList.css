@@ -3,7 +3,7 @@
 }
 
 .breadcrumb a:hover {
-    color: #d8971f
+    color: #b17f22
 }
 
 .price-list .container {
@@ -14,7 +14,6 @@
 .price-list-btn .btn {
     background-color: #fff;
     border: 1px solid #fff;
-    ;
     color: #000000;
 }
 
@@ -27,4 +26,63 @@
 .price-list-btn .btn:active {
     background-color: #339886 !important;
     border: 1px solid #339886 !important;
+}
+
+/* Стиль для таблицы */
+.price-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-bottom: 20px;
+}
+
+.price-table thead th {
+	font-weight: bold;
+	text-align: left;
+	padding: 20px 15px;
+	font-size: 20px;
+}
+
+.price-table thead tr th:first-child {
+	border-radius: 8px 0 0 8px;
+}
+
+.price-table thead tr th:last-child {
+	border-radius: 0 8px 8px 0;
+}
+
+.price-table tbody td {
+	text-align: left;
+	padding: 10px 15px;
+	font-size: 14px;
+	vertical-align: top;
+}
+
+.price-table tbody tr:nth-child(even){
+	background: #ceb68833;
+}
+
+.price-table tbody tr td:first-child {
+	border-radius: 8px 0 0 8px;
+}
+
+.price-table tbody tr:nth-child(even):hover td {
+    background: #33988569;
+    color: white;
+}
+
+.price-table tbody tr td:last-child {
+	border-radius: 0 8px 8px 0;
+}
+
+.price-table tbody tr:nth-child(odd):hover td {
+    background: #339885b9;
+    color: white;
+}
+
+.price-section .nav .nav-link {
+    color: #6d6d6d;
+}
+
+.price-section .nav .nav-link:hover {
+    color: #339886;
 }

@@ -1,9 +1,9 @@
-import PriceList from "../components/PriceList/PriceList";
+import ServicesList from "../components/ServicesList/ServicesList";
 
 function Services() {
     return (
         <>
-            <PriceList />
+            <ServicesList />
         </>
     );
 }

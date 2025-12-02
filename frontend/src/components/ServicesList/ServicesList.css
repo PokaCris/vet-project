@@ -1,0 +1,84 @@
+.colored-text {
+    color: #339886;
+}
+
+.service-card {
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.service-card:hover {
+    box-shadow: 0 0 15px 2px #a8a8a8;
+    transform: scale(1.05);
+    cursor: pointer;
+    border-color: #339886;
+}
+
+.service-card .card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-height: 210px;
+}
+
+.service-icon {
+    color: #339886;
+    margin-bottom: 16px;
+}
+
+.service-card .card-title {
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 19px;
+    margin-bottom: 12px;
+}
+
+.card-description {
+    color: #6c757d;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+
+/* Медиа запросы */
+@media (max-width: 1200px) {
+    .service-card .card-body {
+        min-height: 230px;
+    }
+}
+
+@media (max-width: 992px) {
+    .service-card .card-body {
+        min-height: 225px;
+    }
+}
+
+@media (max-width: 768px) {
+    .service-card {
+        width: 90%;
+        margin: 0 auto
+    }
+
+    .service-card .card-body {
+        min-height: 100px;
+    }
+}
+
+@media (max-width: 576px) {
+    .service-card {
+        width: 80%;
+        margin: 0 auto
+    }
+
+    .service-card .card-body {
+        min-height: 80px;
+    }
+}

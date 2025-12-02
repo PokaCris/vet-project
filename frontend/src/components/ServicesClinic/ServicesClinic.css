@@ -1,35 +1,41 @@
-.animal-types-container {
-    width: 100%;
-    margin-top: 75px;
-    margin-bottom: 75px;
-}
-
 .colored-text {
     color: #339886;
 }
 
-.service-card {
+.service-card-main {
     display: flex;
     flex-direction: column;
-    height: 100%;
-    transition: all 0.2s linear;
+    transition: all 0.3s ease;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
-.service-card:hover {
+.service-card-main:hover {
     box-shadow: 0 0 15px 2px #a8a8a8;
-    transform: scale(1.1);
+    transform: scale(1.05);
     cursor: pointer;
+    border-color: #339886;
 }
 
-.service-card .card-body {
+.service-card-main .card-body {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     min-height: 150px;
 }
 
+.rub-style {
+    width: 23px;
+    height: 23px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
 @media(max-width: 768px) {
-    .service-card .card-body {
+    .service-card-main .card-body {
         min-height: 0;
     }
     .card-description {
@@ -37,7 +43,7 @@
         padding: 0;
         display: none;
     }
-    .service-card .card-title {
+    .service-card-main .card-title {
         text-align: center;
     }
 }
