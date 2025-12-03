@@ -163,9 +163,7 @@ function DoctorsList() {
                     <Breadcrumb.Item href="/">Главная</Breadcrumb.Item>
                     <Breadcrumb.Item active>Врачи</Breadcrumb.Item>
                 </Breadcrumb>
-            </Container>
 
-            <Container>
                 <h1 className='mb-4'>Команда</h1>
 
                 <div className='mb-5'>

@@ -22,10 +22,10 @@ function Header() {
                 <span><FontAwesomeIcon icon={faClock} /> Режим работы с 8:00 до 20:00</span>
             </div>
 
-            <Navbar variant="dark" bg="dark" expand="lg" className="header">
+            <Navbar variant="light" bg="light" expand="lg" className="header">
                 <Container>
-                    <Navbar.Brand className="d-flex align-items-center">
-                        <Nav.Link as={Link} to="/" className='logo'>
+                    <Navbar.Brand>
+                        <Nav.Link as={Link} to="/" className='logo d-flex align-items-center'>
                             <img
                                 src={logo}
                                 width="35"
@@ -33,7 +33,7 @@ function Header() {
                                 className="d-inline-block align-top rounded-circle me-3"
                                 alt="My logo"
                             />
-                            <span>VetClinic</span>
+                            <span className='my-logo'>VetClinic</span>
                         </Nav.Link>
                     </Navbar.Brand>
 
@@ -44,7 +44,7 @@ function Header() {
                         id="offcanvasNavbar"
                         aria-labelledby="offcanvasNavbarLabel"
                         placement="end"
-                        data-bs-theme="dark"
+                        data-bs-theme="light"
                     >
                         <Offcanvas.Header closeButton>
                             <Offcanvas.Title id="offcanvasNavbarLabel">
@@ -66,14 +66,14 @@ function Header() {
                                 <NavDropdown
                                     title="Другое"
                                     id="offcanvas-nav-dropdown"
-                                    menuVariant="dark"
+                                    menuVariant="light"
                                     active={isParentActive(otherPaths)}
                                 >
                                     <NavDropdown.Item as={Link} to="/about" eventKey="/about">О нас</NavDropdown.Item>
                                     <NavDropdown.Divider />
                                     <NavDropdown.Item as={Link} to="/articles" eventKey="/articles">Статьи</NavDropdown.Item>
                                 </NavDropdown>
-                                <Nav.Link as={Link} to="/login">
+                                <Nav.Link as={Link} to="/login" className="login-btn">
                                     <FontAwesomeIcon icon={faCircleUser} size="lg" /> Войти
                                 </Nav.Link>
                             </Nav>

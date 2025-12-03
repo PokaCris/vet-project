@@ -1,12 +1,11 @@
-import React from 'react';
+import ContactList from "../components/ContactList/ContactList";
 
-function Page3() {
+function Contacts() {
     return (
         <div>
-            <h2>Страница 3</h2>
-            <p>Содержимое страницы 3</p>
+            <ContactList />
         </div>
     );
 }
 
-export default Page3;
+export default Contacts;
