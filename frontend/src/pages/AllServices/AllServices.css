@@ -1,16 +1,18 @@
-.service-page-container {
+/* AllServices.css - ТОЛЬКО для страниц деталей услуг */
+
+.all-services-page-container {
     margin-top: 20px;
     margin-bottom: 60px;
 }
 
-.service-page-title {
+.all-services-title {
     color: #2c3e50;
     font-weight: 700;
     font-size: 2rem;
     margin-bottom: 20px;
 }
 
-.service-section-title {
+.all-services-section-title {
     color: #339886;
     font-weight: 600;
     font-size: 1.5rem;
@@ -20,33 +22,33 @@
     border-bottom: 2px solid #339886;
 }
 
-.service-text {
+.all-services-text {
     color: #4a5568;
     line-height: 1.6;
     font-size: 1.05rem;
     margin-bottom: 15px;
 }
 
-.list-title {
+.all-services-list-title {
     color: #2c3e50;
     font-weight: 600;
     font-size: 1.2rem;
     margin-bottom: 15px;
 }
 
-.service-list {
+.all-services-list {
     list-style-type: none;
     padding-left: 0;
 }
 
-.service-list li {
+.all-services-list li {
     padding: 8px 0;
     border-bottom: 1px dashed #dee2e6;
     position: relative;
     padding-left: 25px;
 }
 
-.service-list li:before {
+.all-services-list li:before {
     content: "•";
     color: #339886;
     font-weight: bold;
@@ -55,31 +57,53 @@
     top: 8px;
 }
 
-.bg-light {
+.all-services-bg-light {
     background-color: #f8f9fa !important;
 }
 
-.summary-title {
+.all-services-summary-title {
     color: #2c3e50;
     font-weight: 600;
     font-size: 1.3rem;
 }
 
-.border.rounded {
+.all-services-border-rounded {
     border: 1px solid #dee2e6 !important;
     border-radius: 8px !important;
 }
 
+/* Специфичные стили для страниц услуг */
+.all-services-step-number {
+    background-color: #339886;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    font-weight: bold;
+}
+
+.all-services-h-100 {
+    height: 100%;
+}
+
+.all-services-small {
+    font-size: 0.9rem;
+}
+
 @media (max-width: 768px) {
-    .service-page-title {
+    .all-services-title {
         font-size: 1.7rem;
     }
     
-    .service-section-title {
+    .all-services-section-title {
         font-size: 1.3rem;
     }
     
-    .service-text {
+    .all-services-text {
         font-size: 1rem;
     }
 }

@@ -41,7 +41,7 @@ const cardData = [
         text: 'Проведение различных диагностических процедур для выявления заболеваний.',
         image: diagnostics,
         price: 'Первичный прием 1500',
-        link: 'ultrasound'
+        link: 'diagnostics'
     },
     {
         title: 'Стоматология',

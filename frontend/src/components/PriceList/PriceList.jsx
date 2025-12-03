@@ -1,4 +1,4 @@
-import { Container, Breadcrumb, Tabs, Tab } from 'react-bootstrap';
+import { Container, Breadcrumb, Tabs, Tab, Row, Col } from 'react-bootstrap';
 import { Link as ScrollLink } from 'react-scroll';
 
 import "./PriceList.css";
@@ -228,54 +228,37 @@ function PriceList() {
                                 <Tabs defaultActiveKey={section.tabs[0].key} className="mb-3">
                                     {section.tabs.map((tab) => (
                                         <Tab key={tab.key} eventKey={tab.key} title={tab.title}>
-                                            <table className="price-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Услуга</th>
-                                                        <th>Стоимость, руб.</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {priceData[section.id][tab.key].map((item, index) => (
-                                                        <tr key={index}>
-                                                            <td>{item.service}</td>
-                                                            <td>{item.price}</td>
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table>
+                                            <Container fluid>
+                                                <Row className="border-bottom py-2 px-3 fw-bold">
+                                                    <Col xs={8}>Услуга</Col>
+                                                    <Col xs={4} className="text-end">Стоимость, руб.</Col>
+                                                </Row>
+                                                {priceData[section.id][tab.key].map((item, index) => (
+                                                    <Row key={index} className="border-bottom py-2 px-3">
+                                                        <Col xs={8}>{item.service}</Col>
+                                                        <Col xs={4} className="text-end">{item.price}</Col>
+                                                    </Row>
+                                                ))}
+                                            </Container>
                                         </Tab>
                                     ))}
                                 </Tabs>
                             ) : (
-                                <table className="price-table">
-                                    <thead>
-                                        {section.addBefore && section.linkText && section.linkUrl && section.addAfter && (
-                                            <p>
-                                                {section.addBefore}{' '}
-                                                <a href={section.linkUrl} className="text-success">
-                                                    {section.linkText}
-                                                </a>{' '}
-                                                {section.addAfter}
-                                            </p>
-                                        )}
-                                        <tr>
-                                            <th>Услуга</th>
-                                            <th>Стоимость, руб.</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {priceData[section.id].map((item, index) => (
-                                            <tr key={index}>
-                                                <td>{item.service}</td>
-                                                <td>{item.price}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                <Container fluid>
+                                    <Row className="border-bottom py-2 px-3 fw-bold">
+                                        <Col xs={8}>Услуга</Col>
+                                        <Col xs={4} className="text-end">Стоимость, руб.</Col>
+                                    </Row>
+                                    {priceData[section.id].map((item, index) => (
+                                        <Row key={index} className="border-bottom py-2 px-3">
+                                            <Col xs={8}>{item.service}</Col>
+                                            <Col xs={4} className="text-end">{item.price}</Col>
+                                        </Row>
+                                    ))}
+                                </Container>
                             )}
 
-                            <p className="text-muted small">* {section.note}</p>
+                            <p className="text-muted small mt-4">* {section.note}</p>
                         </div>
                     ))}
                 </div>

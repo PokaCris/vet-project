@@ -24,6 +24,7 @@ import LaboratoryDetails from './pages/AllServices/LaboratoryDetails';
 
 import NotFound from './pages/NotFound404';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
+import ScrollPagesUp from './components/ScrollPagesUp/ScrollPagesUp';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -31,6 +32,8 @@ import './App.css';
 function App() {
   return (
     <Router>
+      <ScrollPagesUp />
+      
       <Header />
       <main className="main-content">
         <Routes>
@@ -52,6 +55,7 @@ function App() {
 
           <Route path="*" element={<NotFound />} />
         </Routes>
+        
         <ScrollToTop />
       </main>
       <Footer />
