@@ -1,10 +1,11 @@
-import { Container, Breadcrumb, Tabs, Tab, Row, Col } from 'react-bootstrap';
+import { useState } from 'react';
+import { Container, Breadcrumb, Tabs, Tab, Row, Col, Form } from 'react-bootstrap';
 import { Link as ScrollLink } from 'react-scroll';
 
 import "./PriceList.css";
 
-
 function PriceList() {
+    const [searchQuery, setSearchQuery] = useState('');
 
     const buttons = [
         { text: 'Стоимость приема ветеринара', id: 'consultation' },
@@ -107,7 +108,7 @@ function PriceList() {
             { service: 'Лечение конъюнктивита', price: '1800' },
             { service: 'Операция на веках', price: '5000' },
             { service: 'Диагностика зрения', price: '1500' },
-            { service: 'Лечение катаракты', price: '15000' },
+            { service: 'Лечение катаракта', price: '15000' },
             { service: 'Удаление инородного тела из глаза', price: '2500' },
         ],
         tests: [
@@ -131,10 +132,6 @@ function PriceList() {
             id: 'consultation',
             title: 'Терапия',
             note: 'В прием входит: осмотр, консультация, назначение лечения, контроль состояния',
-            addBefore: "Подробнее о том, как проходит",
-            linkText: "прием ветеринарного врача",
-            linkUrl: "/vet-priem",
-            addAfter: "в ветклинике."
         },
         {
             id: 'diagnostics',
@@ -193,6 +190,52 @@ function PriceList() {
         },
     ];
 
+    const searchAllServices = () => {
+        if (!searchQuery.trim()) return [];
+
+        const lowerQuery = searchQuery.toLowerCase();
+        const results = [];
+
+        tableConfig.forEach(section => {
+            if (section.tabs) {
+                section.tabs.forEach(tab => {
+                    if (priceData[section.id] && priceData[section.id][tab.key]) {
+                        priceData[section.id][tab.key].forEach(service => {
+                            if (service.service.toLowerCase().includes(lowerQuery)) {
+                                results.push({
+                                    sectionId: section.id,
+                                    sectionTitle: section.title,
+                                    tabKey: tab.key,
+                                    tabTitle: tab.title,
+                                    service: service.service,
+                                    price: service.price
+                                });
+                            }
+                        });
+                    }
+                });
+            } else {
+                if (priceData[section.id]) {
+                    priceData[section.id].forEach(service => {
+                        if (service.service.toLowerCase().includes(lowerQuery)) {
+                            results.push({
+                                sectionId: section.id,
+                                sectionTitle: section.title,
+                                service: service.service,
+                                price: service.price
+                            });
+                        }
+                    });
+                }
+            }
+        });
+
+        return results;
+    };
+
+    const searchResults = searchAllServices();
+    const hasSearchQuery = searchQuery.trim().length > 0;
+
     return (
         <>
             <Container className='my-3 p-3'>
@@ -204,7 +247,7 @@ function PriceList() {
                 <h4 className="mb-3">Цены на ветеринарные услуги в клинике</h4>
                 <h5 className="fw-bold mb-4">Прайс-лист</h5>
 
-                <div className="price-list-btn d-flex flex-wrap justify-content-start gap-2">
+                <div className="price-list-btn d-flex flex-wrap justify-content-start gap-2 mb-5">
                     {buttons.map((btn) => (
                         <ScrollLink
                             key={btn.id}
@@ -219,49 +262,106 @@ function PriceList() {
                     ))}
                 </div>
 
-                <div className="price-tables mt-5">
-                    {tableConfig.map((section) => (
-                        <div key={section.id} id={section.id} className="price-section mb-5">
-                            <h4 className="fw-bold mb-4">{section.title}</h4>
+                <div className='mb-5'>
+                    <Form>
+                        <Form.Group controlId="searchServices">
+                            <Form.Control
+                                type="text"
+                                placeholder="Поиск услуги (например: 'узи', 'прием', 'анализ')"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="py-3"
+                            />
+                            <div className="m-1">
+                                <Form.Text className="text-muted mt-2">
+                                    Введите название услуги
+                                </Form.Text>
+                            </div>
+                        </Form.Group>
+                    </Form>
 
-                            {section.tabs ? (
-                                <Tabs defaultActiveKey={section.tabs[0].key} className="mb-3">
-                                    {section.tabs.map((tab) => (
-                                        <Tab key={tab.key} eventKey={tab.key} title={tab.title}>
-                                            <Container fluid>
-                                                <Row className="border-bottom py-2 px-3 fw-bold">
-                                                    <Col xs={8}>Услуга</Col>
-                                                    <Col xs={4} className="text-end">Стоимость, руб.</Col>
-                                                </Row>
-                                                {priceData[section.id][tab.key].map((item, index) => (
-                                                    <Row key={index} className="border-bottom py-2 px-3">
-                                                        <Col xs={8}>{item.service}</Col>
-                                                        <Col xs={4} className="text-end">{item.price}</Col>
-                                                    </Row>
-                                                ))}
-                                            </Container>
-                                        </Tab>
-                                    ))}
-                                </Tabs>
-                            ) : (
-                                <Container fluid>
-                                    <Row className="border-bottom py-2 px-3 fw-bold">
-                                        <Col xs={8}>Услуга</Col>
-                                        <Col xs={4} className="text-end">Стоимость, руб.</Col>
-                                    </Row>
-                                    {priceData[section.id].map((item, index) => (
-                                        <Row key={index} className="border-bottom py-2 px-3">
-                                            <Col xs={8}>{item.service}</Col>
-                                            <Col xs={4} className="text-end">{item.price}</Col>
-                                        </Row>
-                                    ))}
-                                </Container>
-                            )}
-
-                            <p className="text-muted small mt-4">* {section.note}</p>
+                    {hasSearchQuery && (
+                        <div className="mt-3">
+                            <p className="text-muted mb-0">
+                                Найдено услуг: {searchResults.length}
+                            </p>
                         </div>
-                    ))}
+                    )}
                 </div>
+
+                {hasSearchQuery ? (
+                    <div className="search-results mb-5">
+                        <h5 className="mb-4">Результаты поиска "{searchQuery}"</h5>
+
+                        {searchResults.length > 0 ? (
+                            <Container fluid className="price-table">
+                                <Row className="border-bottom py-3 fw-bold px-3">
+                                    <Col xs={6}>Услуга</Col>
+                                    <Col xs={4}>Раздел</Col>
+                                    <Col xs={2} className="text-end">Стоимость</Col>
+                                </Row>
+                                {searchResults.map((result, index) => (
+                                    <Row key={index} className="border-bottom py-3 px-3">
+                                        <Col xs={6}>{result.service}</Col>
+                                        <Col xs={4}>
+                                            {result.sectionTitle}
+                                            {result.tabTitle && ` › ${result.tabTitle}`}
+                                        </Col>
+                                        <Col xs={2} className="text-end">{result.price} руб.</Col>
+                                    </Row>
+                                ))}
+                            </Container>
+                        ) : (
+                            <div className="text-center py-5">
+                                <p className="text-muted">Услуг по запросу "{searchQuery}" не найдено</p>
+                            </div>
+                        )}
+                    </div>
+                ) : (
+                    <div className="price-tables mt-5">
+                        {tableConfig.map((section) => (
+                            <div key={section.id} id={section.id} className="price-section mb-5">
+                                <h4 className="fw-bold mb-4">{section.title}</h4>
+
+                                {section.tabs ? (
+                                    <Tabs defaultActiveKey={section.tabs[0].key} className="mb-3">
+                                        {section.tabs.map((tab) => (
+                                            <Tab key={tab.key} eventKey={tab.key} title={tab.title}>
+                                                <Container fluid className="price-table">
+                                                    <Row className="border-bottom py-2 px-3 fw-bold">
+                                                        <Col xs={8}>Услуга</Col>
+                                                        <Col xs={4} className="text-end">Стоимость, руб.</Col>
+                                                    </Row>
+                                                    {priceData[section.id][tab.key].map((item, index) => (
+                                                        <Row key={index} className="border-bottom py-2 px-3">
+                                                            <Col xs={8}>{item.service}</Col>
+                                                            <Col xs={4} className="text-end">{item.price}</Col>
+                                                        </Row>
+                                                    ))}
+                                                </Container>
+                                            </Tab>
+                                        ))}
+                                    </Tabs>
+                                ) : (
+                                    <Container fluid className="price-table">
+                                        <Row className="border-bottom py-2 px-3 fw-bold">
+                                            <Col xs={8}>Услуга</Col>
+                                            <Col xs={4} className="text-end">Стоимость, руб.</Col>
+                                        </Row>
+                                        {priceData[section.id].map((item, index) => (
+                                            <Row key={index} className="border-bottom py-2 px-3">
+                                                <Col xs={8}>{item.service}</Col>
+                                                <Col xs={4} className="text-end">{item.price}</Col>
+                                            </Row>
+                                        ))}
+                                    </Container>
+                                )}
+
+                                <p className="text-muted small mt-4">* {section.note}</p>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </Container>
         </>
     );

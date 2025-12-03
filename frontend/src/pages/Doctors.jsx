@@ -1,12 +1,11 @@
-import React from 'react';
+import DoctorsList from "../components/DoctorsList/DoctorsList";
 
-function Page2() {
+function Doctors() {
     return (
         <div>
-            <h2>Страница 2</h2>
-            <p>Содержимое страницы 2</p>
+            <DoctorsList />
         </div>
     );
 }
 
-export default Page2;
+export default Doctors;

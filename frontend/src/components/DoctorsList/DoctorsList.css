@@ -1,0 +1,54 @@
+.doctor-card {
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.doctor-card:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+    cursor: pointer;
+}
+
+.doctor-image {
+    height: 250px;
+    object-fit: cover;
+    border-radius: 12px 12px 0 0;
+}
+
+.doctor-name {
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    min-height: 3rem;
+}
+
+.doctor-specialties {
+    color: #4a5568;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.specialty-item {
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.doctor-experience {
+    color: #339886;
+    font-size: 0.9rem;
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px dashed #dee2e6;
+}
+
+.form-control:focus,
+.form-control:active,
+.form-control:hover:focus {
+    border-color: #339886 !important;
+    box-shadow: 0 0 0 0.25rem rgba(51, 152, 134, 0.25) !important;
+    outline: 0 !important;
+}

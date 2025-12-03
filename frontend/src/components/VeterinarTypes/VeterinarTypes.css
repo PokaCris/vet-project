@@ -22,11 +22,11 @@
 }
 
 .doctor-card:hover {
-    background-image: url("/frontend/src/assets/paws.jpg");
+    /* background-image: url("/frontend/src/assets/paws.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-color: rgba(234, 255, 235, 0.7);
-    background-blend-mode: overlay;
+    background-blend-mode: overlay; */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     transform: scale(1.05);
 }
