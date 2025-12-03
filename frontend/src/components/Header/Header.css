@@ -11,7 +11,7 @@
 .header {
     background-color: #fff !important;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    z-index: 100000;
+    z-index: 1000;
 }
 
 .logo .my-logo {

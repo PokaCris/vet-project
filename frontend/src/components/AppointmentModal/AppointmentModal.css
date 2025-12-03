@@ -1,0 +1,77 @@
+.modal {    z-index: 9999;
+}
+
+.modal-content {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #339886;
+}
+
+.modal-title {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.form-control {
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 0.6rem 0.8rem;
+}
+
+.form-control:focus {
+    border-color: #339886;
+    box-shadow: 0 0 0 0.2rem rgba(51, 152, 134, 0.25);
+}
+
+.form-check-input:checked {
+    background-color: #339886;
+    border-color: #339886;
+}
+
+.btn-primary {
+    background-color: #339886;
+    border-color: #339886;
+    border-radius: 6px;
+}
+
+.btn-primary:hover {
+    background-color: #2a7c6e;
+    border-color: #2a7c6e;
+}
+
+.btn-outline-primary {
+    color: #339886;
+    border-color: #339886;
+}
+
+.btn-outline-primary:hover {
+    background-color: #339886;
+    border-color: #339886;
+    color: white;
+}
+
+.text-success {
+    color: #28a745;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.spinner-border {
+    width: 1rem;
+    height: 1rem;
+}
+
+@media (max-width: 576px) {
+    .modal-dialog {
+        margin: 0.5rem;
+    }
+}
