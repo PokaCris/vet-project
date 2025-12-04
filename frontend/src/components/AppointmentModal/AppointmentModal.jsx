@@ -58,14 +58,9 @@ function AppointmentModal({ show, handleClose }) {
         setApiError('');
 
         try {
-            // Используем относительный URL для работы через Nginx
-            const apiUrl = process.env.NODE_ENV === 'production'
-                ? '/api/appointments'
-                : 'http://localhost:8000/api/appointments';
+            console.log('Отправка данных:', formData);
 
-            console.log('Отправка запроса на:', apiUrl);
-
-            const response = await fetch(apiUrl, {
+            const response = await fetch('/api/appointments', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -80,11 +75,11 @@ function AppointmentModal({ show, handleClose }) {
                 let errorData;
                 try {
                     errorData = await response.json();
+                    console.log('Ошибка от сервера:', errorData);
                 } catch (e) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
-                // Обработка ошибок валидации Laravel
                 if (errorData.errors) {
                     const validationErrors = {};
                     Object.keys(errorData.errors).forEach(key => {
@@ -102,6 +97,7 @@ function AppointmentModal({ show, handleClose }) {
             setIsSubmitted(true);
 
             setTimeout(() => {
+                console.log('Закрытие модального окна');
                 setFormData({
                     name: '',
                     phone: '',
@@ -117,7 +113,7 @@ function AppointmentModal({ show, handleClose }) {
             console.error('API Error:', error);
 
             if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
-                setApiError('Ошибка подключения к серверу. Проверьте CORS настройки.');
+                setApiError('Ошибка подключения к серверу');
             } else if (error.message === 'Ошибка валидации формы') {
                 setApiError('Исправьте ошибки в форме');
             } else {
