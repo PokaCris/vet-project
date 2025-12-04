@@ -29,51 +29,78 @@ function AppointmentModal({ show, handleClose }) {
 
     const validateForm = () => {
         const newErrors = {};
-        
+
         if (!formData.name.trim()) {
             newErrors.name = 'Введите ваше имя';
         }
-        
+
         if (!formData.phone.trim()) {
             newErrors.phone = 'Введите номер телефона';
         }
-        
+
         if (!formData.agreed_to_terms) {
             newErrors.agreed_to_terms = 'Необходимо согласие на обработку данных';
         }
-        
+
         return newErrors;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const validationErrors = validateForm();
-        
+
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
             return;
         }
-        
+
         setIsSubmitting(true);
         setApiError('');
-        
+
         try {
-            const response = await fetch('http://localhost:8000/api/appointments', {
+            // Используем относительный URL для работы через Nginx
+            const apiUrl = process.env.NODE_ENV === 'production'
+                ? '/api/appointments'
+                : 'http://localhost:8000/api/appointments';
+
+            console.log('Отправка запроса на:', apiUrl);
+
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                 },
                 body: JSON.stringify(formData)
             });
-            
-            const data = await response.json();
-            
+
+            console.log('Статус ответа:', response.status);
+
             if (!response.ok) {
-                throw new Error(data.message || 'Ошибка сервера');
+                let errorData;
+                try {
+                    errorData = await response.json();
+                } catch (e) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                // Обработка ошибок валидации Laravel
+                if (errorData.errors) {
+                    const validationErrors = {};
+                    Object.keys(errorData.errors).forEach(key => {
+                        validationErrors[key] = errorData.errors[key][0];
+                    });
+                    setErrors(validationErrors);
+                    throw new Error('Ошибка валидации формы');
+                }
+                throw new Error(errorData.message || `Ошибка сервера: ${response.status}`);
             }
-            
+
+            const data = await response.json();
+            console.log('Успешный ответ:', data);
+
             setIsSubmitted(true);
-            
+
             setTimeout(() => {
                 setFormData({
                     name: '',
@@ -85,9 +112,17 @@ function AppointmentModal({ show, handleClose }) {
                 setIsSubmitted(false);
                 handleClose();
             }, 3000);
-            
+
         } catch (error) {
-            setApiError('Ошибка при отправке формы');
+            console.error('API Error:', error);
+
+            if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+                setApiError('Ошибка подключения к серверу. Проверьте CORS настройки.');
+            } else if (error.message === 'Ошибка валидации формы') {
+                setApiError('Исправьте ошибки в форме');
+            } else {
+                setApiError(error.message || 'Ошибка при отправке формы');
+            }
         } finally {
             setIsSubmitting(false);
         }
@@ -96,7 +131,7 @@ function AppointmentModal({ show, handleClose }) {
     const formatPhone = (value) => {
         const numbers = value.replace(/\D/g, '');
         let formatted = '+7 ';
-        
+
         if (numbers.length > 0) {
             formatted += '(' + numbers.substring(1, 4);
         }
@@ -109,7 +144,7 @@ function AppointmentModal({ show, handleClose }) {
         if (numbers.length >= 9) {
             formatted += '-' + numbers.substring(9, 11);
         }
-        
+
         return formatted;
     };
 
@@ -123,12 +158,12 @@ function AppointmentModal({ show, handleClose }) {
             <Modal.Header closeButton>
                 <Modal.Title>Запись на прием</Modal.Title>
             </Modal.Header>
-            
+
             <Modal.Body>
                 {!isSubmitted ? (
                     <>
                         {apiError && <Alert variant="danger">{apiError}</Alert>}
-                        
+
                         <Form onSubmit={handleSubmit}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Ваше имя *</Form.Label>
@@ -199,9 +234,9 @@ function AppointmentModal({ show, handleClose }) {
                                 </Form.Control.Feedback>
                             </Form.Group>
 
-                            <Button 
-                                variant="primary" 
-                                type="submit" 
+                            <Button
+                                variant="primary"
+                                type="submit"
                                 disabled={isSubmitting}
                                 className="w-100 btn-success"
                             >
