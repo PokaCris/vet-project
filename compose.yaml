@@ -5,8 +5,7 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - ./public:/usr/share/nginx/html:ro 
-      # ./backend:/var/www/html
+      - ./backend:/var/www/html
       - ./.develop/nginx.conf:/etc/nginx/conf.d/default.conf
     networks:
       - vet-network
@@ -14,31 +13,29 @@ services:
       - php-fpm
 
   php-fpm:
-    build: ./backend 
+    build: ./backend
     container_name: laravel
     env_file:
       - ./backend/.env
-    image: php:8.4.13-fpm
     volumes: 
-      - ./backend:/app
-      # ./backend:/var/www/html
+      - ./backend:/var/www/html
     networks: 
       - vet-network
     depends_on:
       - db
 
   db:
-    image: mysql:mysql:9.5.0-oraclelinux9
+    image: mysql:8.0
     environment: 
-      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: vet_db
       MYSQL_USER: vet_user
-      MYSQL_PASSWORD: userpassword
+      MYSQL_PASSWORD: password
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./.develop/database/001_init_dump.sql:/docker-entrypoint-initdb.d
+      - ./.develop/database/:/docker-entrypoint-initdb.d
     ports:
-      - "3306:3306"
+      - "3307:3306"
     networks:
       - vet-network
 
@@ -55,7 +52,7 @@ services:
       - db
 
 networks:
-  quiz-network:
+  vet-network:
     driver: bridge
 
 volumes:
