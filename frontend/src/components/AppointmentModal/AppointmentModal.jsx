@@ -3,6 +3,7 @@ import { Modal, Button, Form, Spinner, Alert } from 'react-bootstrap';
 import './AppointmentModal.css';
 
 function AppointmentModal({ show, handleClose }) {
+
     const [formData, setFormData] = useState({
         name: '',
         phone: '',
@@ -34,8 +35,9 @@ function AppointmentModal({ show, handleClose }) {
             newErrors.name = 'Введите ваше имя';
         }
 
-        if (!formData.phone.trim()) {
-            newErrors.phone = 'Введите номер телефона';
+        const phoneDigits = formData.phone.replace(/\D/g, '');
+        if (!formData.phone.trim() || phoneDigits.length < 11) {
+            newErrors.phone = 'Введите корректный номер телефона';
         }
 
         if (!formData.agreed_to_terms) {
@@ -96,18 +98,13 @@ function AppointmentModal({ show, handleClose }) {
 
             setIsSubmitted(true);
 
-            setTimeout(() => {
-                console.log('Закрытие модального окна');
-                setFormData({
-                    name: '',
-                    phone: '',
-                    pet_info: '',
-                    comment: '',
-                    agreed_to_terms: false
-                });
-                setIsSubmitted(false);
-                handleClose();
-            }, 3000);
+            setFormData({
+                name: '',
+                phone: '',
+                pet_info: '',
+                comment: '',
+                agreed_to_terms: false
+            });
 
         } catch (error) {
             console.error('API Error:', error);
@@ -147,6 +144,11 @@ function AppointmentModal({ show, handleClose }) {
     const handlePhoneChange = (e) => {
         const formatted = formatPhone(e.target.value);
         setFormData(prev => ({ ...prev, phone: formatted }));
+
+        if (errors.phone) {
+            setErrors(prev => ({ ...prev, phone: '' }));
+        }
+        setApiError('');
     };
 
     return (
@@ -160,16 +162,18 @@ function AppointmentModal({ show, handleClose }) {
                     <>
                         {apiError && <Alert variant="danger">{apiError}</Alert>}
 
-                        <Form onSubmit={handleSubmit}>
+                        <Form onSubmit={handleSubmit} className='m-2'>
                             <Form.Group className="mb-3">
                                 <Form.Label>Ваше имя *</Form.Label>
                                 <Form.Control
                                     type="text"
                                     name="name"
                                     value={formData.name}
+                                    placeholder='Введите имя'
                                     onChange={handleChange}
                                     isInvalid={!!errors.name}
                                     disabled={isSubmitting}
+                                    className='input-field'
                                 />
                                 <Form.Control.Feedback type="invalid">
                                     {errors.name}
@@ -186,6 +190,7 @@ function AppointmentModal({ show, handleClose }) {
                                     placeholder="+7 (999) 999-99-99"
                                     isInvalid={!!errors.phone}
                                     disabled={isSubmitting}
+                                    className='input-field'
                                 />
                                 <Form.Control.Feedback type="invalid">
                                     {errors.phone}
@@ -200,6 +205,7 @@ function AppointmentModal({ show, handleClose }) {
                                     value={formData.pet_info}
                                     onChange={handleChange}
                                     disabled={isSubmitting}
+                                    className='input-field'
                                 />
                             </Form.Group>
 
@@ -212,29 +218,47 @@ function AppointmentModal({ show, handleClose }) {
                                     value={formData.comment}
                                     onChange={handleChange}
                                     disabled={isSubmitting}
+                                    className='input-field'
                                 />
                             </Form.Group>
 
                             <Form.Group className="mb-4">
                                 <Form.Check
                                     type="checkbox"
+                                    variant="success"
                                     name="agreed_to_terms"
-                                    label="Я согласен на обработку данных"
+                                    label={
+                                        <span className='consent'>
+                                            Я даю согласие на обработку своих персональных данных и соглашаюсь с{' '}
+                                            <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-secondary">
+                                                политикой конфиденциальности
+                                            </a>{' '}
+                                            и{' '}
+                                            <a href="/personal-data-policy" target="_blank" rel="noopener noreferrer" className="text-secondary">
+                                                политикой обработки персональных данных
+                                            </a>
+                                        </span>
+                                    }
                                     checked={formData.agreed_to_terms}
                                     onChange={handleChange}
                                     isInvalid={!!errors.agreed_to_terms}
                                     disabled={isSubmitting}
+                                    isValid
                                 />
                                 <Form.Control.Feedback type="invalid">
                                     {errors.agreed_to_terms}
                                 </Form.Control.Feedback>
                             </Form.Group>
 
+                            <Form.Group className="mb-4 pt-1 border-top">
+                                <p className="star">* - обязательное поле для заполнение</p>
+                            </Form.Group>
+
                             <Button
                                 variant="primary"
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="w-100 btn-success"
+                                className="d-block w-50 mx-auto btn-success"
                             >
                                 {isSubmitting ? (
                                     <>
@@ -249,8 +273,20 @@ function AppointmentModal({ show, handleClose }) {
                     <div className="text-center py-4">
                         <h4 className="text-success mb-3">Спасибо за обращение!</h4>
                         <p>Наш администратор свяжется с вами в ближайшее время.</p>
-                        <Button variant="outline-primary" onClick={handleClose}>
-                            Закрыть
+                        <Button
+                            variant="success"
+                            onClick={() => {
+                                setIsSubmitted(false);
+                                setFormData({
+                                    name: '',
+                                    phone: '',
+                                    pet_info: '',
+                                    comment: '',
+                                    agreed_to_terms: false
+                                });
+                            }}
+                        >
+                            Отправить повторно
                         </Button>
                     </div>
                 )}

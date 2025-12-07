@@ -1,0 +1,115 @@
+.privacy-page-container {
+    margin-top: 20px;
+    margin-bottom: 60px;
+}
+
+.privacy-title {
+    color: #2c3e50;
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.privacy-section-title {
+    color: #339886;
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #339886;
+}
+
+.privacy-text {
+    color: #4a5568;
+    line-height: 1.6;
+    font-size: 1.05rem;
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+.privacy-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.privacy-list li {
+    padding: 8px 0;
+    border-bottom: 1px dashed #dee2e6;
+    position: relative;
+    padding-left: 25px;
+}
+
+.privacy-list li:before {
+    content: "•";
+    color: #339886;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: 8px;
+}
+
+.privacy-term {
+    color: #2c3e50;
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+.privacy-definition {
+    color: #4a5568;
+}
+
+.privacy-contact-title {
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 1.3rem;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.privacy-update-date {
+    color: #6c757d;
+    font-style: italic;
+    font-size: 0.9rem;
+    text-align: right;
+    margin-top: 40px;
+    padding-top: 15px;
+    border-top: 1px solid #dee2e6;
+}
+
+.privacy-back-link {
+    color: #339886;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    margin-top: 25px;
+    padding: 10px 20px;
+    border: 2px solid #339886;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.privacy-back-link:hover {
+    background-color: #339886;
+    color: white;
+    text-decoration: none;
+}
+
+.privacy-important {
+    color: #339886;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .privacy-title {
+        font-size: 1.7rem;
+    }
+    
+    .privacy-section-title {
+        font-size: 1.3rem;
+    }
+    
+    .privacy-text {
+        font-size: 1rem;
+    }
+}

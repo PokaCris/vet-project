@@ -22,6 +22,11 @@ import DermatologyDetails from './pages/AllServices/DermatologyDetails';
 import OphthalmologyDetails from './pages/AllServices/OphthalmologyDetails';
 import LaboratoryDetails from './pages/AllServices/LaboratoryDetails';
 
+// Consents
+import PrivacyPolicyPage from './pages/AllConsents/PrivacyPolicyPage';
+import PersonalDataPolicyPage from './pages/AllConsents/PersonalDataPolicyPage';
+
+// Others
 import NotFound from './pages/NotFound404';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import ScrollPagesUp from './components/ScrollPagesUp/ScrollPagesUp';
@@ -33,7 +38,7 @@ function App() {
   return (
     <Router>
       <ScrollPagesUp />
-      
+
       <Header />
       <main className="main-content">
         <Routes>
@@ -53,9 +58,12 @@ function App() {
           <Route path="/services/ophthalmology" element={<OphthalmologyDetails />} />
           <Route path="/services/laboratory" element={<LaboratoryDetails />} />
 
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/personal-data-policy" element={<PersonalDataPolicyPage />} />
+
           <Route path="*" element={<NotFound />} />
         </Routes>
-        
+
         <ScrollToTop />
       </main>
       <Footer />

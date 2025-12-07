@@ -267,7 +267,7 @@ function PriceList() {
                         <Form.Group controlId="searchServices">
                             <Form.Control
                                 type="text"
-                                placeholder="Поиск услуги (например: 'узи', 'прием', 'анализ')"
+                                placeholder="Поиск услуги"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 className="py-3"

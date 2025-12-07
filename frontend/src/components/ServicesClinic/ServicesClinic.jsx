@@ -84,7 +84,7 @@ function ServicesClinic() {
                 </Row>
             </Container>
             <Container className='my-5'>
-                <Row xs={2} md={2} lg={3} className="g-4">
+                <Row xs={1} md={2} lg={3} className="g-4">
                     {cardData.map((card, index) => (
                         <Col key={index}>
                             <div className="text-decoration-none cursor-pointer"

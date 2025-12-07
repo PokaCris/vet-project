@@ -118,11 +118,3 @@
 .search-results tbody tr:last-child td {
     border-bottom: none;
 }
-
-.form-control:focus,
-.form-control:active,
-.form-control:hover:focus {
-    border-color: #339886 !important;
-    box-shadow: 0 0 0 0.25rem rgba(51, 152, 134, 0.25) !important;
-    outline: 0 !important;
-}

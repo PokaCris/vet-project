@@ -33,6 +33,22 @@
     border-color: #339886;
 }
 
+.form-check .consent {
+    font-size: 12px;
+    color: #000;
+}
+
+.star {
+    font-size: 12px;
+    color: #2c3e50;
+}
+
+.btn-close:focus,
+.btn-close:active {
+    box-shadow: 0 0 0 0.25rem rgba(51, 152, 134, 0.25) !important;
+    outline: 0 !important;
+}
+
 .btn-primary {
     background-color: #339886;
     border-color: #339886;
@@ -69,6 +85,21 @@
     width: 1rem;
     height: 1rem;
 }
+
+.input-field:focus,
+.input-field:active,
+.input-field:hover {
+    border-color: #339886 !important;
+    box-shadow: 0 0 0 0.25rem rgba(51, 152, 134, 0.25) !important;
+    outline: 0 !important;
+}
+
+.input-field:focus,
+.input-field:active,
+.input-field:hover {
+    background-color: #fff !important;
+}
+
 
 @media (max-width: 576px) {
     .modal-dialog {
