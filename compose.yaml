@@ -14,7 +14,7 @@ services:
 
   php-fpm:
     build: ./backend
-    container_name: php-fmp
+    container_name: laravel
     env_file:
       - ./backend/.env
     volumes:

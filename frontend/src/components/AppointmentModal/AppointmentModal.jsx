@@ -78,7 +78,7 @@ function AppointmentModal({ show, handleClose }) {
                 try {
                     errorData = await response.json();
                     console.log('Ошибка от сервера:', errorData);
-                } catch (e) {
+                } catch (jsonError) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
