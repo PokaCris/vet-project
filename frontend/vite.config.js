@@ -1,21 +1,39 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+
 
 export default defineConfig({
-  plugins: [react()],
-  server: {
-    host: true,
-    port: 3000,
-    watch: {
-      usePolling: true,
+    plugins: [react()],
+
+    // Корневая директория с исходными файлами
+    root: path.resolve(__dirname),
+
+    // Настройки сервера разработки
+    server: {
+        port: 3000,
+        open: true, // автоматически открывать браузер
+        cors: true,
     },
 
-    proxy: {
-      '/api': {
-        target: 'http://webserver',
-        changeOrigin: true,
-        secure: false,
-      }
-    }
-  }
+    // Настройки сборки
+    build: {
+        outDir: path.resolve(__dirname, 'public'),
+        emptyOutDir: true, // очищать выходную директорию перед сборкой
+        sourcemap: true,
+        minify: 'esbuild',
+    },
+
+    css: {
+        preprocessorOptions: {
+            scss: {
+                silenceDeprecations: [
+                    'import',
+                    'mixed-decls',
+                    'color-functions',
+                    'global-builtin',
+                ],
+            },
+        },
+    },
 })
