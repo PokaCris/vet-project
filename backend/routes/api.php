@@ -3,4 +3,4 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AppointmentController;
 
-Route::resource('/appointments', AppointmentController::class);
+Route::resource('appointments', AppointmentController::class);

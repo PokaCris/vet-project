@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Modal, Button, Form, Spinner, Alert } from 'react-bootstrap';
+import api from '../../api';
+
 import './AppointmentModal.css';
 
 function AppointmentModal({ show, handleClose }) {
@@ -58,43 +60,14 @@ function AppointmentModal({ show, handleClose }) {
 
         setIsSubmitting(true);
         setApiError('');
+        setErrors({});
 
         try {
-            console.log('Отправка данных:', formData);
+            console.log('Отправка данных через Axios:', formData);
 
-            const response = await fetch('/api/appointments', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                },
-                body: JSON.stringify(formData)
-            });
+            const response = await api.post('/appointments', formData);
 
-            console.log('Статус ответа:', response.status);
-
-            if (!response.ok) {
-                let errorData;
-                try {
-                    errorData = await response.json();
-                    console.log('Ошибка от сервера:', errorData);
-                } catch (jsonError) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                if (errorData.errors) {
-                    const validationErrors = {};
-                    Object.keys(errorData.errors).forEach(key => {
-                        validationErrors[key] = errorData.errors[key][0];
-                    });
-                    setErrors(validationErrors);
-                    throw new Error('Ошибка валидации формы');
-                }
-                throw new Error(errorData.message || `Ошибка сервера: ${response.status}`);
-            }
-
-            const data = await response.json();
-            console.log('Успешный ответ:', data);
+            console.log('Успешный ответ:', response.data);
 
             setIsSubmitted(true);
 
@@ -107,14 +80,43 @@ function AppointmentModal({ show, handleClose }) {
             });
 
         } catch (error) {
-            console.error('API Error:', error);
+            console.error('Axios Error:', error);
 
-            if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
-                setApiError('Ошибка подключения к серверу');
-            } else if (error.message === 'Ошибка валидации формы') {
+            if (error.type === 'validation') {
+                const validationErrors = {};
+                Object.keys(error.errors).forEach(key => {
+                    validationErrors[key] = error.errors[key][0];
+                });
+                setErrors(validationErrors);
                 setApiError('Исправьте ошибки в форме');
+
+            } else if (error.message === 'Таймаут запроса') {
+                setApiError('Превышено время ожидания ответа от сервера');
+
+            } else if (error.message === 'Нет соединения с сервером') {
+                setApiError('Ошибка подключения к серверу');
+
+            } else if (error.response) {
+                const status = error.response.status;
+                const message = error.response.data?.message;
+
+                if (status === 401) {
+                    setApiError('Требуется авторизация');
+                } else if (status === 403) {
+                    setApiError('Доступ запрещен');
+                } else if (status === 404) {
+                    setApiError('Страница не найдена');
+                } else if (status === 500) {
+                    setApiError('Внутренняя ошибка сервера');
+                } else {
+                    setApiError(message || `Ошибка сервера: ${status}`);
+                }
+
+            } else if (error.request) {
+                setApiError('Сервер не отвечает');
+
             } else {
-                setApiError(error.message || 'Ошибка при отправке формы');
+                setApiError('Ошибка при отправке запроса: ' + error.message);
             }
         } finally {
             setIsSubmitting(false);
