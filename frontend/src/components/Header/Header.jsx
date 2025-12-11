@@ -1,14 +1,50 @@
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Navbar, Nav, Container, NavDropdown, Offcanvas } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faClock, faCircleUser } from '@fortawesome/free-solid-svg-icons';
+
+import api from '../../api/index';
+import AuthModal from '../AuthModal/AuthModal';
 
 import logo from '../../assets/logo.jpg';
 
 import './Header.css';
 
 function Header() {
+
     const location = useLocation();
+    const [user, setUser] = useState(null);
+    const [showAuthModal, setShowAuthModal] = useState(false);
+
+    useEffect(() => {
+        checkAuth();
+    }, []);
+
+    const checkAuth = async () => {
+        try {
+            const response = await api.get('/auth/me');
+            if (response.data) {
+                setUser(response.data);
+            }
+        } catch (error) {
+        }
+    };
+
+    const handleAuthSuccess = (userData) => {
+        setUser(userData);
+        window.location.href = '/personal-page';
+    };
+
+    const handleLogout = async () => {
+        try {
+            await api.post('/auth/logout');
+            setUser(null);
+            window.location.href = '/';
+        } catch (error) {
+            console.error('Ошибка при выходе:', error);
+        }
+    };
 
     const isParentActive = (paths) => {
         return paths.some(p => location.pathname.startsWith(p));
@@ -73,14 +109,38 @@ function Header() {
                                     <NavDropdown.Divider />
                                     <NavDropdown.Item as={Link} to="/articles" eventKey="/articles">Статьи</NavDropdown.Item>
                                 </NavDropdown>
-                                <Nav.Link as={Link} to="/login" className="login-btn">
-                                    <FontAwesomeIcon icon={faCircleUser} size="lg" /> Войти
-                                </Nav.Link>
+                                {user ? (
+                                    <>
+                                        <Nav.Link as={Link} to="/personal-page" className="login-btn">
+                                            <FontAwesomeIcon icon={faCircleUser} size="lg" /> {user.pet_name || user.login}
+                                        </Nav.Link>
+                                        <Nav.Link
+                                            onClick={handleLogout}
+                                            className="logout-btn ms-2"
+                                            style={{ cursor: 'pointer' }}
+                                        >
+                                            Выйти
+                                        </Nav.Link>
+                                    </>
+                                ) : (
+                                    <Nav.Link
+                                        onClick={() => setShowAuthModal(true)}
+                                        className="login-btn"
+                                        style={{ cursor: 'pointer' }}
+                                    >
+                                        <FontAwesomeIcon icon={faCircleUser} size="lg" /> Войти
+                                    </Nav.Link>
+                                )}
                             </Nav>
                         </Offcanvas.Body>
                     </Navbar.Offcanvas>
                 </Container>
             </Navbar>
+            <AuthModal
+                show={showAuthModal}
+                onHide={() => setShowAuthModal(false)}
+                onSuccess={handleAuthSuccess}
+            />
         </>
     );
 }

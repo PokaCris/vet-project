@@ -1,25 +1,11 @@
-# Laravel
-backend/.env
-backend/.env.*
-!backend/.env.example
-backend/vendor/
-backend/storage/framework/cache/
-backend/storage/framework/sessions/
-backend/storage/framework/views/
-backend/storage/logs/
-backend/public/build/
+# Системные файлы
+.DS_Store
+Thumbs.db
 
-# React
-frontend/node_modules/
+# IDE (оставить только существующие)
+.vscode/
 
-# Docker
+# Docker данные
 *.log
 data/
 db-data/
-
-# Системные
-.DS_Store
-Thumbs.db
-.idea/
-.vscode/
-node_modules

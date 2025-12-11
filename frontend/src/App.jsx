@@ -10,6 +10,7 @@ import Contacts from './pages/Contacts';
 import PriceClinic from './pages/PriceClinic';
 // import About from './pages/About';
 // import Articles from './pages/Articles';
+import PersonalPage from './pages/PersonalPage';
 
 // AllServices
 import TherapyDetails from './pages/AllServices/TherapyDetails';
@@ -47,6 +48,7 @@ function App() {
           <Route path="/price-clinic" element={<PriceClinic />} />
           <Route path="/doctors" element={<Doctors />} />
           <Route path="/contacts" element={<Contacts />} />
+          <Route path="/personal-page" element={<PersonalPage />} />
 
           <Route path="/services/therapy" element={<TherapyDetails />} />
           <Route path="/services/diagnostics" element={<DiagnosticsDetails />} />

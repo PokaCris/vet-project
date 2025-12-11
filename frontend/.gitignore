@@ -1,0 +1,15 @@
+# Node.js зависимости
+node_modules/
+
+# Сборка (у вас Vite создает в public/)
+public/ 
+
+# Логи npm
+npm-debug.log*
+
+# Кэш Vite
+.vite/
+
+# Переменные окружения (если появятся)
+.env
+.env.local
