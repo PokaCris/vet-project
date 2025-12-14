@@ -39,7 +39,10 @@ function Header() {
     const handleLogout = async () => {
         try {
             await api.post('/auth/logout');
-            setUser(null);
+
+            localStorage.clear();
+            sessionStorage.clear();
+            
             window.location.href = '/';
         } catch (error) {
             console.error('Ошибка при выходе:', error);

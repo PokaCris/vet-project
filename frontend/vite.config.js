@@ -17,11 +17,15 @@ export default defineConfig({
     },
 
     // Настройки сборки
+    publicDir: false,
     build: {
         outDir: path.resolve(__dirname, 'public'),
-        emptyOutDir: true, // очищать выходную директорию перед сборкой
-        sourcemap: true,
-        minify: 'esbuild',
+        chunkSizeWarningLimit: 1000,
+        emptyOutDir: true,
+        watch: {
+            usePolling: true,
+            interval: 1000,
+        },
     },
 
     css: {

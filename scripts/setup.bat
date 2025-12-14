@@ -72,6 +72,10 @@ echo 7. Применение миграций базы данных...
 call scripts\migrate.bat
 
 echo.
+echo 8. Создание таблицы сессий...
+call scripts\session.bat
+
+echo.
 echo ========================================
 echo УСТАНОВКА ЗАВЕРШЕНА!
 echo.
