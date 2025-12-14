@@ -5,9 +5,11 @@ import api from '../../api/index';
 const AuthModal = ({ show, onHide, onSuccess }) => {
     const [isLogin, setIsLogin] = useState(true);
     const [formData, setFormData] = useState({
-        login: '',
-        phone: '',
+        email: '',
         password: '',
+        first_name: '',
+        last_name: '',
+        phone: '',
         password_confirmation: ''
     });
     const [error, setError] = useState('');
@@ -28,7 +30,12 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
 
         try {
             const endpoint = isLogin ? '/auth/login' : '/auth/register';
-            const response = await api.post(endpoint, formData);
+
+            const dataToSend = isLogin 
+                ? { email: formData.email, password: formData.password }
+                : formData;
+            
+            const response = await api.post(endpoint, dataToSend);
             
             onSuccess(response.data.user);
             onHide();
@@ -47,9 +54,11 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
 
     const resetForm = () => {
         setFormData({
-            login: '',
-            phone: '',
+            email: '',
             password: '',
+            first_name: '',
+            last_name: '',
+            phone: '',
             password_confirmation: ''
         });
         setError('');
@@ -86,34 +95,59 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
                 {error && <Alert variant="danger" className="text-center">{error}</Alert>}
                 
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Логин</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="login"
-                            value={formData.login}
-                            onChange={handleChange}
-                            required
-                            placeholder="Введите логин"
-                        />
-                    </Form.Group>
-
                     {!isLogin && (
-                        <Form.Group className="mb-3">
-                            <Form.Label>Номер телефона</Form.Label>
-                            <Form.Control
-                                type="tel"
-                                name="phone"
-                                value={formData.phone}
-                                onChange={handleChange}
-                                required={!isLogin}
-                                placeholder="+79991234567"
-                            />
-                        </Form.Group>
+                        <>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Имя *</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="first_name"
+                                    value={formData.first_name}
+                                    onChange={handleChange}
+                                    required={!isLogin}
+                                    placeholder="Введите имя"
+                                />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Label>Фамилия</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="last_name"
+                                    value={formData.last_name}
+                                    onChange={handleChange}
+                                    placeholder="Введите фамилию (необязательно)"
+                                />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Label>Номер телефона *</Form.Label>
+                                <Form.Control
+                                    type="tel"
+                                    name="phone"
+                                    value={formData.phone}
+                                    onChange={handleChange}
+                                    required={!isLogin}
+                                    placeholder="+79991234567"
+                                />
+                            </Form.Group>
+                        </>
                     )}
 
                     <Form.Group className="mb-3">
-                        <Form.Label>Пароль</Form.Label>
+                        <Form.Label>Электронная почта *</Form.Label>
+                        <Form.Control
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                            placeholder="example@mail.ru"
+                        />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3">
+                        <Form.Label>Пароль *</Form.Label>
                         <Form.Control
                             type="password"
                             name="password"
@@ -126,7 +160,7 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
 
                     {!isLogin && (
                         <Form.Group className="mb-3">
-                            <Form.Label>Повтор пароля</Form.Label>
+                            <Form.Label>Повтор пароля *</Form.Label>
                             <Form.Control
                                 type="password"
                                 name="password_confirmation"

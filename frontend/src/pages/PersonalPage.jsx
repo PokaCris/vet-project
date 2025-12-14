@@ -85,23 +85,23 @@ const PersonalPage = () => {
 
     useEffect(() => {
         checkAuth();
-        
+
         const handleStorageChange = (event) => {
             if (event.key === 'auth_logout') {
                 console.log('Получен сигнал выхода из другой вкладки');
                 navigate('/');
             }
         };
-        
+
         window.addEventListener('storage', handleStorageChange);
-        
+
         return () => {
             window.removeEventListener('storage', handleStorageChange);
         };
     }, [navigate]);
 
     const getStatusBadge = (status) => {
-        switch(status) {
+        switch (status) {
             case 'completed':
                 return <Badge bg="success">Завершено</Badge>;
             case 'in_progress':
@@ -125,7 +125,7 @@ const PersonalPage = () => {
     return (
         <Container className="mt-4 mb-5">
             <h1 className="mb-4 text-primary">Личный кабинет</h1>
-            
+
             <Card className="mb-4 shadow-sm">
                 <Card.Header className="bg-primary text-white">
                     <h5 className="mb-0">👤 Информация о владельце и питомце</h5>
@@ -134,7 +134,8 @@ const PersonalPage = () => {
                     <div className="row">
                         <div className="col-md-6">
                             <h6 className="border-bottom pb-2">Данные владельца:</h6>
-                            <p><strong>Логин:</strong> {user.login}</p>
+                            <p><strong>Имя:</strong> {user.first_name} {user.last_name}</p>
+                            <p><strong>Email:</strong> {user.email}</p>
                             <p><strong>Телефон:</strong> {user.phone}</p>
                             <p><strong>Дата регистрации:</strong> {new Date(user.created_at).toLocaleDateString('ru-RU')}</p>
                         </div>
@@ -151,7 +152,7 @@ const PersonalPage = () => {
                     </div>
                 </Card.Body>
             </Card>
-            
+
             <Card className="shadow-sm">
                 <Card.Header className="bg-primary text-white">
                     <h5 className="mb-0">🏥 Результаты осмотров и исследования</h5>
@@ -163,7 +164,7 @@ const PersonalPage = () => {
                                 Здесь хранятся результаты всех посещений ветеринарной клиники.
                                 Всего записей: <strong>{examinations.length}</strong>
                             </Alert>
-                            
+
                             <ListGroup variant="flush">
                                 {examinations.map((exam) => (
                                     <ListGroup.Item key={exam.id} className="mb-3 border rounded">
@@ -181,11 +182,11 @@ const PersonalPage = () => {
                                                 {getStatusBadge(exam.status)}
                                             </div>
                                         </div>
-                                        
+
                                         <div className="mt-3">
                                             <h6 className="text-primary">Результат осмотра:</h6>
                                             <p className="mb-3">{exam.result}</p>
-                                            
+
                                             <h6 className="text-primary">Рекомендации:</h6>
                                             <p className="mb-0">{exam.recommendations}</p>
                                         </div>
@@ -207,7 +208,7 @@ const PersonalPage = () => {
                         <Alert variant="success" className="mt-3">
                             <h6>Добро пожаловать!</h6>
                             <p className="mb-0">
-                                Вы успешно зарегистрировались в системе. После первого посещения клиники 
+                                Вы успешно зарегистрировались в системе. После первого посещения клиники
                                 здесь появятся результаты осмотра вашего питомца.
                             </p>
                         </Alert>

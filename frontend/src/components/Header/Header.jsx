@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Navbar, Nav, Container, NavDropdown, Offcanvas } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot, faClock, faCircleUser } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot, faClock, faCircleUser, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 import api from '../../api/index';
 import AuthModal from '../AuthModal/AuthModal';
@@ -103,10 +103,10 @@ function Header() {
                                 {user ? (
                                     <>
                                         <Nav.Link as={Link} to="/personal-page" className="login-btn">
-                                            <FontAwesomeIcon icon={faCircleUser} size="lg" /> {user.pet_name || user.login}
+                                            <FontAwesomeIcon icon={faCircleUser} size="lg" />
                                         </Nav.Link>
                                         <Nav.Link onClick={handleLogout} className="logout-btn ms-2">
-                                            Выйти
+                                            <FontAwesomeIcon icon={faArrowRightFromBracket} size="lg" />
                                         </Nav.Link>
                                     </>
                                 ) : (

@@ -13,13 +13,17 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'login' => 'required|string|unique:users',
+            'email' => 'required|string|email|unique:users',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'nullable|string|max:255',
             'phone' => 'required|string|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
         $user = User::create([
-            'login' => $request->login,
+            'email' => $request->email,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
@@ -35,11 +39,11 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'login' => 'required|string',
+            'email' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        $user = User::where('login', $request->login)->first();
+        $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
