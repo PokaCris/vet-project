@@ -62,6 +62,8 @@ class AuthController extends Controller
 
         Auth::logout();
 
+        $cookie = cookie()->forget(config('session.cookie'));
+
         return response()->json(['message' => 'Успешный выход']);
     }
 

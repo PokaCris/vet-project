@@ -22,10 +22,10 @@ export default defineConfig({
         outDir: path.resolve(__dirname, 'public'),
         chunkSizeWarningLimit: 1000,
         emptyOutDir: true,
-        watch: {
-            usePolling: true,
-            interval: 1000,
-        },
+        // watch: {
+        //     usePolling: true,
+        //     interval: 1000,
+        // },
     },
 
     css: {

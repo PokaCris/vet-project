@@ -16,20 +16,29 @@ function Header() {
     const location = useLocation();
     const [user, setUser] = useState(null);
     const [showAuthModal, setShowAuthModal] = useState(false);
+    const [isChecking, setIsChecking] = useState(false);
 
     useEffect(() => {
+        const checkAuth = async () => {
+            if (isChecking) return;
+
+            setIsChecking(true);
+            try {
+                const response = await api.get('/auth/me');
+                if (response.data) {
+                    setUser(response.data);
+                } else {
+                    setUser(null);
+                }
+            } catch (error) {
+                setUser(null);
+            } finally {
+                setIsChecking(false);
+            }
+        };
+
         checkAuth();
     }, []);
-
-    const checkAuth = async () => {
-        try {
-            const response = await api.get('/auth/me');
-            if (response.data) {
-                setUser(response.data);
-            }
-        } catch (error) {
-        }
-    };
 
     const handleAuthSuccess = (userData) => {
         setUser(userData);
@@ -39,14 +48,16 @@ function Header() {
     const handleLogout = async () => {
         try {
             await api.post('/auth/logout');
-
-            localStorage.clear();
-            sessionStorage.clear();
-            
-            window.location.href = '/';
         } catch (error) {
             console.error('Ошибка при выходе:', error);
         }
+
+        setUser(null);
+
+        localStorage.setItem('auth_logout', Date.now().toString());
+        localStorage.removeItem('auth_logout');
+
+        window.location.href = '/';
     };
 
     const isParentActive = (paths) => {
@@ -65,35 +76,16 @@ function Header() {
                 <Container>
                     <Navbar.Brand>
                         <Nav.Link as={Link} to="/" className='logo d-flex align-items-center'>
-                            <img
-                                src={logo}
-                                width="35"
-                                height="35"
-                                className="d-inline-block align-top rounded-circle me-3"
-                                alt="My logo"
-                            />
+                            <img src={logo} width="35" height="35" className="d-inline-block align-top rounded-circle me-3" alt="My logo" />
                             <span className='my-logo'>VetClinic</span>
                         </Nav.Link>
                     </Navbar.Brand>
 
                     <Navbar.Toggle aria-controls="offcanvasNavbar" />
-
-                    <Navbar.Offcanvas
-                        className="offcanvas-custom"
-                        id="offcanvasNavbar"
-                        aria-labelledby="offcanvasNavbarLabel"
-                        placement="end"
-                        data-bs-theme="light"
-                    >
+                    <Navbar.Offcanvas className="offcanvas-custom" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" placement="end" data-bs-theme="light">
                         <Offcanvas.Header closeButton>
                             <Offcanvas.Title id="offcanvasNavbarLabel">
-                                <img
-                                    src={logo}
-                                    width="35"
-                                    height="35"
-                                    className="d-inline-block align-top rounded-circle me-3"
-                                    alt="My logo"
-                                /> VetClinic
+                                <img src={logo} width="35" height="35" className="d-inline-block align-top rounded-circle me-3" alt="My logo" /> VetClinic
                             </Offcanvas.Title>
                         </Offcanvas.Header>
                         <Offcanvas.Body>
@@ -102,35 +94,23 @@ function Header() {
                                 <Nav.Link as={Link} to="/price-clinic" eventKey="/price-clinic">Цены</Nav.Link>
                                 <Nav.Link as={Link} to="/doctors" eventKey="/doctors">Врачи</Nav.Link>
                                 <Nav.Link as={Link} to="/contacts" eventKey="/contacts">Контакты</Nav.Link>
-                                <NavDropdown
-                                    title="Другое"
-                                    id="offcanvas-nav-dropdown"
-                                    menuVariant="light"
-                                    active={isParentActive(otherPaths)}
-                                >
+                                <NavDropdown title="Другое" id="offcanvas-nav-dropdown" menuVariant="light" active={isParentActive(otherPaths)}>
                                     <NavDropdown.Item as={Link} to="/about" eventKey="/about">О нас</NavDropdown.Item>
                                     <NavDropdown.Divider />
                                     <NavDropdown.Item as={Link} to="/articles" eventKey="/articles">Статьи</NavDropdown.Item>
                                 </NavDropdown>
+
                                 {user ? (
                                     <>
                                         <Nav.Link as={Link} to="/personal-page" className="login-btn">
                                             <FontAwesomeIcon icon={faCircleUser} size="lg" /> {user.pet_name || user.login}
                                         </Nav.Link>
-                                        <Nav.Link
-                                            onClick={handleLogout}
-                                            className="logout-btn ms-2"
-                                            style={{ cursor: 'pointer' }}
-                                        >
+                                        <Nav.Link onClick={handleLogout} className="logout-btn ms-2">
                                             Выйти
                                         </Nav.Link>
                                     </>
                                 ) : (
-                                    <Nav.Link
-                                        onClick={() => setShowAuthModal(true)}
-                                        className="login-btn"
-                                        style={{ cursor: 'pointer' }}
-                                    >
+                                    <Nav.Link onClick={() => setShowAuthModal(true)} className="login-btn">
                                         <FontAwesomeIcon icon={faCircleUser} size="lg" /> Войти
                                     </Nav.Link>
                                 )}
@@ -139,11 +119,7 @@ function Header() {
                     </Navbar.Offcanvas>
                 </Container>
             </Navbar>
-            <AuthModal
-                show={showAuthModal}
-                onHide={() => setShowAuthModal(false)}
-                onSuccess={handleAuthSuccess}
-            />
+            <AuthModal show={showAuthModal} onHide={() => setShowAuthModal(false)} onSuccess={handleAuthSuccess} />
         </>
     );
 }

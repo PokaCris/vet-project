@@ -65,10 +65,6 @@ const PersonalPage = () => {
         return testData[userId] || [];
     };
 
-    useEffect(() => {
-        checkAuth();
-    }, []);
-
     const checkAuth = async () => {
         try {
             const response = await api.get('/auth/me');
@@ -78,6 +74,7 @@ const PersonalPage = () => {
                 setExaminations(userExaminations);
             } else {
                 navigate('/');
+                return;
             }
         } catch (error) {
             navigate('/');
@@ -85,6 +82,23 @@ const PersonalPage = () => {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        checkAuth();
+        
+        const handleStorageChange = (event) => {
+            if (event.key === 'auth_logout') {
+                console.log('Получен сигнал выхода из другой вкладки');
+                navigate('/');
+            }
+        };
+        
+        window.addEventListener('storage', handleStorageChange);
+        
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
+    }, [navigate]);
 
     const getStatusBadge = (status) => {
         switch(status) {
@@ -137,7 +151,7 @@ const PersonalPage = () => {
                     </div>
                 </Card.Body>
             </Card>
-
+            
             <Card className="shadow-sm">
                 <Card.Header className="bg-primary text-white">
                     <h5 className="mb-0">🏥 Результаты осмотров и исследования</h5>
@@ -189,7 +203,7 @@ const PersonalPage = () => {
                         </Alert>
                     )}
 
-                    {user && !['test', 'user2'].includes(user.login) && examinations.length === 0 && (
+                    {user && examinations.length === 0 && (
                         <Alert variant="success" className="mt-3">
                             <h6>Добро пожаловать!</h6>
                             <p className="mb-0">
