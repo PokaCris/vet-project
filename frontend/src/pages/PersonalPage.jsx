@@ -116,7 +116,7 @@ const PersonalPage = () => {
     if (loading) {
         return (
             <Container className="mt-5 text-center">
-                <Spinner animation="border" variant="primary" />
+                <Spinner animation="border" variant="success" />
                 <p className="mt-3">Загрузка данных...</p>
             </Container>
         );
@@ -124,11 +124,11 @@ const PersonalPage = () => {
 
     return (
         <Container className="mt-4 mb-5">
-            <h1 className="mb-4 text-primary">Личный кабинет</h1>
+            <h1 className="mb-4 text-success">Личный кабинет</h1>
 
             <Card className="mb-4 shadow-sm">
-                <Card.Header className="bg-primary text-white">
-                    <h5 className="mb-0">👤 Информация о владельце и питомце</h5>
+                <Card.Header className="bg-success text-white">
+                    <h5 className="mb-0"> Информация о владельце и питомце</h5>
                 </Card.Header>
                 <Card.Body>
                     <div className="row">
@@ -144,8 +144,8 @@ const PersonalPage = () => {
                             {user.pet_name && <p><strong>Имя питомца:</strong> {user.pet_name}</p>}
                             {user.pet_type && <p><strong>Вид животного:</strong> {user.pet_type}</p>}
                             {!user.pet_name && !user.pet_type && (
-                                <Alert variant="info" className="mt-2">
-                                    <small>Информация о питомце не указана. Вы можете добавить её в настройках профиля.</small>
+                                <Alert variant="secondary" className="mt-2">
+                                    <small>Информация о питомце не указана.</small>
                                 </Alert>
                             )}
                         </div>
@@ -154,13 +154,13 @@ const PersonalPage = () => {
             </Card>
 
             <Card className="shadow-sm">
-                <Card.Header className="bg-primary text-white">
-                    <h5 className="mb-0">🏥 Результаты осмотров и исследования</h5>
+                <Card.Header className="bg-success text-white">
+                    <h5 className="mb-0"> Результаты осмотров и исследования</h5>
                 </Card.Header>
                 <Card.Body>
                     {examinations.length > 0 ? (
                         <>
-                            <Alert variant="info" className="mb-4">
+                            <Alert variant="secondary" className="mb-4">
                                 Здесь хранятся результаты всех посещений ветеринарной клиники.
                                 Всего записей: <strong>{examinations.length}</strong>
                             </Alert>
@@ -184,10 +184,10 @@ const PersonalPage = () => {
                                         </div>
 
                                         <div className="mt-3">
-                                            <h6 className="text-primary">Результат осмотра:</h6>
+                                            <h6 className="text-success">Результат осмотра:</h6>
                                             <p className="mb-3">{exam.result}</p>
 
-                                            <h6 className="text-primary">Рекомендации:</h6>
+                                            <h6 className="text-success">Рекомендации:</h6>
                                             <p className="mb-0">{exam.recommendations}</p>
                                         </div>
                                     </ListGroup.Item>

@@ -1,0 +1,105 @@
+.modal-content {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    border-bottom: 2px solid #339886;
+}
+
+.modal-title {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.form-control:focus {
+    border-color: #339886;
+    box-shadow: 0 0 0 0.2rem rgba(51, 152, 134, 0.25);
+}
+
+.form-check-input:checked {
+    background-color: #339886;
+    border-color: #339886;
+}
+
+.consent {
+    font-size: 12px;
+    color: #000;
+}
+
+.star {
+    font-size: 12px;
+    color: #2c3e50;
+}
+
+.btn-success {
+    background-color: #339886;
+    border-color: #339886;
+    border-radius: 6px;
+}
+
+.btn-success:hover {
+    background-color: #2a7c6e;
+    border-color: #2a7c6e;
+}
+
+.input-field:focus {
+    border-color: #339886 !important;
+    box-shadow: 0 0 0 0.25rem rgba(51, 152, 134, 0.25) !important;
+}
+
+.auth-tab-btn {
+    background: none;
+    border: none;
+    color: #6c757d;
+    font-size: 1.2rem;
+    padding: 0.5rem 1.2rem;
+    cursor: pointer;
+    position: relative;
+}
+
+.auth-tab-btn:hover {
+    color: #339886;
+}
+
+.auth-tab-btn:hover::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 3px;
+    background-color: #339886;
+    border-radius: 3px 3px 0 0;
+}
+
+.auth-tab-btn.active {
+    color: #339886;
+    font-weight: 600;
+}
+
+.auth-tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 3px;
+    background-color: #339886;
+    border-radius: 3px 3px 0 0;
+}
+
+.auth-tab-divider {
+    color: #dee2e6;
+    font-size: 1.3rem;
+    padding: 0 0.5rem;
+}
+
+@media (max-width: 576px) {
+    .modal-dialog {
+        margin: 0.5rem;
+    }
+}

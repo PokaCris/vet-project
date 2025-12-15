@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cookie;
 
 class AuthController extends Controller
 {
@@ -61,24 +62,17 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        Auth::logout();
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        Auth::logout();
-
-        $cookie = cookie()->forget(config('session.cookie'));
-
-        return response()->json(['message' => 'Успешный выход']);
+        return response()->json(['message' => 'Успешный выход'])
+            ->withCookie(Cookie::forget(config('session.cookie')));
     }
 
     public function me()
     {
-        $user = Auth::user();
-
-        if (!$user) {
-            return response()->json(null);
-        }
-
-        return response()->json($user);
+        return response()->json(Auth::user());
     }
 }

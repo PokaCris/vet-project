@@ -51,6 +51,9 @@ if not exist "backend\.env" (
         echo DB_USERNAME=vet_user
         echo DB_PASSWORD=password
         echo.
+        echo SESSION_DRIVER=database
+        echo SESSION_LIFETIME=120
+        echo.
         echo API_RATE_LIMIT=1000
     ) > backend\.env
     
@@ -85,7 +88,5 @@ echo.
 echo База данных (Adminer):
 echo http://localhost:8080
 echo.
-echo Для остановки: docker-compose down
-echo Для просмотра логов: docker-compose logs -f
 echo ========================================
 pause

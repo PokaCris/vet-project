@@ -29,7 +29,6 @@
     box-shadow: 0 0 15px rgba(51, 152, 134, 0.5);
 }
 
-/* Основные стили для всех ссылок навбара */
 .header .nav-link {
     position: relative;
     margin: 0 5px;
@@ -39,13 +38,10 @@
     cursor: pointer;
 }
 
-/* Стили для обычных ссылок (Услуги, Цены, Врачи, Контакты) */
 .header .nav-link:not(.login-btn):not(.logout-btn):not(.logo) {
-    /* Здесь стили для обычных меню */
     color: rgba(0, 0, 0, 0.8) !important;
 }
 
-/* Стили при наведении на обычные ссылки */
 .header .nav-link:not(.logo):not(.login-btn):not(.logout-btn):hover {
     background: rgba(51, 152, 134, 0.4) !important;
     box-shadow: 0 4px 12px rgba(51, 152, 134, 0.3);
@@ -53,14 +49,12 @@
     color: #fff !important;
 }
 
-/* Активная ссылка */
 .header .nav-link.active {
     background: #339886 !important;
     box-shadow: 0 4px 12px rgba(51, 152, 134, 0.5);
     color: #fff !important;
 }
 
-/* Стиль для кнопки Войти и для ссылки в кабинет */
 .header .login-btn {
     background: rgba(51, 152, 133, 0.158);
     border-radius: 8px;
@@ -77,7 +71,6 @@
     transform: translateY(-2px);
 }
 
-/* Стиль для кнопки Выйти */
 .header .logout-btn {
     background: rgba(220, 53, 69, 0.1);
     border-radius: 8px;
