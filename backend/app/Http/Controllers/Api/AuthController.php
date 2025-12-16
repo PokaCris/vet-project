@@ -24,17 +24,22 @@ class AuthController extends Controller
         $user = User::create([
             'email' => $request->email,
             'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
+            'last_name' => $request->last_name ?? null,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
 
         Auth::login($user);
 
-        return response()->json([
-            'message' => 'Успешная регистрация',
-            'user' => $user
-        ]);
+        return response()->json(
+            [
+                'message' => 'Успешная регистрация',
+                'user' => $user
+            ],
+            201,
+            ['Content-Type' => 'application/json; charset=utf-8'],
+            JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+        );
     }
 
     public function login(Request $request)
@@ -47,17 +52,25 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json([
-                'message' => 'Неверный логин или пароль'
-            ], 401);
+            return response()->json(
+                ['message' => 'Неверный логин или пароль'],
+                401,
+                ['Content-Type' => 'application/json; charset=utf-8'],
+                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+            );
         }
 
         Auth::login($user);
 
-        return response()->json([
-            'message' => 'Успешный вход',
-            'user' => $user
-        ]);
+        return response()->json(
+            [
+                'message' => 'Успешный вход',
+                'user' => $user
+            ],
+            200,
+            ['Content-Type' => 'application/json; charset=utf-8'],
+            JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+        );
     }
 
     public function logout(Request $request)
@@ -67,12 +80,32 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return response()->json(['message' => 'Успешный выход'])
-            ->withCookie(Cookie::forget(config('session.cookie')));
+        return response()->json(
+            ['message' => 'Успешный выход'],
+            200,
+            ['Content-Type' => 'application/json; charset=utf-8'],
+            JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+        )->withCookie(Cookie::forget(config('session.cookie')));
     }
 
     public function me()
     {
-        return response()->json(Auth::user());
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json(
+                ['message' => 'Пользователь не авторизован'],
+                401,
+                ['Content-Type' => 'application/json; charset=utf-8'],
+                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+            );
+        }
+
+        return response()->json(
+            $user,
+            200,
+            ['Content-Type' => 'application/json; charset=utf-8'],
+            JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+        );
     }
 }
