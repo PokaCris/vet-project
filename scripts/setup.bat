@@ -12,7 +12,6 @@ echo.
 echo 1. Установка зависимостей фронтенда...
 cd frontend
 call npm install
-call npm install axios
 call npm run build
 cd ..
 

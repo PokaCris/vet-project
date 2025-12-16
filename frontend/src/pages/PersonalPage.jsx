@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Container, Card, Alert, Spinner, ListGroup, Badge } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import api from '../api/index';
+import api from '../services/api';
 
 const PersonalPage = () => {
     const [user, setUser] = useState(null);
@@ -67,16 +67,17 @@ const PersonalPage = () => {
 
     const checkAuth = async () => {
         try {
-            const response = await api.get('/auth/me');
-            if (response.data) {
-                setUser(response.data);
-                const userExaminations = getTestExaminations(response.data.id);
+            const userData = await api.getCurrentUser();
+            if (userData) {
+                setUser(userData);
+                const userExaminations = getTestExaminations(userData.id);
                 setExaminations(userExaminations);
             } else {
                 navigate('/');
                 return;
             }
         } catch (error) {
+            console.error('Auth error:', error);
             navigate('/');
         } finally {
             setLoading(false);

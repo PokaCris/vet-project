@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Modal, Button, Form, Spinner, Alert } from 'react-bootstrap';
-import api from '../../api';
+import api from '../../services/api';
 
 import './AppointmentModal.css';
 

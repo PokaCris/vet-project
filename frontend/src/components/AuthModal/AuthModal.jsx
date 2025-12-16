@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Modal, Button, Form, Spinner, Alert } from 'react-bootstrap';
-import api from '../../api/index';
+import api from '../../services/api';
 
 import './AuthModal.css';
 
@@ -39,16 +39,16 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
             if (!formData.first_name.trim()) {
                 newErrors.first_name = 'Введите ваше имя';
             }
-            
+
             const phoneDigits = formData.phone.replace(/\D/g, '');
             if (!formData.phone.trim() || phoneDigits.length < 11) {
                 newErrors.phone = 'Введите корректный номер телефона';
             }
-            
+
             if (!formData.agreed_to_privacy) {
                 newErrors.agreed_to_privacy = 'Необходимо согласие на обработку данных';
             }
-            
+
             if (formData.password !== formData.password_confirmation) {
                 newErrors.password_confirmation = 'Пароли не совпадают';
             }
@@ -83,29 +83,33 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
         setErrors({});
 
         try {
-            const endpoint = isLogin ? '/auth/login' : '/auth/register';
-            const dataToSend = isLogin 
-                ? { email: formData.email, password: formData.password }
-                : {
+            let result;
+
+            if (isLogin) {
+                result = await api.login({
+                    email: formData.email,
+                    password: formData.password
+                });
+            } else {
+                result = await api.register({
                     email: formData.email,
                     first_name: formData.first_name,
                     last_name: formData.last_name,
                     phone: formData.phone.replace(/\D/g, ''),
                     password: formData.password,
                     password_confirmation: formData.password_confirmation
-                };
-            
-            const response = await api.post(endpoint, dataToSend);
-            
+                });
+            }
+
             setIsSubmitted(true);
-            
+
             setTimeout(() => {
-                onSuccess(response.data.user);
+                onSuccess(result.user || result);
                 onHide();
                 setIsSubmitted(false);
                 resetForm();
             }, 1500);
-            
+
         } catch (err) {
             if (err.type === 'validation') {
                 const validationErrors = {};
@@ -119,7 +123,7 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
             } else if (err.response?.status === 422) {
                 setApiError('Пользователь с таким email или телефоном уже существует');
             } else {
-                setApiError(err.response?.data?.message || 'Произошла ошибка');
+                setApiError(err.message || 'Произошла ошибка');
             }
         } finally {
             setIsSubmitting(false);
@@ -176,7 +180,7 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
             <Modal.Header closeButton>
                 <Modal.Title className="w-100 py-2 text-center">
                     <div className="d-flex justify-content-center align-items-center">
-                        <button 
+                        <button
                             className={`btn btn-link text-decoration-none ${isLogin ? 'text-dark fw-bold' : 'text-secondary'} p-0 me-2`}
                             onClick={() => setIsLogin(true)}
                             type="button"
@@ -184,7 +188,7 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
                             Вход
                         </button>
                         <span className="text-secondary">/</span>
-                        <button 
+                        <button
                             className={`btn btn-link text-decoration-none ${!isLogin ? 'text-dark fw-bold' : 'text-secondary'} p-0 ms-2`}
                             onClick={() => setIsLogin(false)}
                             type="button"
@@ -341,7 +345,7 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
                                 variant="success"
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="d-block w-50 mx-auto btn-success"
+                                className="d-block w-50 mx-auto"
                             >
                                 {isSubmitting ? (
                                     <>
