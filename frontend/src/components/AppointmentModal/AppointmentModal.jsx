@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Modal, Button, Form, Spinner, Alert } from 'react-bootstrap';
-import api from '../../services/api';
+import { apiPost } from '../../services/api';
 
 import './AppointmentModal.css';
 
@@ -63,11 +63,11 @@ function AppointmentModal({ show, handleClose }) {
         setErrors({});
 
         try {
-            console.log('Отправка данных через Axios:', formData);
+            console.log('Отправка данных через API:', formData);
 
-            const response = await api.post('/appointments', formData);
+            const appointmentData = await apiPost('/api/appointments', formData);
 
-            console.log('Успешный ответ:', response.data);
+            console.log('Успешный ответ:', appointmentData);
 
             setIsSubmitted(true);
 
@@ -80,43 +80,12 @@ function AppointmentModal({ show, handleClose }) {
             });
 
         } catch (error) {
-            console.error('Axios Error:', error);
+            console.error('API Error:', error);
 
-            if (error.type === 'validation') {
-                const validationErrors = {};
-                Object.keys(error.errors).forEach(key => {
-                    validationErrors[key] = error.errors[key][0];
-                });
-                setErrors(validationErrors);
-                setApiError('Исправьте ошибки в форме');
-
-            } else if (error.message === 'Таймаут запроса') {
-                setApiError('Превышено время ожидания ответа от сервера');
-
-            } else if (error.message === 'Нет соединения с сервером') {
-                setApiError('Ошибка подключения к серверу');
-
-            } else if (error.response) {
-                const status = error.response.status;
-                const message = error.response.data?.message;
-
-                if (status === 401) {
-                    setApiError('Требуется авторизация');
-                } else if (status === 403) {
-                    setApiError('Доступ запрещен');
-                } else if (status === 404) {
-                    setApiError('Страница не найдена');
-                } else if (status === 500) {
-                    setApiError('Внутренняя ошибка сервера');
-                } else {
-                    setApiError(message || `Ошибка сервера: ${status}`);
-                }
-
-            } else if (error.request) {
-                setApiError('Сервер не отвечает');
-
+            if (error.message) {
+                setApiError(error.message);
             } else {
-                setApiError('Ошибка при отправке запроса: ' + error.message);
+                setApiError('Ошибка при отправке запроса');
             }
         } finally {
             setIsSubmitting(false);

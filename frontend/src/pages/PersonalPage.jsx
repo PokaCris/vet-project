@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Container, Card, Alert, Spinner, ListGroup, Badge } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import api from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 const PersonalPage = () => {
-    const [user, setUser] = useState(null);
+    const { user, loading } = useAuth();
     const [examinations, setExaminations] = useState([]);
-    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     const getTestExaminations = (userId) => {
@@ -65,41 +64,30 @@ const PersonalPage = () => {
         return testData[userId] || [];
     };
 
-    const checkAuth = async () => {
-        try {
-            const userData = await api.getCurrentUser();
-            if (userData) {
-                setUser(userData);
-                const userExaminations = getTestExaminations(userData.id);
-                setExaminations(userExaminations);
-            } else {
-                navigate('/');
-                return;
-            }
-        } catch (error) {
-            console.error('Auth error:', error);
-            navigate('/');
-        } finally {
-            setLoading(false);
-        }
-    };
-
     useEffect(() => {
-        checkAuth();
+        if (!loading && !user) {
+            navigate('/');
+            return;
+        }
 
-        const handleStorageChange = (event) => {
-            if (event.key === 'auth_logout') {
-                console.log('Получен сигнал выхода из другой вкладки');
-                navigate('/');
-            }
-        };
+        if (user) {
+            const userExaminations = getTestExaminations(user.id);
+            setExaminations(userExaminations);
+        }
+    }, [user, loading, navigate]);
 
-        window.addEventListener('storage', handleStorageChange);
+    if (loading) {
+        return (
+            <Container className="mt-5 text-center">
+                <Spinner animation="border" variant="success" />
+                <p className="mt-3">Загрузка данных...</p>
+            </Container>
+        );
+    }
 
-        return () => {
-            window.removeEventListener('storage', handleStorageChange);
-        };
-    }, [navigate]);
+    if (!user) {
+        return null;
+    }
 
     const getStatusBadge = (status) => {
         switch (status) {

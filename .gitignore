@@ -1,6 +1,7 @@
 backend/vendor
 backend/.env
 backend/storage/logs/
+backend/storage/framework/views/
 
 frontend/node_modules
 frontend/public

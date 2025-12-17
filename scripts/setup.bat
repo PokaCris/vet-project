@@ -69,6 +69,9 @@ echo.
 echo 6. Генерация ключа приложения...
 docker exec laravel php artisan key:generate --force
 
+@REM docker exec laravel composer require laravel/sanctum
+@REM docker exec laravel php artisan migrate
+
 echo.
 echo 7. Применение миграций базы данных...
 call scripts\migrate.bat

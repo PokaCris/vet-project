@@ -4,7 +4,7 @@ import { Navbar, Nav, Container, Offcanvas, NavDropdown } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faClock, faCircleUser, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
-import api from '../../services/api';
+import { useAuth } from '../../context/AuthContext';
 import AuthModal from '../AuthModal/AuthModal';
 import logo from '../../assets/logo.jpg';
 import './Header.css';
@@ -12,7 +12,7 @@ import './Header.css';
 function Header() {
     const location = useLocation();
     const navigate = useNavigate();
-    const [user, setUser] = useState(null);
+    const { user, loading, logout } = useAuth();
     const [showAuthModal, setShowAuthModal] = useState(false);
 
     const isParentActive = (paths) => {
@@ -22,53 +22,18 @@ function Header() {
     const otherPaths = ['/about', '/articles'];
     const userPaths = ['/personal-page', '/profile'];
 
-    useEffect(() => {
-        const checkAuth = async () => {
-            try {
-                const userData = await api.getCurrentUser();
-                setUser(userData);
-            } catch (error) {
-                console.error('Auth check error:', error);
-                setUser(null);
-            }
-        };
-
-        checkAuth();
-
-        const handleStorage = (event) => {
-            if (event.key === 'auth_logout') {
-                setUser(null);
-                if (location.pathname === '/personal-page') {
-                    navigate('/');
-                }
-            }
-        };
-
-        window.addEventListener('storage', handleStorage);
-
-        return () => window.removeEventListener('storage', handleStorage);
-    }, [location.pathname, navigate]);
-
     const handleAuthSuccess = (userData) => {
-        setUser(userData);
         setTimeout(() => {
             window.location.href = '/personal-page';
         }, 1000);
     };
 
     const handleLogout = async () => {
-        try {
-            await api.logout();
-        } catch (error) {
-            console.error('Ошибка выхода:', error);
+        await logout();
+
+        if (location.pathname === '/personal-page') {
+            navigate('/');
         }
-
-        setUser(null);
-
-        localStorage.setItem('auth_logout', Date.now().toString());
-        localStorage.removeItem('auth_logout');
-
-        window.location.href = '/';
     };
 
     return (
@@ -113,14 +78,14 @@ function Header() {
                                     <NavDropdown.Item as={Link} to="/articles" eventKey="/articles">Статьи</NavDropdown.Item>
                                 </NavDropdown>
 
-                                {user ? (
+                                {!loading && user ? (
                                     <NavDropdown
                                         title={<FontAwesomeIcon icon={faCircleUser} size="xl" />}
                                         id="user-nav-dropdown"
                                         menuVariant="light"
                                         align="end"
                                         active={isParentActive(userPaths)}
-                                        className="no-arrow" 
+                                        className="no-arrow"
                                     >
                                         <NavDropdown.Item as={Link} to="/personal-page">
                                             <FontAwesomeIcon icon={faCircleUser} className="me-2" />
@@ -133,11 +98,11 @@ function Header() {
                                         </NavDropdown.Item>
                                     </NavDropdown>
                                 ) : (
-                                    <Nav.Link 
+                                    <Nav.Link
                                         onClick={() => setShowAuthModal(true)}
                                         eventKey="/login"
                                     >
-                                        <FontAwesomeIcon icon={faCircleUser} size="xl" /> Войти
+                                        <FontAwesomeIcon icon={faCircleUser} size="xl" /> {loading ? '...' : 'Войти'}
                                     </Nav.Link>
                                 )}
                             </Nav>
@@ -146,7 +111,11 @@ function Header() {
                 </Container>
             </Navbar>
 
-            <AuthModal show={showAuthModal} onHide={() => setShowAuthModal(false)} onSuccess={handleAuthSuccess} />
+            <AuthModal
+                show={showAuthModal}
+                onHide={() => setShowAuthModal(false)}
+                onSuccess={handleAuthSuccess}
+            />
         </>
     );
 }

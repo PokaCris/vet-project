@@ -4,108 +4,78 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Cookie;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+
+    public function me(Request $request): JsonResponse
+    {
+        return new JsonResponse([
+            'user' => $request->user(),
+            'session' => session()->all()
+        ]);
+    }
+
+    public function login(Request $request): JsonResponse
     {
         $request->validate([
-            'email' => 'required|string|email|unique:users',
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if (Auth::attempt($request->only('email', 'password'))) {
+            $request->session()->regenerate();
+
+            return new JsonResponse([
+                'user' => Auth::user(),
+                'message' => 'Успешный вход'
+            ]);
+        }
+
+        throw ValidationException::withMessages([
+            'email' => ['Неверный email или пароль'],
+        ]);
+    }
+
+    public function register(Request $request): JsonResponse
+    {
+        $request->validate([
             'first_name' => 'required|string|max:255',
-            'last_name' => 'nullable|string|max:255',
+            'email' => 'required|string|email|unique:users',
             'phone' => 'required|string|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
         $user = User::create([
-            'email' => $request->email,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name ?? null,
+            'email' => $request->email,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
+            'pet_name' => $request->pet_name ?? null,
+            'pet_type' => $request->pet_type ?? null,
         ]);
 
         Auth::login($user);
+        $request->session()->regenerate();
 
-        return response()->json(
-            [
-                'message' => 'Успешная регистрация',
-                'user' => $user
-            ],
-            201,
-            ['Content-Type' => 'application/json; charset=utf-8'],
-            JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
-        );
-    }
-
-    public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|string',
-            'password' => 'required|string',
+        return new JsonResponse([
+            'user' => $user,
+            'message' => 'Регистрация успешна'
         ]);
-
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json(
-                ['message' => 'Неверный логин или пароль'],
-                401,
-                ['Content-Type' => 'application/json; charset=utf-8'],
-                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
-            );
-        }
-
-        Auth::login($user);
-
-        return response()->json(
-            [
-                'message' => 'Успешный вход',
-                'user' => $user
-            ],
-            200,
-            ['Content-Type' => 'application/json; charset=utf-8'],
-            JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
-        );
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): JsonResponse
     {
-        Auth::logout();
-
+        Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return response()->json(
-            ['message' => 'Успешный выход'],
-            200,
-            ['Content-Type' => 'application/json; charset=utf-8'],
-            JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
-        )->withCookie(Cookie::forget(config('session.cookie')));
-    }
-
-    public function me()
-    {
-        $user = Auth::user();
-
-        if (!$user) {
-            return response()->json(
-                ['message' => 'Пользователь не авторизован'],
-                401,
-                ['Content-Type' => 'application/json; charset=utf-8'],
-                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
-            );
-        }
-
-        return response()->json(
-            $user,
-            200,
-            ['Content-Type' => 'application/json; charset=utf-8'],
-            JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
-        );
+        return new JsonResponse(['message' => 'Успешный выход']);
     }
 }
