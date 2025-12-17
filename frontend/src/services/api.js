@@ -1,11 +1,12 @@
 let csrfReady = false;
 
 async function fetchCsrf() {
-    await fetch("/api/sanctum/csrf-cookie", {
+    const response = await fetch("/api/sanctum/csrf-cookie", {
         credentials: "include",
     });
     csrfReady = true;
-    console.log('CSRF cookie получен');
+    console.log('CSRF cookie получен, статус:', response.status);
+    return response;
 }
 
 async function ensureCsrf() {
@@ -14,21 +15,45 @@ async function ensureCsrf() {
     }
 }
 
+function getXsrfToken() {
+    const match = document.cookie.match(/(?:^|;)\s*XSRF-TOKEN\s*=\s*([^;]+)/);
+    if (!match) return null;
+    
+    const encodedToken = match[1];
+    try {
+        return decodeURIComponent(encodedToken);
+    } catch {
+        return encodedToken;
+    }
+}
+
 export async function api(url, options = {}) {
     const method = options.method?.toUpperCase() || 'GET';
     
-    if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(method)) {
+    if (method !== 'GET') {
         await ensureCsrf();
     }
+
+    const headers = {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        ...options.headers,
+    };
+    
+    if (method !== 'GET') {
+        const xsrfToken = getXsrfToken();
+        if (xsrfToken) {
+            headers['X-XSRF-TOKEN'] = xsrfToken;
+            console.log('X-XSRF-TOKEN добавлен:', xsrfToken.substring(0, 50) + '...');
+        }
+    }
+
+    console.log(`API ${method} ${url}`, { headers });
 
     const response = await fetch(url, {
         ...options,
         credentials: "include",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-            ...options.headers,
-        }
+        headers,
     });
 
     if (response.status === 419) {
