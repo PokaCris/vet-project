@@ -57,8 +57,6 @@ class AuthController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
-            'pet_name' => $request->pet_name ?? null,
-            'pet_type' => $request->pet_type ?? null,
         ]);
 
         Auth::login($user);
@@ -77,5 +75,37 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return new JsonResponse(['message' => 'Успешный выход']);
+    }
+
+    public function updatePet(Request $request): JsonResponse
+    {
+        $request->validate([
+            'pet_name' => 'nullable|string|max:255',
+            'pet_type' => 'nullable|string|max:100',
+            'pet_birthday' => 'nullable|date',
+            'pet_weight' => 'nullable|numeric|min:0|max:999.99',
+        ]);
+
+        if (!Auth::check()) {
+            return new JsonResponse(['error' => 'Пользователь не аутентифицирован'], 401);
+        }
+
+        $user = Auth::user();
+
+        if (!$user instanceof User) {
+            return new JsonResponse(['error' => 'Неверный тип пользователя'], 401);
+        }
+
+        $user->pet_name = $request->pet_name;
+        $user->pet_type = $request->pet_type;
+        $user->pet_birthday = $request->pet_birthday;
+        $user->pet_weight = $request->pet_weight;
+
+        $user->save();
+
+        return new JsonResponse([
+            'user' => $user,
+            'message' => 'Данные питомца обновлены'
+        ]);
     }
 }

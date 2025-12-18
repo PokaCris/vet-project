@@ -17,7 +17,10 @@ select:-webkit-autofill:hover {
 
 .form-control:focus,
 .form-control:active,
-.form-control:hover {
+.form-control:hover,
+.form-select:focus,
+.form-select:active,
+.form-select:hover {
     border-color: #339886 !important;
     box-shadow: 0 0 0 0.25rem rgba(51, 152, 134, 0.25) !important;
     outline: 0 !important;

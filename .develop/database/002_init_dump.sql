@@ -7,6 +7,8 @@ CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(255) NOT NULL,
     pet_name VARCHAR(255) NULL,
     pet_type VARCHAR(100) NULL,
+    pet_birthday DATE NULL,
+    pet_weight DECIMAL(5,2) NULL,
     remember_token VARCHAR(100) NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

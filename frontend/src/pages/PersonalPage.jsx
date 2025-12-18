@@ -1,12 +1,55 @@
 import { useState, useEffect } from 'react';
-import { Container, Card, Alert, Spinner, ListGroup, Badge } from 'react-bootstrap';
+import { Container, Card, Alert, Spinner, ListGroup, Badge, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import PetModal from '../components/PetModal/PetModal';
+import { apiPost } from '../services/api';
 
 const PersonalPage = () => {
-    const { user, loading } = useAuth();
+    const { user, loading, refreshUser } = useAuth();
     const [examinations, setExaminations] = useState([]);
+    const [showPetModal, setShowPetModal] = useState(false);
     const navigate = useNavigate();
+
+    const handlePetSuccess = async () => {
+        await refreshUser();
+        setShowPetModal(false);
+    };
+
+    const removePetInfo = async () => {
+        if (window.confirm('Вы уверены, что хотите удалить данные питомца?')) {
+            try {
+                await apiPost('/api/auth/update-pet', {
+                    pet_name: null,
+                    pet_type: null,
+                    pet_birthday: null,
+                    pet_weight: null
+                });
+                
+                await refreshUser();
+                
+            } catch (error) {
+                console.error('Ошибка удаления:', error);
+                alert('Ошибка при удалении данных питомца');
+            }
+        }
+    };
+
+    const formatPhone = (phone) => {
+        if (!phone) return 'Не указан';
+
+        if (phone.includes('(')) return phone;
+
+        const numbers = phone.replace(/\D/g, '');
+        if (numbers.length !== 11) return phone;
+
+        return `+7 (${numbers.substring(1, 4)}) ${numbers.substring(4, 7)}-${numbers.substring(7, 9)}-${numbers.substring(9, 11)}`;
+    };
+
+    const formatDate = (dateString) => {
+        if (!dateString) return '';
+        return new Date(dateString).toLocaleDateString('ru-RU');
+    };
 
     const getTestExaminations = (userId) => {
         const testData = {
@@ -102,15 +145,6 @@ const PersonalPage = () => {
         }
     };
 
-    if (loading) {
-        return (
-            <Container className="mt-5 text-center">
-                <Spinner animation="border" variant="success" />
-                <p className="mt-3">Загрузка данных...</p>
-            </Container>
-        );
-    }
-
     return (
         <Container className="mt-4 mb-5">
             <h1 className="mb-4 text-success">Личный кабинет</h1>
@@ -123,18 +157,56 @@ const PersonalPage = () => {
                     <div className="row">
                         <div className="col-md-6">
                             <h6 className="border-bottom pb-2">Данные владельца:</h6>
-                            <p><strong>Имя:</strong> {user.first_name} {user.last_name}</p>
+                            <p><strong>Имя:</strong> {user.first_name}</p>
+                            {user.last_name && <p><strong>Фамилия:</strong> {user.last_name}</p>}
                             <p><strong>Email:</strong> {user.email}</p>
-                            <p><strong>Телефон:</strong> {user.phone}</p>
-                            <p><strong>Дата регистрации:</strong> {new Date(user.created_at).toLocaleDateString('ru-RU')}</p>
+                            <p><strong>Телефон:</strong> {formatPhone(user.phone)}</p>
+                            <p><strong>Дата регистрации:</strong> {formatDate(user.created_at)}</p>
                         </div>
                         <div className="col-md-6">
-                            <h6 className="border-bottom pb-2">Данные питомца:</h6>
-                            {user.pet_name && <p><strong>Имя питомца:</strong> {user.pet_name}</p>}
-                            {user.pet_type && <p><strong>Вид животного:</strong> {user.pet_type}</p>}
-                            {!user.pet_name && !user.pet_type && (
+                            <h6 className="border-bottom pb-2 d-flex justify-content-between align-items-center">
+                                <span>Данные питомца:</span>
+                                {user.pet_name && user.pet_type && (
+                                    <Button
+                                        variant="outline-success"
+                                        size="sm"
+                                        onClick={() => setShowPetModal(true)}
+                                    >
+                                        Изменить
+                                    </Button>
+                                )}
+                            </h6>
+                            {user.pet_name && user.pet_type ? (
+                                <>
+                                    <p><strong>Имя питомца:</strong> {user.pet_name}</p>
+                                    <p><strong>Вид животного:</strong> {user.pet_type}</p>
+                                    {user.pet_birthday && (
+                                        <p><strong>Дата рождения:</strong> {formatDate(user.pet_birthday)}</p>
+                                    )}
+                                    {user.pet_weight && (
+                                        <p><strong>Вес:</strong> {user.pet_weight} кг</p>
+                                    )}
+                                    <Button
+                                        variant="outline-danger"
+                                        size="sm"
+                                        className="mt-2"
+                                        onClick={removePetInfo}
+                                    >
+                                        Удалить данные питомца
+                                    </Button>
+                                </>
+                            ) : (
                                 <Alert variant="secondary" className="mt-2">
-                                    <small>Информация о питомце не указана.</small>
+                                    <div className="d-flex align-items-center justify-content-between">
+                                        <small>Информация о питомце не указана.</small>
+                                        <Button
+                                            variant="success"
+                                            size="sm"
+                                            onClick={() => setShowPetModal(true)}
+                                        >
+                                            Добавить
+                                        </Button>
+                                    </div>
                                 </Alert>
                             )}
                         </div>
@@ -204,6 +276,13 @@ const PersonalPage = () => {
                     )}
                 </Card.Body>
             </Card>
+
+            <PetModal
+                show={showPetModal}
+                onHide={() => setShowPetModal(false)}
+                user={user}
+                onSuccess={handlePetSuccess}
+            />
         </Container>
     );
 };

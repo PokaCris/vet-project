@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -18,6 +19,8 @@ class User extends Authenticatable
         'password',
         'pet_name',
         'pet_type',
+        'pet_birthday',
+        'pet_weight',
     ];
 
     protected $hidden = [
