@@ -1,10 +1,10 @@
 backend/vendor
 backend/.env
+/bootstrap/cache/
 backend/storage/logs/
-backend/storage/framework/views/
+backend/storage/framework/
 
 frontend/node_modules
 frontend/public
-frontend/public/index.html
 
 package-lock.json
