@@ -14,7 +14,7 @@ function Footer() {
             <Container>
                 <Row>
                     <Col md={5}>
-                        <h4 className="text-uppercase">Мой Сайт</h4>
+                        <h4 className="text-uppercase">VetClinic</h4>
                         <ul className="list-unstyled">
                             <li className="mb-2">Забота о ваших питомцах - наша главная цель.</li>
                             <li className="mb-1"><FontAwesomeIcon icon={faPhone} /> 8-800-999-88-77</li>
@@ -23,11 +23,12 @@ function Footer() {
                         </ul>
                     </Col>
                     <Col md={3}>
-                        <h4 className="text-uppercase">Основное</h4>
+                        <h4 className="text-uppercase">Навигация</h4>
                         <ul className="list-unstyled">
-                            <li><Link to="/page1">Страница 1</Link></li>
-                            <li><Link to="/page2">Страница 2</Link></li>
-                            <li><Link to="/page3">Страница 3</Link></li>
+                            <li><Link to="/services">Услуги</Link></li>
+                            <li><Link to="/price-clinic">Цены</Link></li>
+                            <li><Link to="/doctors">Врачи</Link></li>
+                            <li><Link to="/contacts">Контакты</Link></li>
                         </ul>
                         <div className="my-3">
                             <a href="#" className='me-1'><FontAwesomeIcon icon={faFacebook} size="lg" /></a>
@@ -37,7 +38,7 @@ function Footer() {
                         </div>
                     </Col>
                     <Col md={4}>
-                        <h4 className="text-uppercase">Интересное</h4>
+                        <h4 className="text-uppercase">Статьи</h4>
                         <ul className="list-unstyled">
                             <li>
                                 <a href="#" className="d-flex align-items-center mb-2">
@@ -68,8 +69,8 @@ function Footer() {
                 </Row>
             </Container>
 
-            <div className="footer-copyright bg-dark text-light text-center py-1">
-                <p>&copy; {new Date().getFullYear()} Мой сайт</p>
+            <div className="footer-copyright text-light text-center py-1">
+                <p>&copy; {new Date().getFullYear()} Все права защищены</p>
             </div>
         </footer>
     );

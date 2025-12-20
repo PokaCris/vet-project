@@ -1,0 +1,111 @@
+.header-info {
+    background: #abd2cc !important;
+}
+
+.btn-edit {
+    background-color: #fff !important;
+    border: 1px solid #339886 !important;
+    color: #000000;
+}
+
+.btn-edit:hover,
+.btn-edit:active {
+    background-color: #339886 !important;
+    border: 1px solid #339886 !important;
+    color: #ffffff;
+}
+
+.btn-delete {
+    background-color: #fff !important;
+    border: 1px solid #983333 !important;
+    color: #000000;
+}
+
+.btn-delete:hover,
+.btn-delete:active {
+    background-color: #983333 !important;
+    border: 1px solid #983333 !important;
+    color: #ffffff;
+}
+
+.btn-add-another {
+    background-color: #fff !important;
+    border: 1px solid #339886 !important;
+    color: #000000;
+}
+
+.btn-add-another:hover,
+.btn-add-another:active {
+    background-color: #339886 !important;
+    border: 1px solid #339886 !important;
+    color: #ffffff;
+}
+
+.pet-card {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #dee2e6 !important;
+}
+
+.pet-card:last-child {
+    border-bottom: none !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.pet-name {
+    color: #339886;
+    font-weight: 600;
+}
+
+.pet-info {
+    padding-right: 1rem;
+}
+
+.pet-buttons {
+    min-width: 60px;
+}
+
+.pet-buttons .btn {
+    width: 100%;
+}
+
+.btn-outline-info {
+    color: #339886 !important;
+    border-color: #339886 !important;
+}
+
+.btn-outline-info:hover {
+    background-color: #339886 !important;
+    color: white !important;
+}
+
+.btn-info {
+    background-color: #339886;
+    border-color: #339886;
+}
+
+.btn-info:hover {
+    background-color: #2a7c6d;
+    border-color: #2a7c6d;
+}
+
+@media (max-width: 768px) {
+    .pet-card .row {
+        flex-direction: column;
+    }
+    
+    .pet-card .col-8, 
+    .pet-card .col-4 {
+        width: 100% !important;
+    }
+    
+    .pet-buttons {
+        flex-direction: row !important;
+        margin-top: 1rem;
+        gap: 0.5rem;
+    }
+    
+    .pet-info {
+        padding-right: 0;
+    }
+}

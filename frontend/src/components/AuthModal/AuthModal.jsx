@@ -53,6 +53,14 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
         setApiError('');
     };
 
+    const formatName = (value) => {
+        if (!value) return '';
+        return value.trim().replace(/\s+/g, ' ')
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ');
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
 
@@ -61,7 +69,11 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
             return;
         }
 
-        setFormData(prev => ({ ...prev, [name]: value }));
+        const formattedValue = (name === 'first_name' || name === 'last_name')
+            ? formatName(value)
+            : value;
+
+        setFormData(prev => ({ ...prev, [name]: formattedValue }));
         if (errors[name]) {
             setErrors(prev => ({ ...prev, [name]: '' }));
         }
@@ -239,7 +251,7 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
                                 />
                             </Form.Group>
 
-                            <Form.Group className="mb-4">
+                            <Form.Group className="mb-3">
                                 <Form.Check
                                     type="checkbox"
                                     name="agreed_to_privacy"
@@ -255,22 +267,17 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
                                     onChange={handleChange}
                                     disabled={isSubmitting}
                                     className='form-check-input-custom'
+                                    isValid
                                 />
                             </Form.Group>
                         </>
-                    )}
-
-                    {!isLogin && (
-                        <Form.Group className="mb-4 pt-1 border-top">
-                            <p className="star">* - обязательное поле для заполнения</p>
-                        </Form.Group>
                     )}
 
                     <Button
                         variant="success"
                         type="submit"
                         disabled={isSubmitting}
-                        className="d-block w-50 mx-auto btn-success"
+                        className="d-block w-50 mx-auto my-3 btn-success"
                     >
                         {isSubmitting ? (
                             <>
@@ -281,6 +288,11 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
                             isLogin ? 'Войти' : 'Зарегистрироваться'
                         )}
                     </Button>
+
+                    <Form.Group className="mb-0 pt-1 border-top mt-3">
+                        <p className="star">* - обязательное поле для заполнения</p>
+                    </Form.Group>
+
                 </Form>
             </Modal.Body>
         </Modal>

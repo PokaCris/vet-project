@@ -1,53 +1,76 @@
 import { useState, useEffect } from 'react';
 import { Modal, Button, Form, Alert, Spinner } from 'react-bootstrap';
-import { apiPost } from '../../services/api';
+import { apiPost, apiPut } from '../../services/api';
 
-const PetModal = ({ show, onHide, user, onSuccess }) => {
+import './PetModal.css';
+
+const PetModal = ({ show, onHide, pet = null, onSuccess }) => {
     const [petData, setPetData] = useState({
-        pet_name: '',
-        pet_type: '',
-        pet_birthday: '',
-        pet_weight: ''
+        name: '',
+        type: '',
+        birthday: '',
+        weight: ''
     });
-    const [isSavingPet, setIsSavingPet] = useState(false);
-    const [petError, setPetError] = useState('');
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState('');
+
+    const formatName = (value) => {
+        if (!value) return '';
+        return value.trim().replace(/\s+/g, ' ')
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ');
+    };
+
+    const handleNameChange = (e) => {
+        const { value } = e.target;
+        setPetData(prev => ({ ...prev, name: formatName(value) }));
+    };
 
     useEffect(() => {
-        if (show && user) {
-            setPetData({
-                pet_name: user.pet_name || '',
-                pet_type: user.pet_type || '',
-                pet_birthday: user.pet_birthday ? user.pet_birthday.split('T')[0] : '',
-                pet_weight: user.pet_weight || ''
-            });
+        if (show) {
+            if (pet) {
+                setPetData({
+                    name: pet.name || '',
+                    type: pet.type || '',
+                    birthday: pet.birthday ? pet.birthday.split('T')[0] : '',
+                    weight: pet.weight || ''
+                });
+            } else {
+                setPetData({
+                    name: '',
+                    type: '',
+                    birthday: '',
+                    weight: ''
+                });
+            }
+            setError('');
         }
-    }, [show, user]);
+    }, [show, pet]);
 
     const handleSubmit = async () => {
-        if (!petData.pet_name.trim() || !petData.pet_type.trim()) {
-            setPetError('Заполните обязательные поля: кличка и вид животного');
+        if (!petData.name.trim() || !petData.type.trim()) {
+            setError('Заполните обязательные поля: кличка и вид животного');
             return;
         }
 
-        setIsSavingPet(true);
-        setPetError('');
+        setIsSaving(true);
+        setError('');
 
         try {
-            const result = await apiPost('/api/auth/update-pet', {
-                pet_name: petData.pet_name,
-                pet_type: petData.pet_type,
-                pet_birthday: petData.pet_birthday || null,
-                pet_weight: petData.pet_weight || null
-            });
+            if (pet) {
+                await apiPut(`/api/auth/pets/${pet.id}`, petData);
+            } else {
+                await apiPost('/api/auth/pets', petData);
+            }
 
-            onSuccess(result);
-            onHide();
-            setPetData({ pet_name: '', pet_type: '', pet_birthday: '', pet_weight: '' });
-            
+            onSuccess();
+
         } catch (error) {
-            setPetError(error.message || 'Ошибка сохранения');
+            console.error('Ошибка сохранения:', error);
+            setError(error.message || 'Ошибка при сохранении данных питомца');
         } finally {
-            setIsSavingPet(false);
+            setIsSaving(false);
         }
     };
 
@@ -55,30 +78,32 @@ const PetModal = ({ show, onHide, user, onSuccess }) => {
         <Modal show={show} onHide={onHide} centered>
             <Modal.Header closeButton>
                 <Modal.Title>
-                    {user?.pet_name ? 'Редактировать данные питомца' : 'Добавить данные питомца'}
+                    {pet ? 'Редактировать данные питомца' : 'Добавить данные питомца'}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                {petError && <Alert variant="danger">{petError}</Alert>}
+                {error && <Alert variant="danger">{error}</Alert>}
 
                 <Form>
                     <Form.Group className="mb-3">
                         <Form.Label>Кличка питомца *</Form.Label>
                         <Form.Control
                             type="text"
-                            value={petData.pet_name}
-                            onChange={(e) => setPetData(prev => ({ ...prev, pet_name: e.target.value }))}
+                            value={petData.name}
+                            onChange={handleNameChange} 
                             placeholder="Введите кличку питомца"
-                            disabled={isSavingPet}
+                            disabled={isSaving}
+                            className="input-field"
                         />
                     </Form.Group>
 
                     <Form.Group className="mb-3">
                         <Form.Label>Вид животного *</Form.Label>
                         <Form.Select
-                            value={petData.pet_type}
-                            onChange={(e) => setPetData(prev => ({ ...prev, pet_type: e.target.value }))}
-                            disabled={isSavingPet}
+                            value={petData.type}
+                            onChange={(e) => setPetData(prev => ({ ...prev, type: e.target.value }))}
+                            disabled={isSaving}
+                            className="input-field"
                         >
                             <option value="">Выберите вид животного</option>
                             <option value="Собака">Собака</option>
@@ -94,13 +119,11 @@ const PetModal = ({ show, onHide, user, onSuccess }) => {
                         <Form.Label>Дата рождения</Form.Label>
                         <Form.Control
                             type="date"
-                            value={petData.pet_birthday}
-                            onChange={(e) => setPetData(prev => ({ ...prev, pet_birthday: e.target.value }))}
-                            disabled={isSavingPet}
+                            value={petData.birthday}
+                            onChange={(e) => setPetData(prev => ({ ...prev, birthday: e.target.value }))}
+                            disabled={isSaving}
+                            className="input-field"
                         />
-                        <Form.Text className="text-muted">
-                            Необязательное поле
-                        </Form.Text>
                     </Form.Group>
 
                     <Form.Group className="mb-4">
@@ -110,32 +133,31 @@ const PetModal = ({ show, onHide, user, onSuccess }) => {
                             step="0.1"
                             min="0"
                             max="999"
-                            value={petData.pet_weight}
-                            onChange={(e) => setPetData(prev => ({ ...prev, pet_weight: e.target.value }))}
+                            value={petData.weight}
+                            onChange={(e) => setPetData(prev => ({ ...prev, weight: e.target.value }))}
                             placeholder="0.0"
-                            disabled={isSavingPet}
+                            disabled={isSaving}
+                            className="input-field"
                         />
-                        <Form.Text className="text-muted">
-                            Необязательное поле
-                        </Form.Text>
                     </Form.Group>
+
+                    <Button variant="success" className="d-block w-50 mx-auto my-3 btn-success" onClick={handleSubmit} disabled={isSaving}>
+                        {isSaving ? (
+                            <>
+                                <Spinner size="sm" className="me-2" />
+                                Сохранение...
+                            </>
+                        ) : (
+                            pet ? 'Сохранить' : 'Добавить'
+                        )}
+                    </Button>
+
+                    <Form.Group className="mb-4 pt-1 border-top">
+                        <p className="star">* - обязательное поле для заполнения</p>
+                    </Form.Group>
+
                 </Form>
             </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={onHide} disabled={isSavingPet}>
-                    Отмена
-                </Button>
-                <Button variant="success" onClick={handleSubmit} disabled={isSavingPet}>
-                    {isSavingPet ? (
-                        <>
-                            <Spinner size="sm" className="me-2" />
-                            Сохранение...
-                        </>
-                    ) : (
-                        'Сохранить'
-                    )}
-                </Button>
-            </Modal.Footer>
         </Modal>
     );
 };

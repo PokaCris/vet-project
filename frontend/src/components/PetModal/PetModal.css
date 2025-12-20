@@ -1,0 +1,134 @@
+.modal-content {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    border-bottom: 2px solid #339886;
+    padding: 1rem 1.5rem;
+}
+
+.modal-title {
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    border-top: 1px solid #dee2e6;
+    padding: 1rem 1.5rem;
+}
+
+.input-field {
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    transition: all 0.2s;
+}
+
+.input-field:focus {
+    border-color: #339886 !important;
+    box-shadow: 0 0 0 0.25rem rgba(51, 152, 134, 0.25) !important;
+}
+
+.form-select {
+    background-color: white;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23339' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+}
+
+.form-select option:hover,
+.form-select option:focus {
+    background-color: #339886 !important;
+    color: white !important;
+}
+
+.form-select:focus option:checked,
+.form-select option:checked {
+    background-color: #339886 !important;
+    color: white !important;
+}
+
+.form-select option:checked {
+    background-color: #339886 !important;
+    color: white !important;
+}
+
+@media (hover: hover) {
+    .form-select option:hover {
+        background-color: #339886 !important;
+        color: white !important;
+    }
+}
+
+.btn-success {
+    background-color: #339886;
+    border-color: #339886;
+    border-radius: 6px;
+    padding: 0.5rem 1.5rem;
+}
+
+.btn-success:hover {
+    background-color: #2a7c6e;
+    border-color: #2a7c6e;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    border-radius: 6px;
+    padding: 0.5rem 1.5rem;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+.star {
+    font-size: 12px;
+    color: #6c757d;
+    margin: 0;
+    padding-top: 0.5rem;
+}
+
+.form-label {
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.form-text.text-muted {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    filter: invert(0.5);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    filter: invert(0.3);
+}
+
+@media (max-width: 576px) {
+    .modal-dialog {
+        margin: 0.5rem;
+    }
+    
+    .modal-footer {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .modal-footer .btn {
+        width: 100%;
+    }
+}

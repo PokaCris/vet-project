@@ -81,3 +81,14 @@ export async function apiPost(url, data) {
 export async function apiGet(url) {
     return api(url, { method: "GET" });
 }
+
+export async function apiPut(url, data) {
+    return api(url, {
+        method: "PUT",
+        body: JSON.stringify(data)
+    });
+}
+
+export async function apiDelete(url) {
+    return api(url, { method: "DELETE" });
+}

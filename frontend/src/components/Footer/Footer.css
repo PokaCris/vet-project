@@ -11,6 +11,10 @@
     object-fit: cover;
 }
 
+.footer-copyright {
+    background-color: #5e5e5e !important;
+}
+
 .footer-copyright p {
     font-size: 14px;
     margin-bottom: 0;
