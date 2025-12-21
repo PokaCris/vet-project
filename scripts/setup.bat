@@ -69,19 +69,19 @@ echo Application key generated!
 
 echo.
 echo 8. Creating sessions table...
-docker exec laravel php artisan session:table
-docker exec laravel php artisan migrate --path=database/migrations/*_create_sessions_table.php
-echo Sessions table created!
+docker-compose exec php-fpm php artisan session:table --force 2>nul
+docker-compose exec php-fpm php artisan migrate --path=database/migrations/*_create_sessions_table.php --force 2>nul
+echo Sessions table ready!
 
 echo.
 echo 9. Running database migrations...
-docker exec laravel php artisan migrate --force
+docker-compose exec php-fpm php artisan migrate --force 2>nul
 echo Database migrations completed!
 
 echo.
 echo 10. Seeding database with test data...
-docker exec laravel php artisan db:seed --force
-echo Test data added!
+docker-compose exec php-fpm php artisan db:seed --force 2>nul
+echo Test data refreshed!
 
 echo.
 echo ========================================
