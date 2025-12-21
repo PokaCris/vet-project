@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaw } from '@fortawesome/free-solid-svg-icons';
 
 import AppointmentModal from '../AppointmentModal/AppointmentModal';
-
 import main1 from '../../assets/main_img/main.jpg';
 import main2 from '../../assets/main_img/main2.jpg';
 import main3 from '../../assets/main_img/main3.jpg';

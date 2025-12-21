@@ -6,10 +6,11 @@ import Footer from './components/Footer/Footer';
 import Main from './pages/Main';
 import Services from './pages/Services';
 import Doctors from './pages/Doctors';
+import DoctorInfo from './pages/DoctorInfo/DoctorInfo';
 import Contacts from './pages/Contacts';
 import PriceClinic from './pages/PriceClinic';
-// import About from './pages/About';
-// import Articles from './pages/Articles';
+import About from './pages/About';
+import Articles from './pages/Articles';
 import PersonalPage from './pages/PersonalPage';
 
 // AllServices
@@ -47,7 +48,11 @@ function App() {
           <Route path="/services" element={<Services />} />
           <Route path="/price-clinic" element={<PriceClinic />} />
           <Route path="/doctors" element={<Doctors />} />
+          <Route path="/doctor/:id" element={<DoctorInfo />} />
           <Route path="/contacts" element={<Contacts />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/articles" element={<Articles />} />
+
           <Route path="/personal-page" element={<PersonalPage />} />
 
           <Route path="/services/therapy" element={<TherapyDetails />} />

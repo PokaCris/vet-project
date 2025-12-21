@@ -1,0 +1,229 @@
+.articles-page-container {
+    margin-top: 20px;
+    margin-bottom: 60px;
+}
+
+.articles-title {
+    color: #2c3e50;
+    font-weight: 700;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+}
+
+.articles-intro {
+    color: #4a5568;
+    line-height: 1.6;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.articles-counter {
+    color: #339886;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-align: right;
+}
+
+.articles-square-image-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
+}
+
+.articles-square-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.articles-square-image:hover {
+    transform: scale(1.1);
+}
+
+.articles-content {
+    padding-left: 30px;
+}
+
+.articles-item-title {
+    color: #339886;
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.articles-item-text {
+    color: #4a5568;
+    line-height: 1.6;
+    font-size: 1.05rem;
+    margin-bottom: 20px;
+}
+
+.articles-btn-more {
+    background-color: #fff;
+    border-color: #339886;
+    color: #339886;
+    font-weight: 600;
+    padding: 10px 25px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.articles-btn-more:hover {
+    background-color: #339886;
+    border-color: #339886;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(51, 152, 134, 0.3);
+}
+
+.articles-btn-more:focus {
+    box-shadow: 0 0 0 0.25rem rgba(51, 152, 134, 0.25);
+}
+
+.articles-collapse-content {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    color: #4a5568;
+    line-height: 1.6;
+}
+
+.articles-collapse-content h4,
+.articles-collapse-content h5 {
+    color: #2c3e50;
+    font-weight: 600;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.articles-collapse-content ul,
+.articles-collapse-content ol {
+    padding-left: 20px;
+    margin-bottom: 15px;
+}
+
+.articles-collapse-content li {
+    margin-bottom: 5px;
+}
+
+.articles-collapse-content .alert {
+    border-radius: 8px;
+    border: none;
+}
+
+.articles-pagination {
+    justify-content: center;
+}
+
+.articles-pagination .page-link {
+    color: #339886;
+    border: 1px solid #dee2e6;
+    margin: 0 3px;
+    border-radius: 5px;
+}
+
+.articles-pagination .page-item.active .page-link {
+    background-color: #339886;
+    border-color: #339886;
+    color: #fff;
+}
+
+.articles-pagination .page-link:hover {
+    background-color: #e8f4f3;
+    border-color: #339886;
+    color: #339886;
+}
+
+.articles-pagination .page-item.disabled .page-link {
+    color: #6c757d;
+    background-color: #f8f9fa;
+}
+
+.articles-info {
+    background-color: #e8f4f3;
+    border: 1px solid #b2dfd8;
+    border-radius: 10px;
+}
+
+.articles-info-title {
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+.form-control.py-3 {
+    border-color: #dee2e6;
+    border-radius: 8px;
+}
+
+.form-control.py-3:focus {
+    border-color: #339886;
+    box-shadow: 0 0 0 0.25rem rgba(51, 152, 134, 0.25);
+}
+
+.text-muted {
+    color: #6c757d !important;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .articles-title {
+        font-size: 1.8rem;
+    }
+    
+    .articles-item-title {
+        font-size: 1.3rem;
+    }
+    
+    .articles-content {
+        padding-left: 0;
+        padding-top: 20px;
+        text-align: center;
+    }
+    
+    .articles-square-image-container {
+        width: 80%;
+        margin: 0 auto;
+    }
+    
+    .articles-collapse-content {
+        padding: 20px !important;
+    }
+    
+    .articles-pagination {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .articles-counter {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    
+    .d-flex.justify-content-end {
+        justify-content: center !important;
+    }
+    
+    .form-control.py-3 {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .articles-square-image-container {
+        width: 100%;
+    }
+    
+    .articles-pagination .page-link {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+}

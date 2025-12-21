@@ -1,0 +1,129 @@
+.doctor-info-page-container {
+    margin-top: 20px;
+    margin-bottom: 60px;
+}
+
+.doctor-info-title {
+    color: #2c3e50;
+    font-weight: 700;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+}
+
+.doctor-info-image-container {
+    background: none;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.doctor-info-image {
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.doctor-info-image:hover {
+    transform: scale(1.02);
+}
+
+.doctor-info-specialties {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.doctor-info-specialty {
+    background-color: #e8f4f3;
+    color: #339886;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.doctor-info-experience {
+    font-size: 1.1rem;
+    color: #4a5568;
+}
+
+.doctor-info-description {
+    color: #4a5568;
+    line-height: 1.7;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.doctor-info-section-title {
+    color: #339886;
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #339886;
+}
+
+.doctor-info-text {
+    color: #4a5568;
+    line-height: 1.6;
+    font-size: 1.05rem;
+    margin-bottom: 15px;
+}
+
+.doctor-info-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.doctor-info-list li {
+    padding: 10px 0;
+    border-bottom: 1px dashed #dee2e6;
+    position: relative;
+    padding-left: 30px;
+    color: #4a5568;
+    line-height: 1.5;
+}
+
+.doctor-info-list li:before {
+    content: "✓";
+    color: #339886;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: 10px;
+    font-size: 1.2rem;
+}
+
+.doctor-info-summary {
+    background-color: #f8f9fa !important;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 10px !important;
+    margin-top: 30px;
+}
+
+.doctor-info-summary-title {
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+@media (max-width: 768px) {
+    .doctor-info-title {
+        font-size: 1.8rem;
+        text-align: center;
+    }
+    
+    .doctor-info-section-title {
+        font-size: 1.3rem;
+    }
+    
+    .doctor-info-description,
+    .doctor-info-text {
+        font-size: 1rem;
+    }
+    
+    .doctor-info-specialties {
+        justify-content: center;
+    }
+}

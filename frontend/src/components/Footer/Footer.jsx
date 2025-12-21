@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
-import placeholderImage from '../../assets/example.jpg';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhone, faEnvelope, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { faFacebook, faWhatsapp, faTelegram, faTwitter } from '@fortawesome/free-brands-svg-icons';
 
+import placeholderImage from '../../assets/footer/example.jpg';
 import './Footer.css';
 
 

@@ -6,7 +6,7 @@ import { faLocationDot, faClock, faCircleUser, faArrowRightFromBracket } from '@
 
 import { useAuth } from '../../context/AuthContext';
 import AuthModal from '../AuthModal/AuthModal';
-import logo from '../../assets/logo.jpg';
+import logo from '../../assets/header/logo.jpg';
 import './Header.css';
 
 function Header() {
