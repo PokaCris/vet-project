@@ -2,6 +2,20 @@
 
 Для развертывания выполните
 
+Автоматическкую установку
+- для windows:
+```cmd
+scripts\setup.bat
+```
+
+- Для linux/mac:
+```bash
+chmod +x scripts/setup.sh
+./scripts/setup.sh
+```
+
+или выполните вручную следующие пункты:
+
 1. Соберите статику:
 ```bash
     cd frontend
@@ -9,37 +23,29 @@
     npm run build
 ```
 
-- Для linux/mac:
- Создайте папку `public` и убедитесь в доступности редактирования
-
-```bash
-    mkdir public
-    chmod 755 public
-```
-
 2. Создайте .env фаил
 
 - для windows:
 ```cmd
 cd backend
-    (
-        echo APP_NAME=VetClinic
-        echo APP_ENV=local
-        echo APP_KEY=
-        echo APP_DEBUG=true
-        echo APP_URL=http://localhost:8000
-        echo.
-        echo DB_CONNECTION=mysql
-        echo DB_HOST=db
-        echo DB_PORT=3306
-        echo DB_DATABASE=vet_db
-        echo DB_USERNAME=vet_user
-        echo DB_PASSWORD=password
-        echo.
-        echo SESSION_DRIVER=database
-        echo SESSION_LIFETIME=120
-        echo SANCTUM_STATEFUL_DOMAINS=localhost:8000
-    ) > .env
+(
+    echo APP_NAME=VetClinic
+    echo APP_ENV=local
+    echo APP_KEY=
+    echo APP_DEBUG=true
+    echo APP_URL=http://localhost:8000
+    echo.
+    echo DB_CONNECTION=mysql
+    echo DB_HOST=db
+    echo DB_PORT=3306
+    echo DB_DATABASE=vet_db
+    echo DB_USERNAME=vet_user
+    echo DB_PASSWORD=password
+    echo.
+    echo SESSION_DRIVER=database
+    echo SESSION_LIFETIME=120
+    echo SANCTUM_STATEFUL_DOMAINS=localhost:8000
+) > .env
 ```
 
 - Для linux/mac:
@@ -89,20 +95,16 @@ cd backend
 
 - для windows:
 ```cmd
-scripts/windows/sessions.bat      # Создать таблицу сессий
-scripts/windows/migrate.bat       # Применить миграции
-scripts/windows/seed.bat          # Заполнить тестовыми данными
+scripts\windows\sessions.bat          # Создать таблицу сессий
+scripts\windows\migrateAndSeed.bat    # Применить миграции и заполнить тестовыми даннымиданными
 ```
 
 - Для linux/mac:
 ```bash
-   # Сделайте скрипты исполняемыми
-    chmod +x scripts/linux/*.sh
+    chmod +x scripts/linux/*.sh          # Сделайте скрипты исполняемыми
 
-    # Выполните скрипты
-    ./scripts/linux/sessions.sh
-    ./scripts/linux/migrate.sh
-    ./scripts/linux/seed.sh
+    ./scripts/linux/sessions.sh          # Создать таблицу сессий
+    ./scripts/linux/migrateAndSeed.sh    # Применить миграции и заполнить тестовыми данными
 ```
 
 6. Проверьте результат работы по адресу http://localhost:8000

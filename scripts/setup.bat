@@ -59,18 +59,28 @@ echo 6. Waiting 20 seconds for containers to start...
 timeout /t 20 /nobreak >nul
 
 echo.
-echo 7. Generating Laravel application key...
+echo 7. Clearing Laravel config cache...
+docker exec laravel php artisan config:clear 2>nul
+echo Config cache cleared!
+
+echo.
+echo 8. Generating Laravel application key...
 docker exec laravel php artisan key:generate --force
 echo Application key generated!
 
 echo.
-echo 8. Creating sessions table...
+echo 9. Restarting Laravel container...
+docker-compose restart laravel
+echo Laravel restarted!
+
+echo.
+echo 10. Creating sessions table...
 docker exec laravel php artisan session:table 2>nul
 docker exec laravel php artisan migrate --path=database/migrations/*_create_sessions_table.php --force 2>nul
 echo Sessions table created!
 
 echo.
-echo 9. Setting up database...
+echo 11. Setting up database...
 docker exec laravel php artisan migrate:fresh --force --seed 2>nul
 echo Database setup complete!
 
