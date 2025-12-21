@@ -39,6 +39,7 @@ echo.
 echo 3. Installing Laravel dependencies...
 cd backend
 call composer install
+call composer dump-autoload
 cd ..
 echo Laravel dependencies installed!
 
@@ -63,20 +64,9 @@ docker exec laravel php artisan key:generate --force
 echo Application key generated!
 
 echo.
-echo 8. Creating sessions table...
-docker exec laravel php artisan session:table --force 2>nul
-docker exec laravel php artisan migrate --path=database/migrations/*_create_sessions_table.php --force 2>nul
-echo Sessions table ready!
-
-echo.
-echo 9. Running database migrations...
-docker exec laravel php artisan migrate --force 2>nul
-echo Database migrations completed!
-
-echo.
-echo 10. Seeding database with test data...
-docker exec laravel php artisan db:seed --force 2>nul
-echo Test data added!
+echo 8. Setting up database...
+docker exec laravel php artisan migrate:fresh --force --seed 2>nul
+echo Database setup complete!
 
 echo.
 echo ========================================
