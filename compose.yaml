@@ -35,7 +35,7 @@ services:
       - mysql_data:/var/lib/mysql
       - ./.develop/database/:/docker-entrypoint-initdb.d
     ports:
-      - "3307:3306"
+      - "3308:3306"
     networks:
       - vet-network
 

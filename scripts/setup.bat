@@ -44,13 +44,8 @@ echo Laravel dependencies installed!
 
 echo.
 echo 4. Stopping and removing any conflicting containers...
-docker rm -f laravel 2>nul
-docker rm -f nginx 2>nul
-docker rm -f adminer 2>nul
-docker rm -f db 2>nul
-
+docker rm -f laravel nginx adminer db 2>nul
 docker-compose down 2>nul
-
 echo Conflicting containers removed!
 
 echo.
@@ -69,29 +64,26 @@ echo Application key generated!
 
 echo.
 echo 8. Creating sessions table...
-docker-compose exec php-fpm php artisan session:table --force 2>nul
-docker-compose exec php-fpm php artisan migrate --path=database/migrations/*_create_sessions_table.php --force 2>nul
+docker exec laravel php artisan session:table --force 2>nul
+docker exec laravel php artisan migrate --path=database/migrations/*_create_sessions_table.php --force 2>nul
 echo Sessions table ready!
 
 echo.
 echo 9. Running database migrations...
-docker-compose exec php-fpm php artisan migrate --force 2>nul
+docker exec laravel php artisan migrate --force 2>nul
 echo Database migrations completed!
 
 echo.
 echo 10. Seeding database with test data...
-docker-compose exec php-fpm php artisan db:seed --force 2>nul
-echo Test data refreshed!
+docker exec laravel php artisan db:seed --force 2>nul
+echo Test data added!
 
 echo.
 echo ========================================
 echo SETUP COMPLETED!
 echo.
-echo Open in browser:
-echo http://localhost:8000
-echo.
-echo Database admin:
-echo http://localhost:8080
+echo Open in browser: http://localhost:8000
+echo Database admin: http://localhost:8080
 echo.
 echo Test users:
 echo 1. ivanov@example.com / password123
