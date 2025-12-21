@@ -18,8 +18,8 @@
 ```
 
 2. Создайте .env фаил
-- для windows:
 
+- для windows:
 ```cmd
 cd backend
     (
@@ -73,32 +73,36 @@ cd backend
     composer dump-autoload
 ```
 
+- Для linux/mac:
 ```bash
    sudo chmod -R 777 storage/logs/
    sudo chmod -R 777 storage/framework/
 ```
 
-3. Примените миграции:
-- для linux/mac:
+4. Запустите Docker контейнеры:
 
 ```bash
-    source ./scripts/migrate.sh
-```
-
-- для windows:
-
-```cmd
-.\scripts\migrate.bat
-```
-
-3. Поднимите контейнеры:
-- для linux:
-```bash
-    make serve
-```
-- для windows
-```cmd
     docker compose up -d
 ```
 
-4. Проверьте результат работы по адресу [http://localhost:8000](http://localhost:8000)
+5. Настройте базу данных:
+
+- для windows:
+```cmd
+scripts/windows/sessions.bat      # Создать таблицу сессий
+scripts/windows/migrate.bat       # Применить миграции
+scripts/windows/seed.bat          # Заполнить тестовыми данными
+```
+
+- Для linux/mac:
+```bash
+   # Сделайте скрипты исполняемыми
+    chmod +x scripts/linux/*.sh
+
+    # Выполните скрипты
+    ./scripts/linux/sessions.sh
+    ./scripts/linux/migrate.sh
+    ./scripts/linux/seed.sh
+```
+
+6. Проверьте результат работы по адресу http://localhost:8000

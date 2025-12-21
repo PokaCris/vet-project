@@ -64,7 +64,13 @@ docker exec laravel php artisan key:generate --force
 echo Application key generated!
 
 echo.
-echo 8. Setting up database...
+echo 8. Creating sessions table...
+docker exec laravel php artisan session:table 2>nul
+docker exec laravel php artisan migrate --path=database/migrations/*_create_sessions_table.php --force 2>nul
+echo Sessions table created!
+
+echo.
+echo 9. Setting up database...
 docker exec laravel php artisan migrate:fresh --force --seed 2>nul
 echo Database setup complete!
 
