@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\MedicalExaminationController;
 use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
 
 // CSRF cookie
@@ -25,4 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/pets', [AuthController::class, 'addPet']);
     Route::put('/auth/pets/{id}', [AuthController::class, 'updatePet']);
     Route::delete('/auth/pets/{id}', [AuthController::class, 'deletePet']);
+
+    Route::get('/medical-examinations', [MedicalExaminationController::class, 'index']);
+    Route::get('/medical-examinations/{id}', [MedicalExaminationController::class, 'show']);
 });

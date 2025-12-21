@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Container, Breadcrumb, Card, Alert, Spinner, ListGroup, Badge, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { apiDelete } from '../../services/api';
+import { apiGet, apiDelete } from '../../services/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faCat, faDog, faDove, faOtter, faDragon, faFishFins } from '@fortawesome/free-solid-svg-icons';
 import PetModal from '../../components/PetModal/PetModal';
@@ -56,72 +56,29 @@ const PersonalPage = () => {
             .join(' ');
     };
 
-    const getTestExaminations = (userId) => {
-        const testData = {
-            1: [
-                {
-                    id: 1,
-                    date: '2024-12-10',
-                    doctor: 'Иванов Иван Иванович',
-                    diagnosis: 'Плановый осмотр',
-                    result: 'Животное здорово. Все показатели в норме. Рекомендовано контрольное посещение через 6 месяцев.',
-                    recommendations: 'Продолжать текущий режим питания и прогулок.',
-                    status: 'completed'
-                },
-                {
-                    id: 2,
-                    date: '2024-11-05',
-                    doctor: 'Петрова Анна Сергеевна',
-                    diagnosis: 'Повторный прием',
-                    result: 'Проведена комплексная вакцинация. Животное перенесло процедуру хорошо.',
-                    recommendations: 'Наблюдать за состоянием в течение 24 часов. Ограничить физические нагрузки на 2 дня.',
-                    status: 'completed'
-                },
-                {
-                    id: 3,
-                    date: '2024-10-15',
-                    doctor: 'Сидоров Петр Константинович',
-                    diagnosis: 'Консультация по питанию',
-                    result: 'Проведен анализ рациона. Выявлен избыток углеводов.',
-                    recommendations: 'Перейти на корм премиум-класса для собак старше 3 лет. Увеличить продолжительность прогулок.',
-                    status: 'completed'
-                }
-            ],
-            2: [
-                {
-                    id: 4,
-                    date: '2024-12-05',
-                    doctor: 'Петрова Анна Сергеевна',
-                    diagnosis: 'Первичный прием',
-                    result: 'Выявлена аллергия на определенные компоненты корма. Взяты пробы для анализа.',
-                    recommendations: 'Исключить курицу из рациона. Давать антигистаминные препараты 2 раза в день в течение недели.',
-                    status: 'completed'
-                },
-                {
-                    id: 5,
-                    date: '2024-11-20',
-                    doctor: 'Иванов Иван Иванович',
-                    diagnosis: 'Вакцинация',
-                    result: 'Операция проведена успешно. Швы в хорошем состоянии.',
-                    recommendations: 'Обрабатывать швы антисептиком 2 раза в день. Носить защитный воротник в течение 10 дней.',
-                    status: 'completed'
-                }
-            ]
-        };
-        return testData[userId] || [];
-    };
-
     useEffect(() => {
-        if (!loading && !user) {
-            navigate('/');
-            return;
-        }
+    if (!loading && !user) {
+        navigate('/');
+        return;
+    }
 
-        if (user) {
-            const userExaminations = getTestExaminations(user.id);
-            setExaminations(userExaminations);
-        }
-    }, [user, loading, navigate]);
+    if (user) {
+        console.log('Загружаем историю для пользователя:', user.id);
+        const fetchExaminations = async () => {
+            try {
+                const response = await apiGet('/api/medical-examinations');
+                console.log('Данные истории получены:', response);
+                
+                setExaminations(response.examinations || []);
+            } catch (error) {
+                console.error('Ошибка загрузки истории посещений:', error);
+                setExaminations([]);
+            }
+        };
+
+        fetchExaminations();
+    }
+}, [user, loading, navigate]);
 
     if (loading) {
         return (
@@ -323,10 +280,10 @@ const PersonalPage = () => {
                                                 <div>
                                                     <h5 className="mb-1">Услуга: {exam.diagnosis}</h5>
                                                     <small className="text-muted d-block">
-                                                        <strong>Дата:</strong> {exam.date}
+                                                        <strong>Дата:</strong> {formatDate(exam.examination_date)}
                                                     </small>
                                                     <small className="text-muted">
-                                                        <strong>Врач:</strong> {exam.doctor}
+                                                        <strong>Врач:</strong> {exam.doctor_name}
                                                     </small>
                                                 </div>
                                                 <div>

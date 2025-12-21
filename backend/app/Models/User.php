@@ -28,4 +28,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Pet::class);
     }
+
+    public function medicalExaminations(): HasMany
+    {
+        return $this->hasMany(MedicalExamination::class);
+    }
 }
