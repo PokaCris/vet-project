@@ -1,12 +1,10 @@
 @echo off
-REM Скрипт для применения миграции
-
-echo Applying database migrations...
-docker exec laravel php artisan migrate
+echo Выполнение миграций базы данных...
+docker exec laravel php artisan migrate --force
 
 if %errorLevel% equ 0 (
-    echo Migrations applied successfully!
+    echo Миграции успешно применены!
 ) else (
-    echo Failed to apply migrations!
+    echo Ошибка при выполнении миграций!
 )
 pause
