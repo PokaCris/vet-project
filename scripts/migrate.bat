@@ -1,10 +1,10 @@
 @echo off
-echo Выполнение миграций базы данных...
+echo Running database migrations...
 docker exec laravel php artisan migrate --force
 
 if %errorLevel% equ 0 (
-    echo Миграции успешно применены!
+    echo Migrations applied successfully!
 ) else (
-    echo Ошибка при выполнении миграций!
+    echo Error applying migrations!
 )
 pause

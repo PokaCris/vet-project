@@ -1,61 +1,18 @@
 @echo off
 echo ========================================
-echo Установка проекта VetClinic
+echo VetClinic Project Setup
 echo ========================================
 
 echo.
-echo 1. Проверка установленных пакетов...
-echo.
-echo 1.1 Проверка Node.js и npm...
-node --version >nul 2>&1
-if errorlevel 1 (
-    echo ОШИБКА: Node.js не установлен!
-    pause
-    exit /b 1
-)
-echo ✓ Node.js установлен
-
-npm --version >nul 2>&1
-if errorlevel 1 (
-    echo ОШИБКА: npm не установлен!
-    pause
-    exit /b 1
-)
-echo ✓ npm установлен
-
-echo.
-echo 1.2 Проверка Docker...
-docker --version >nul 2>&1
-if errorlevel 1 (
-    echo ОШИБКА: Docker не установлен!
-    pause
-    exit /b 1
-)
-echo ✓ Docker установлен
-
-echo.
-echo 2. Установка зависимостей фронтенда...
+echo 1. Installing frontend dependencies...
 cd frontend
 call npm install
-if errorlevel 1 (
-    echo ОШИБКА: Не удалось установить зависимости фронтенда
-    cd ..
-    pause
-    exit /b 1
-)
-
 call npm run build
-if errorlevel 1 (
-    echo ОШИБКА: Не удалось собрать фронтенд
-    cd ..
-    pause
-    exit /b 1
-)
 cd ..
-echo ✓ Фронтенд собран
+echo Frontend built successfully!
 
 echo.
-echo 3. Создание .env файла...
+echo 2. Creating .env file...
 if not exist "backend\.env" (
     (
         echo APP_NAME=VetClinic
@@ -75,60 +32,64 @@ if not exist "backend\.env" (
         echo SESSION_LIFETIME=120
         echo SANCTUM_STATEFUL_DOMAINS=localhost:8000
     ) > backend\.env
-    echo ✓ Файл .env создан
+    echo .env file created!
 )
 
 echo.
-echo 4. Установка зависимостей Laravel...
+echo 3. Installing Laravel dependencies...
 cd backend
 call composer install
 cd ..
-echo ✓ Зависимости Laravel установлены
+echo Laravel dependencies installed!
 
 echo.
-echo 5. Запуск Docker контейнеров...
+echo 4. Stopping existing containers...
+docker-compose down 2>nul
+echo Old containers stopped!
+
+echo.
+echo 5. Starting Docker containers...
 docker-compose up -d --build
-if errorlevel 1 (
-    echo ОШИБКА: Не удалось запустить контейнеры
-    pause
-    exit /b 1
-)
+echo Containers starting...
 
 echo.
-echo 6. Ожидание запуска контейнеров...
+echo 6. Waiting 20 seconds for containers to start...
 timeout /t 20 /nobreak >nul
 
 echo.
-echo 7. Настройка Laravel...
+echo 7. Generating Laravel application key...
 docker exec laravel php artisan key:generate --force
-echo ✓ Ключ приложения сгенерирован
+echo Application key generated!
 
 echo.
-echo 8. Создание таблицы сессий...
+echo 8. Creating sessions table...
 docker exec laravel php artisan session:table
 docker exec laravel php artisan migrate --path=database/migrations/*_create_sessions_table.php
-echo ✓ Таблица сессий создана
+echo Sessions table created!
 
 echo.
-echo 9. Выполнение миграций...
+echo 9. Running database migrations...
 docker exec laravel php artisan migrate --force
-echo ✓ Миграции выполнены
+echo Database migrations completed!
 
 echo.
-echo 10. Заполнение базы данных...
+echo 10. Seeding database with test data...
 docker exec laravel php artisan db:seed --force
-echo ✓ Тестовые данные добавлены
+echo Test data added!
 
 echo.
 echo ========================================
-echo УСТАНОВКА ЗАВЕРШЕНА!
+echo SETUP COMPLETED!
 echo.
-echo Приложение: http://localhost:8000
-echo База данных: http://localhost:8080
+echo Open in browser:
+echo http://localhost:8000
 echo.
-echo Тестовые пользователи:
+echo Database admin:
+echo http://localhost:8080
+echo.
+echo Test users:
 echo 1. ivanov@example.com / password123
-echo 2. petrova@example.com / password123  
+echo 2. petrova@example.com / password123
 echo 3. sidorov@example.com / password123
 echo ========================================
 pause

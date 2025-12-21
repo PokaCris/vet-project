@@ -1,10 +1,10 @@
 @echo off
-echo Заполнение базы данных тестовыми данными...
+echo Seeding database with test data...
 docker exec laravel php artisan db:seed --force
 
 if %errorLevel% equ 0 (
-    echo Тестовые данные успешно добавлены!
+    echo Test data added successfully!
 ) else (
-    echo Ошибка при заполнении базы данных!
+    echo Error seeding database!
 )
 pause
