@@ -34,16 +34,50 @@
     cursor: pointer;
 }
 
+.btn-style-serve {
+    transition: all 0.3s ease;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    font-weight: 600;
+    padding: 12px 30px;
+}
+
+.btn-style-serve.btn-light {
+    background-color: #fff;
+    color: #333;
+}
+
+.btn-style-serve.btn-light:hover {
+    background-color: #fff !important;
+    box-shadow: 0 0 15px 2px #a8a8a8;
+    transform: scale(1.05);
+    cursor: pointer;
+    border-color: #339886 !important;
+}
+
+.btn-style-serve.btn-light:active {
+    background-color: rgba(51, 152, 134, 0.4) !important;
+    border-color: rgba(51, 152, 134, 0.4) !important;
+}
+
 @media(max-width: 768px) {
     .service-card-main .card-body {
         min-height: 0;
     }
+
     .card-description {
         margin: 0;
         padding: 0;
         display: none;
     }
+
     .service-card-main .card-title {
         text-align: center;
+    }
+
+    .btn-success {
+        padding: 10px 20px;
+        font-size: 1rem;
     }
 }

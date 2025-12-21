@@ -6,7 +6,7 @@ echo ========================================
 echo.
 echo Creating sessions table...
 docker exec laravel php artisan session:table
-docker exec laravel php artisan migrate --path=database/migrations/*_create_sessions_table.php --force
+docker exec laravel php artisan migrate --force
 
 if %errorLevel% equ 0 (
     echo.

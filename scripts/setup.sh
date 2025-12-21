@@ -46,14 +46,14 @@ echo "Laravel dependencies installed!"
 
 echo
 echo "4. Setting permissions (Linux/Mac)..."
-sudo chmod -R 775 backend/storage/logs/
-sudo chmod -R 775 backend/storage/framework/
+sudo chmod -R 777 backend/storage/logs/
+sudo chmod -R 777 backend/storage/framework/
 echo "Permissions set!"
 
 echo
 echo "5. Stopping and removing any conflicting containers..."
-docker rm -f laravel nginx adminer db 2>/dev/null
 docker-compose down 2>/dev/null
+docker rm -f nginx laravel adminer db 2>/dev/null
 echo "Conflicting containers removed!"
 
 echo
@@ -77,14 +77,13 @@ echo "Application key generated!"
 
 echo
 echo "10. Restarting Laravel container..."
-docker-compose restart laravel
+docker restart laravel 2>/dev/null || docker-compose restart php-fpm 2>/dev/null
 echo "Laravel restarted!"
 
 echo
 echo "11. Creating sessions table..."
 docker exec laravel php artisan session:table 2>/dev/null
-docker exec laravel php artisan migrate --path=database/migrations/*_create_sessions_table.php --force 2>/dev/null
-echo "Sessions table created!"
+echo "Sessions migration created!"
 
 echo
 echo "12. Setting up database..."
@@ -103,5 +102,3 @@ echo "1. ivanov@example.com / password123"
 echo "2. petrova@example.com / password123"
 echo "3. sidorov@example.com / password123"
 echo "========================================"
-
-read -p "Press any key to continue..."

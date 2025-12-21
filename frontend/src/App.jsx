@@ -9,8 +9,8 @@ import Doctors from './pages/Doctors';
 import DoctorInfo from './pages/DoctorInfo/DoctorInfo';
 import Contacts from './pages/Contacts';
 import PriceClinic from './pages/PriceClinic';
-import About from './pages/About';
-import Articles from './pages/Articles';
+import About from './pages/AboutPage';
+import Articles from './components/Articles/Articles';
 import PersonalPage from './pages/PersonalPage';
 
 // AllServices

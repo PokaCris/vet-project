@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Container, Offcanvas, NavDropdown } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -24,7 +24,7 @@ function Header() {
 
     const handleAuthSuccess = (userData) => {
         setTimeout(() => {
-            window.location.href = '/personal-page';
+            navigate('/personal-page');
         }, 1000);
     };
 
@@ -38,7 +38,7 @@ function Header() {
 
     return (
         <>
-            <div className="pre-header text-center p-1 d-flex justify-content-around cursor-default">
+            <div className="pre-header text-light text-center p-1 d-flex justify-content-around cursor-default">
                 <span><FontAwesomeIcon icon={faLocationDot} /> г.Краснодар, ул.Центральная, д.10/4</span>
                 <span><FontAwesomeIcon icon={faClock} /> Режим работы с 8:00 до 20:00</span>
             </div>
@@ -92,7 +92,10 @@ function Header() {
                                             Профиль
                                         </NavDropdown.Item>
                                         <NavDropdown.Divider />
-                                        <NavDropdown.Item onClick={handleLogout}>
+                                        <NavDropdown.Item 
+                                            onClick={handleLogout}
+                                            className="logout-item"
+                                        >
                                             <FontAwesomeIcon icon={faArrowRightFromBracket} className="me-2" />
                                             Выйти
                                         </NavDropdown.Item>

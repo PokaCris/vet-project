@@ -7,7 +7,7 @@
     color: #339886;
 }
 
-.doctor-card {
+.main-doctor-card {
     max-width: 325px;
     width: 100%;
     height: 500px;
@@ -19,26 +19,29 @@
     flex-direction: column;
     padding: 20px;
     margin: 0 auto;
+    overflow: hidden;
 }
 
-.doctor-card:hover {
-    /* background-image: url("/frontend/src/assets/paws.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-color: rgba(234, 255, 235, 0.7);
-    background-blend-mode: overlay; */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+.main-doctor-card:hover {
+    background-image: linear-gradient(rgba(255, 247, 236, 0.5), rgba(197, 182, 159, 0.5)), url('../../assets/veterinars/paws.png');
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+    cursor: pointer;
+}
+
+.main-doctor-image {
+    height: 250px;
+    object-fit: cover;
+    border-radius: 12px 12px 0 0;
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.main-doctor-card:hover .main-doctor-image {
     transform: scale(1.05);
 }
 
-.doctor-image {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-    border-radius: 10px;
-}
-
-.card-content {
+.main-card-content {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -46,18 +49,85 @@
     align-items: center;
     text-align: center;
     width: 100%;
+    padding-top: 15px;
 }
 
-.more-btn {
+.doctor-name {
+    color: #333;
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.doctor-specialties {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+
+.doctor-experience {
+    color: #888;
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+.more-text-container {
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
     width: 100%;
-    height: 40px;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background-color 0.2s;
+    text-align: center;
 }
 
-.more-btn:hover {
-    background-color: #5a6268;
+.more-text {
+    color: #666;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-block;
+    position: relative;
+}
+
+.more-text::after {
+    content: '→';
+    margin-left: 5px;
+    transition: all 0.3s ease;
+    opacity: 0.7;
+}
+
+.main-doctor-card:hover .more-text {
+    color: #339886;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transform: translateY(-2px);
+}
+
+.main-doctor-card:hover .more-text::after {
+    margin-left: 8px;
+    opacity: 1;
+}
+
+.experience-badge-container {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 10;
+}
+
+.experience-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.main-doctor-card:hover .experience-badge {
+    background-color: #2a7c6e !important;
+    transform: scale(1.05);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
 }
 
 .type-doctors .arrow-button {
@@ -66,6 +136,13 @@
     padding: 15px;
     position: relative;
     z-index: 10;
+    transition: all 0.3s ease;
+    border-radius: 50%;
+}
+
+.type-doctors .arrow-button:hover {
+    background-color: rgba(51, 152, 134, 0.1);
+    transform: scale(1.1);
 }
 
 .type-doctors .arrow-image {
@@ -74,13 +151,53 @@
     height: auto;
 }
 
+.btn-style {
+    transition: all 0.3s ease;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    font-weight: 600;
+    padding: 12px 30px;
+    background-color: #fff;
+    color: #333;
+}
+
+.btn-style.btn-light:hover {
+    background-color: #fff;
+    box-shadow: 0 0 15px 2px #a8a8a8;
+    transform: scale(1.05);
+    cursor: pointer;
+    border-color: #339886;
+}
+
+.btn-style.btn-light:active {
+    background-color: rgba(51, 152, 134, 0.4) !important;
+    border-color: rgba(51, 152, 134, 0.4) !important;
+}
+
 @media(max-width: 768px) {
     .type-doctors .arrow-image {
-        width: 10px;
-        height: 10px;
+        width: 20px;
+        height: 20px;
     }
-
-    .doctor-card {
+    
+    .type-doctors .arrow-button {
+        padding: 10px;
+    }
+    
+    .main-doctor-card {
         max-width: 100%;
+        height: auto;
+        min-height: 450px;
+    }
+    
+    .main-doctor-image {
+        height: 200px;
+    }
+    
+    .btn-style {
+        padding: 10px 20px;
+        font-size: 1rem;
+        width: 100%;
     }
 }

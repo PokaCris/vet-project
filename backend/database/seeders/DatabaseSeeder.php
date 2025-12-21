@@ -13,7 +13,6 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Очищаем таблицы в правильном порядке (из-за foreign keys)
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         
         MedicalExamination::query()->delete();
@@ -22,7 +21,6 @@ class DatabaseSeeder extends Seeder
         
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
 
-        // Создаем 3 тестовых пользователя
         $users = [
             [
                 'email' => 'ivanov@example.com',
@@ -52,11 +50,9 @@ class DatabaseSeeder extends Seeder
 
         foreach ($users as $userData) {
             $user = User::create($userData);
-            
-            // Добавляем питомцев для каждого пользователя
+
             $this->createPetsForUser($user);
             
-            // Добавляем историю посещений
             $this->createExaminationsForUser($user);
         }
     }
@@ -152,7 +148,7 @@ class DatabaseSeeder extends Seeder
         } elseif ($user->email === 'petrova@example.com') {
             $examinations = [
                 [
-                    'pet_id' => $pets->first()->id, // Шарик
+                    'pet_id' => $pets->first()->id,
                     'examination_date' => '2024-12-05',
                     'doctor_name' => 'Петрова Анна Сергеевна',
                     'diagnosis' => 'Первичный прием',
@@ -161,7 +157,7 @@ class DatabaseSeeder extends Seeder
                     'status' => 'completed',
                 ],
                 [
-                    'pet_id' => $pets->get(1)->id, // Мурка
+                    'pet_id' => $pets->get(1)->id,
                     'examination_date' => '2024-11-20',
                     'doctor_name' => 'Иванов Иван Иванович',
                     'diagnosis' => 'Вакцинация',
@@ -171,7 +167,6 @@ class DatabaseSeeder extends Seeder
                 ],
             ];
         } else {
-            // Для третьего пользователя оставляем пустую историю (как у нового пользователя)
             $examinations = [];
         }
         

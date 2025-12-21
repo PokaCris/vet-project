@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { scroller } from 'react-scroll';
-import { Container, Card, Row, Col } from 'react-bootstrap';
+import { Container, Card, Row, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRubleSign } from '@fortawesome/free-solid-svg-icons';
+import { faRubleSign, faHandHoldingDollar } from '@fortawesome/free-solid-svg-icons';
+
 import therapy from "../../assets/services_img/therapy.jpg";
 import surgery from "../../assets/services_img/surgery.jpg";
 import dermatology from "../../assets/services_img/dermatology.jpg";
@@ -19,42 +20,42 @@ const cardData = [
         title: 'Терапия',
         text: 'Оказание общей медицинской помощи и лечение различных заболеваний.',
         image: therapy,
-        price: 'Первичный прием 1500',
+        price: 'Первичный прием от 1500',
         link: 'consultation'
     },
     {
         title: 'Хирургия',
         text: 'Проведение операций и хирургических вмешательств для лечения заболеваний.',
         image: surgery,
-        price: 'Первичный прием 1500',
+        price: 'Кастрация от 3500',
         link: 'surgery'
     },
     {
         title: 'Дерматология',
         text: 'Диагностика и лечение кожных заболеваний, волос и ногтей.',
         image: dermatology,
-        price: 'Первичный прием 1500',
+        price: 'Консультация от 1600',
         link: 'dermatology'
     },
     {
         title: 'Диагностика',
         text: 'Проведение различных диагностических процедур для выявления заболеваний.',
         image: diagnostics,
-        price: 'Первичный прием 1500',
+        price: 'УЗИ от 1700',
         link: 'diagnostics'
     },
     {
         title: 'Стоматология',
         text: 'Предоставление услуг по уходу за зубами и полостью рта.',
         image: dentistry,
-        price: 'Первичный прием 1500',
+        price: 'Лечение кариеса от 1800',
         link: 'dentistry'
     },
     {
         title: 'Лаборатория',
         text: 'Выполнение лабораторных анализов для диагностики и мониторинга здоровья.',
         image: laboratory,
-        price: 'Первичный прием 1500',
+        price: 'Анализы от 700',
         link: 'tests'
     },
 ];
@@ -68,16 +69,20 @@ function ServicesClinic() {
         setTimeout(() => {
             scroller.scrollTo(sectionId, {
                 duration: 800,
-                delay: 100,
+                delay: 0,
                 smooth: true,
                 offset: -100,
             });
-        }, 500);
+        }, 300);
+    };
+
+    const handleAllServicesClick = () => {
+        navigate('/price-clinic');
     };
 
     return (
         <>
-            <Container fluid className="text-center animal-types-container">
+            <Container fluid className="my-5 text-center animal-types-container">
                 <Row>
                     <h1 className="mb-4">Коротко о <span className="colored-text">важном</span></h1>
                     <p>Мы расскажем с какими проблемами вы можете столкнуться и когда необоходио обратиться  врачу</p>
@@ -88,7 +93,7 @@ function ServicesClinic() {
                     {cardData.map((card, index) => (
                         <Col key={index}>
                             <div className="text-decoration-none cursor-pointer"
-                            onClick={() => handleCardClick(card.link)}>
+                                onClick={() => handleCardClick(card.link)}>
                                 <Card className='service-card-main'>
                                     <Card.Img variant="top" src={card.image} alt={card.title} />
                                     <Card.Body className="d-flex flex-column">
@@ -98,12 +103,23 @@ function ServicesClinic() {
                                     <Card.Footer className='d-flex flex-row align-items-center'>
                                         <img src={rub} alt="руб" className="rub-style me-2" />
                                         <span>{card.price}</span>
-                                        <FontAwesomeIcon icon={faRubleSign} className="ms-1" />
                                     </Card.Footer>
                                 </Card>
                             </div>
                         </Col>
                     ))}
+                </Row>
+                <Row className="justify-content-center my-4">
+                    <Col xs={12} md={6} className="text-center">
+                        <Button
+                            variant="light"
+                            size="lg"
+                            className='btn-style-serve'
+                            onClick={handleAllServicesClick}
+                        >
+                            Стоимость всех услуг клиники
+                        </Button>
+                    </Col>
                 </Row>
             </Container>
         </>

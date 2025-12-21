@@ -63,6 +63,7 @@ function MainImg() {
                     ))}
                 </div>
             </div>
+            
             <AppointmentModal
                 show={showModal}
                 handleClose={() => setShowModal(false)}

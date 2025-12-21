@@ -45,8 +45,8 @@ echo Laravel dependencies installed!
 
 echo.
 echo 4. Stopping and removing any conflicting containers...
-docker rm -f laravel nginx adminer db 2>nul
 docker-compose down 2>nul
+docker rm -f nginx laravel adminer db 2>nul
 echo Conflicting containers removed!
 
 echo.
@@ -70,14 +70,16 @@ echo Application key generated!
 
 echo.
 echo 9. Restarting Laravel container...
-docker-compose restart laravel
+docker restart laravel 2>nul
+if errorlevel 1 (
+    docker-compose restart php-fpm 2>nul
+)
 echo Laravel restarted!
 
 echo.
 echo 10. Creating sessions table...
 docker exec laravel php artisan session:table 2>nul
-docker exec laravel php artisan migrate --path=database/migrations/*_create_sessions_table.php --force 2>nul
-echo Sessions table created!
+echo Sessions migration created!
 
 echo.
 echo 11. Setting up database...

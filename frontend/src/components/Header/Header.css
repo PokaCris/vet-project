@@ -4,7 +4,6 @@
 
 .pre-header {
     background: #5e5e5e;
-    color: #fff;
     font-size: 14px;
 }
 
@@ -76,6 +75,10 @@
     display: none;
 }
 
+.no-arrow .dropdown-toggle::after {
+    display: none !important;
+}
+
 .dropdown-menu {
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
@@ -110,8 +113,11 @@
     margin: 8px 0;
 }
 
-.no-arrow .dropdown-toggle::after {
-    display: none !important;
+.dropdown-item.logout-item:hover,
+.dropdown-item.logout-item:focus {
+    background: rgba(152, 51, 56, 0.4) !important;
+    color: #fff !important;
+    transform: translateX(5px);
 }
 
 .offcanvas-header {
