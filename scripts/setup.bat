@@ -43,9 +43,15 @@ cd ..
 echo Laravel dependencies installed!
 
 echo.
-echo 4. Stopping existing containers...
+echo 4. Stopping and removing any conflicting containers...
+docker rm -f laravel 2>nul
+docker rm -f nginx 2>nul
+docker rm -f adminer 2>nul
+docker rm -f db 2>nul
+
 docker-compose down 2>nul
-echo Old containers stopped!
+
+echo Conflicting containers removed!
 
 echo.
 echo 5. Starting Docker containers...
