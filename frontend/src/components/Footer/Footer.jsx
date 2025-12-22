@@ -7,7 +7,6 @@ import { faFacebook, faWhatsapp, faTelegram } from '@fortawesome/free-brands-svg
 
 import { articlesData } from '../../data/articlesData';
 import logo from '../../assets/header/logo.jpg';
-import placeholderImage from '../../assets/footer/example.jpg';
 import './Footer.css';
 
 function Footer() {
@@ -15,22 +14,20 @@ function Footer() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const getRandomArticles = () => {
-            const shuffled = [...articlesData].sort(() => 0.5 - Math.random());
-            return shuffled.slice(0, 4);
-        };
-        setRandomArticles(getRandomArticles());
+        const shuffled = [...articlesData].sort(() => 0.5 - Math.random());
+        setRandomArticles(shuffled.slice(0, 4));
     }, []);
 
     const handleArticleClick = (articleId, e) => {
         e.preventDefault();
         
-        sessionStorage.setItem('scrollToArticle', articleId);
+        localStorage.setItem('articleScrollData', JSON.stringify({
+            articleId: articleId,
+            timestamp: Date.now()
+        }));
         
-        if (window.location.pathname === '/articles') {
-            if (window.scrollToArticleFromFooter) {
-                window.scrollToArticleFromFooter(articleId);
-            }
+        if (window.location.pathname === '/articles' && window.scrollToArticle) {
+            window.scrollToArticle(articleId);
         } else {
             navigate('/articles');
         }
@@ -43,7 +40,7 @@ function Footer() {
                     <Col md={5}>
                         <div className="d-flex align-items-center mb-3">
                             <h4 className="text-uppercase mb-0 me-2">VetClinic</h4>
-                            <img src={logo} width="25" height="25" className="rounded-circle" alt="Logo min" />
+                            <img src={logo} width="23" height="23" className="rounded-circle" alt="Logo min" />
                         </div>
                         <ul className="list-unstyled">
                             <li className="mb-3">Забота о ваших питомцах - наша главная цель.</li>
@@ -79,17 +76,15 @@ function Footer() {
                                 <li key={article.id}>
                                     <a 
                                         href="#" 
-                                        className="d-flex align-items-center mb-3 footer-article-link"
+                                        className="d-flex align-items-center mb-2 footer-article-link"
                                         onClick={(e) => handleArticleClick(article.id, e)}
                                     >
-                                        <div className="footer-article-img-container me-3">
-                                            <img 
-                                                src={article.image || placeholderImage} 
-                                                alt={article.title} 
-                                                className="img-style" 
-                                            />
-                                        </div>
-                                        <span>{article.title}</span>
+                                        <img 
+                                            src={article.image} 
+                                            alt={article.title} 
+                                            className="img-style" 
+                                        />
+                                        <span className="ms-3">{article.title}</span>
                                     </a>
                                 </li>
                             ))}

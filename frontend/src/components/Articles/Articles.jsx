@@ -1,64 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Container, Breadcrumb, Row, Col, Pagination, Button, Collapse, Form, Alert } from 'react-bootstrap';
 import { articlesData } from '../../data/articlesData';
-import './Articles.css';
 
-const ArticleSection = ({ section }) => {
-    switch (section.type) {
-        case 'text':
-            return (
-                <>
-                    {section.title && <h5 className="section-title">{section.title}</h5>}
-                    {section.content && <p>{section.content}</p>}
-                </>
-            );
-        
-        case 'subtitle':
-            return <h6 className="section-subtitle">{section.title}</h6>;
-        
-        case 'list':
-            return (
-                <ul className="section-list">
-                    {section.items.map((item, index) => (
-                        <li key={index}>{item}</li>
-                    ))}
-                </ul>
-            );
-        
-        case 'orderedList':
-            return (
-                <ol className="section-ordered-list">
-                    {section.items.map((item, index) => (
-                        <li key={index}>{item}</li>
-                    ))}
-                </ol>
-            );
-        
-        case 'tip':
-            return (
-                <Alert variant="info" className="section-tip">
-                    <strong>{section.content}</strong>
-                </Alert>
-            );
-        
-        case 'warning':
-            return (
-                <Alert variant="warning" className="section-warning">
-                    <strong>{section.content}</strong>
-                </Alert>
-            );
-        
-        case 'success':
-            return (
-                <Alert variant="success" className="section-success">
-                    <strong>{section.content}</strong>
-                </Alert>
-            );
-        
-        default:
-            return null;
-    }
-};
+import './Articles.css';
 
 function Articles() {
     const [activePage, setActivePage] = useState(1);
@@ -93,7 +37,7 @@ function Articles() {
     const hasSearchQuery = searchQuery.trim().length > 0;
     const articlesPerPage = 3;
     const totalPages = Math.ceil(filteredArticles.length / articlesPerPage);
-    
+
     const startIndex = (activePage - 1) * articlesPerPage;
     const currentArticles = filteredArticles.slice(startIndex, startIndex + articlesPerPage);
 
@@ -106,6 +50,122 @@ function Articles() {
         setActivePage(1);
     };
 
+    const scrollToArticle = (articleId) => {
+        const articleIndex = filteredArticles.findIndex(article => article.id === articleId);
+        if (articleIndex === -1) return;
+
+        const targetPage = Math.floor(articleIndex / articlesPerPage) + 1;
+        const needsPageChange = targetPage !== activePage;
+
+        if (needsPageChange) {
+            setActivePage(targetPage);
+        }
+
+        const performScroll = () => {
+            setOpenCollapse(articleId);
+            setTimeout(() => {
+                const articleElement = document.getElementById(`collapse-${articleId}`);
+                if (articleElement) {
+                    articleElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }
+            }, 100);
+        };
+
+        if (needsPageChange) {
+            setTimeout(performScroll, 100);
+        } else {
+            performScroll();
+        }
+    };
+
+    useEffect(() => {
+        window.scrollToArticle = scrollToArticle;
+
+        const handleStoredScroll = () => {
+            const scrollData = localStorage.getItem('articleScrollData');
+            if (!scrollData) return;
+
+            try {
+                const data = JSON.parse(scrollData);
+                const now = Date.now();
+
+                if (now - data.timestamp < 5000) {
+                    setTimeout(() => scrollToArticle(data.articleId), 300);
+                }
+
+                localStorage.removeItem('articleScrollData');
+            } catch (e) {
+                console.error('Ошибка при обработке данных скролла:', e);
+            }
+        };
+
+        handleStoredScroll();
+
+        return () => {
+            delete window.scrollToArticle;
+        };
+    }, [activePage, filteredArticles]);
+
+    const renderSection = (section, index) => {
+        switch (section.type) {
+            case 'text':
+                return (
+                    <div key={index}>
+                        {section.title && <h5 className="section-title">{section.title}</h5>}
+                        {section.content && <p>{section.content}</p>}
+                    </div>
+                );
+
+            case 'subtitle':
+                return <h6 key={index} className="section-subtitle">{section.title}</h6>;
+
+            case 'list':
+                return (
+                    <ul key={index} className="section-list">
+                        {section.items.map((item, itemIndex) => (
+                            <li key={itemIndex}>{item}</li>
+                        ))}
+                    </ul>
+                );
+
+            case 'orderedList':
+                return (
+                    <ol key={index} className="section-ordered-list">
+                        {section.items.map((item, itemIndex) => (
+                            <li key={itemIndex}>{item}</li>
+                        ))}
+                    </ol>
+                );
+
+            case 'tip':
+                return (
+                    <Alert key={index} variant="info" className="section-tip">
+                        <strong>{section.content}</strong>
+                    </Alert>
+                );
+
+            case 'warning':
+                return (
+                    <Alert key={index} variant="warning" className="section-warning">
+                        <strong>{section.content}</strong>
+                    </Alert>
+                );
+
+            case 'success':
+                return (
+                    <Alert key={index} variant="success" className="section-success">
+                        <strong>{section.content}</strong>
+                    </Alert>
+                );
+
+            default:
+                return null;
+        }
+    };
+
     return (
         <>
             <Container className='my-3 p-3'>
@@ -113,17 +173,15 @@ function Articles() {
                     <Breadcrumb.Item href="/">Главная</Breadcrumb.Item>
                     <Breadcrumb.Item active>Статьи</Breadcrumb.Item>
                 </Breadcrumb>
-            </Container>
 
-            <Container className='articles-page-container'>
-                <Row className='mb-5'>
+                <Row className='mb-5 articles-page-container'>
                     <Col>
                         <h1 className='articles-title mb-4'>Полезные статьи о питомцах</h1>
 
                         <div className='mb-5'>
                             <p className='articles-intro'>
-                                В этом разделе мы собрали полезную информацию о здоровье, уходе и воспитании 
-                                домашних животных. Наши статьи помогут вам лучше понимать своих питомцев 
+                                В этом разделе мы собрали полезную информацию о здоровье, уходе и воспитании
+                                домашних животных. Наши статьи помогут вам лучше понимать своих питомцев
                                 и обеспечивать им качественную жизнь.
                             </p>
                         </div>
@@ -175,14 +233,14 @@ function Articles() {
                                                         </div>
                                                     </div>
                                                 </Col>
-                                                
+
                                                 <Col md={7} lg={8}>
                                                     <div className='articles-content'>
                                                         <h3 className='articles-item-title mb-3'>{article.title}</h3>
                                                         <p className='articles-item-text mb-4'>
                                                             {article.shortDescription}
                                                         </p>
-                                                        
+
                                                         <Button
                                                             variant="outline-success"
                                                             onClick={() => handleToggleCollapse(article.id)}
@@ -192,15 +250,12 @@ function Articles() {
                                                         >
                                                             {openCollapse === article.id ? 'Скрыть подробности' : 'Читать подробнее'}
                                                         </Button>
-                                                        
+
                                                         <Collapse in={openCollapse === article.id}>
                                                             <div id={`collapse-${article.id}`} className='mt-4'>
                                                                 <div className='articles-collapse-content p-4'>
                                                                     {article.sections && article.sections.map((section, index) => (
-                                                                        <ArticleSection 
-                                                                            key={index} 
-                                                                            section={section} 
-                                                                        />
+                                                                        renderSection(section, index)
                                                                     ))}
                                                                 </div>
                                                             </div>
@@ -217,20 +272,20 @@ function Articles() {
                                         <Col>
                                             <div className='d-flex justify-content-center'>
                                                 <Pagination className='articles-pagination'>
-                                                    <Pagination.First 
-                                                        onClick={() => setActivePage(1)} 
+                                                    <Pagination.First
+                                                        onClick={() => setActivePage(1)}
                                                         disabled={activePage === 1}
                                                     />
-                                                    <Pagination.Prev 
+                                                    <Pagination.Prev
                                                         onClick={() => setActivePage(prev => Math.max(prev - 1, 1))}
                                                         disabled={activePage === 1}
                                                     />
-                                                    
+
                                                     {(() => {
                                                         const pages = [];
                                                         let startPage = Math.max(1, Math.min(activePage - 1, totalPages - 2));
                                                         let endPage = Math.min(totalPages, startPage + 2);
-                                                        
+
                                                         for (let page = startPage; page <= endPage; page++) {
                                                             pages.push(
                                                                 <Pagination.Item
@@ -244,12 +299,12 @@ function Articles() {
                                                         }
                                                         return pages;
                                                     })()}
-                                                    
-                                                    <Pagination.Next 
+
+                                                    <Pagination.Next
                                                         onClick={() => setActivePage(prev => Math.min(prev + 1, totalPages))}
                                                         disabled={activePage === totalPages}
                                                     />
-                                                    <Pagination.Last 
+                                                    <Pagination.Last
                                                         onClick={() => setActivePage(totalPages)}
                                                         disabled={activePage === totalPages}
                                                     />
@@ -264,8 +319,8 @@ function Articles() {
                         <div className='articles-info p-4 mt-5'>
                             <h3 className='articles-info-title mb-3'>Важная информация</h3>
                             <p className='mb-0'>
-                                Материалы в этом разделе носят ознакомительный характер. 
-                                Для точной диагностики и лечения обратитесь к ветеринарному врачу. 
+                                Материалы в этом разделе носят ознакомительный характер.
+                                Для точной диагностики и лечения обратитесь к ветеринарному врачу.
                                 Мы регулярно обновляем статьи, чтобы предоставлять вам самую актуальную информацию.
                             </p>
                         </div>

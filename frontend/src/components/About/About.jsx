@@ -21,10 +21,8 @@ function About() {
                     <Breadcrumb.Item href="/">Главная</Breadcrumb.Item>
                     <Breadcrumb.Item active>О нас</Breadcrumb.Item>
                 </Breadcrumb>
-            </Container>
 
-            <Container className='about-page-container'>
-                <Row className='mb-5'>
+                <Row className='mb-5 about-page-container'>
                     <Col>
                         <h1 className='about-title mb-4'>О нашей клинике</h1>
 

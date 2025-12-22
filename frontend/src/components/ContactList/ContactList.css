@@ -1,165 +1,208 @@
-.contact-card-horizontal {
-    border: 1px solid #e9ecef;
-    border-radius: 12px;
-    background-color: #fff;
-    margin-bottom: 15px;
-    padding: 20px;
+.contact-container {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
 }
 
-.contact-card-horizontal:hover {
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    border-color: #339886;
+.contact-page-container {
+    padding-top: 1rem !important;
+    padding-bottom: 3rem !important;
 }
 
-.contact-icon-wrapper {
-    width: 50px;
-    height: 50px;
-    min-width: 50px;
-    background-color: rgba(51, 152, 134, 0.1);
-    border-radius: 50%;
-    color: #339886;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 15px;
+.contact-main-title {
+    color: #2c3e50 !important;
+    font-weight: 700 !important;
+    font-size: 2.5rem !important;
 }
 
-.contact-icon {
-    font-size: 1.3rem;
+.contact-clinic-title {
+    color: #2c3e50 !important;
+    font-weight: 600 !important;
+    font-size: 1.5rem !important;
 }
 
-.contact-title {
-    color: #2c3e50;
-    font-weight: 600;
-    font-size: 1.1rem;
-    margin-bottom: 5px;
+.contact-map-title {
+    color: #2c3e50 !important;
+    font-weight: 600 !important;
+    font-size: 1.5rem !important;
 }
 
-.contact-info {
-    color: #339886;
-    font-weight: 500;
-    text-decoration: none;
+.contact-directions-title {
+    color: #2c3e50 !important;
+    font-weight: 600 !important;
+    font-size: 1.5rem !important;
 }
 
-.contact-info:hover {
-    color: #2c3e50;
-    text-decoration: underline;
+.contact-transport-title {
+    color: #339886 !important;
+    font-weight: 600 !important;
+    font-size: 1.1rem !important;
+    margin-bottom: 15px !important;
 }
 
-.contact-description {
-    font-size: 0.85rem;
-    color: #6c757d;
-    margin-bottom: 0;
+.contact-cards-wrapper {
+    margin-top: 1rem !important;
 }
 
-.building-carousel {
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+.contact-info-card {
+    border: 1px solid #e9ecef !important;
+    border-radius: 12px !important;
+    background-color: #fff !important;
+    margin-bottom: 15px !important;
+    padding: 20px !important;
 }
 
-.building-carousel img {
-    height: 400px;
-    object-fit: cover;
+.contact-info-card:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+    border-color: #339886 !important;
 }
 
-.building-carousel .carousel-caption {
-    background-color: rgba(0, 0, 0, 0.6);
-    border-radius: 8px;
-    padding: 10px 20px;
-    left: 20px;
-    right: auto;
-    bottom: 20px;
-    width: auto;
+.contact-info-icon {
+    width: 50px !important;
+    height: 50px !important;
+    min-width: 50px !important;
+    background-color: rgba(51, 152, 134, 0.1) !important;
+    border-radius: 50% !important;
+    color: #339886 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-right: 15px !important;
 }
 
-.building-carousel .carousel-caption h5 {
-    color: #fff;
-    font-size: 1.2rem;
-    margin: 0;
+.contact-info-icon-svg {
+    font-size: 1.3rem !important;
 }
 
-.map-container {
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    position: relative;
-    min-height: 400px;
+.contact-info-title {
+    color: #2c3e50 !important;
+    font-weight: 600 !important;
+    font-size: 1.1rem !important;
+    margin-bottom: 5px !important;
 }
 
-.map-placeholder {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f8f9fa;
-    color: #6c757d;
+.contact-info-link {
+    color: #339886 !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
 }
 
-.additional-info {
-    padding: 30px;
-    background-color: #f8f9fa;
-    border-radius: 12px;
+.contact-info-link:hover {
+    color: #2c3e50 !important;
+    text-decoration: underline !important;
 }
 
-.additional-info h4 {
-    color: #2c3e50;
+.contact-info-text {
+    color: #339886 !important;
+    font-weight: 500 !important;
+    margin-bottom: 5px !important;
 }
 
-.additional-info h6 {
-    color: #339886;
-    margin-bottom: 15px;
+.contact-info-desc {
+    font-size: 0.85rem !important;
+    color: #6c757d !important;
+    margin-bottom: 0 !important;
 }
 
-@media (max-width: 992px) {
-    .contact-icon-wrapper {
-        width: 45px;
-        height: 45px;
-        min-width: 45px;
-        margin-right: 12px;
-    }
-    
-    .building-carousel img {
-        height: 350px;
-    }
+.contact-intro p {
+    font-size: 1.1rem !important;
+    line-height: 1.6 !important;
+    color: #4a5568 !important;
 }
 
-@media (max-width: 768px) {
-    .building-carousel img {
-        height: 300px;
-    }
-    
-    .building-carousel .carousel-caption {
-        left: 10px;
-        bottom: 10px;
-        padding: 8px 15px;
-    }
-    
-    .additional-info {
-        padding: 20px;
-    }
+.clinic-carousel-wrapper {
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
 }
 
-@media (max-width: 576px) {
-    .contact-card-horizontal {
-        padding: 15px !important;
-    }
-    
-    .contact-icon-wrapper {
-        width: 40px;
-        height: 40px;
-        min-width: 40px;
-    }
-    
-    .contact-icon {
-        font-size: 1.1rem;
-    }
-    
-    .building-carousel img {
-        height: 250px;
-    }
+.clinic-carousel {
+    width: 100% !important;
+    height: 400px !important;
+}
+
+.clinic-carousel .carousel-inner {
+    height: 400px !important;
+    width: 100% !important;
+}
+
+.clinic-carousel .carousel-item {
+    height: 400px !important;
+    width: 100% !important;
+}
+
+.clinic-carousel .carousel-item img {
+    width: 100% !important;
+    height: 400px !important;
+    object-fit: cover !important;
+    display: block !important;
+}
+
+.clinic-carousel-caption {
+    background-color: rgba(0, 0, 0, 0.6) !important;
+    border-radius: 8px !important;
+    padding: 10px 20px !important;
+    left: 20px !important;
+    right: auto !important;
+    bottom: 20px !important;
+    width: auto !important;
+}
+
+.clinic-carousel-title {
+    color: #fff !important;
+    font-size: 1.2rem !important;
+    margin: 0 !important;
+    font-weight: 600 !important;
+}
+
+.clinic-carousel-description {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-size: 0.9rem !important;
+    margin: 5px 0 0 0 !important;
+}
+
+.contact-map-section {
+    margin-top: 3rem !important;
+}
+
+.contact-map-container {
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+    position: relative !important;
+    min-height: 400px !important;
+}
+
+.contact-map-loading {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background-color: #f8f9fa !important;
+    color: #6c757d !important;
+}
+
+.contact-map-iframe {
+    position: relative !important;
+    z-index: 2 !important;
+    display: block !important;
+    border: none !important;
+}
+
+.contact-map-note {
+    margin-top: 1rem !important;
+}
+
+.contact-directions {
+    padding: 30px !important;
+    background-color: #f8f9fa !important;
+    border-radius: 12px !important;
+}
+
+.contact-transport-text {
+    line-height: 1.6 !important;
+    margin-bottom: 0 !important;
 }

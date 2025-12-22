@@ -1,4 +1,5 @@
 import { Container, Breadcrumb, Row, Col } from 'react-bootstrap';
+import MakeAppointment from '../../components/MakeAppointment/MakeAppointment';
 
 import './AllServices.css';
 
@@ -174,6 +175,8 @@ function DermatologyDetails() {
                         </div>
                     </Col>
                 </Row>
+
+                <MakeAppointment />
             </Container>
         </>
     )

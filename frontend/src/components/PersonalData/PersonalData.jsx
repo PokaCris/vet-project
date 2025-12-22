@@ -129,7 +129,7 @@ const PersonalPage = () => {
                 </Breadcrumb>
             </Container>
 
-            <Container className="mt-5 mb-5">
+            <Container className="mt-4 mb-5">
                 <h1 className="mb-5">Личный кабинет</h1>
 
                 <Card className="mb-4 shadow-sm">
@@ -237,16 +237,6 @@ const PersonalPage = () => {
                                     <Alert variant="secondary" className="mt-2">
                                         <div className="d-flex align-items-center justify-content-between">
                                             <small>Информация о питомцах не указана.</small>
-                                            <Button
-                                                variant="info"
-                                                size="sm"
-                                                onClick={() => {
-                                                    setEditingPet(null);
-                                                    setShowPetModal(true);
-                                                }}
-                                            >
-                                                Добавить первого питомца
-                                            </Button>
                                         </div>
                                     </Alert>
                                 )}

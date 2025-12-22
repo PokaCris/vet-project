@@ -244,8 +244,8 @@ function PriceList() {
                     <Breadcrumb.Item active>Цены</Breadcrumb.Item>
                 </Breadcrumb>
 
-                <h4 className="mb-3">Цены на ветеринарные услуги в клинике</h4>
-                <h5 className="fw-bold mb-4">Прайс-лист</h5>
+                <h1 className="mb-4">Цены на ветеринарные услуги в клинике</h1>
+                <h3 className="fw-bold mb-4">Прайс-лист</h3>
 
                 <div className="price-list-btn d-flex flex-wrap justify-content-start gap-2 mb-5">
                     {buttons.map((btn) => (

@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { scroller } from 'react-scroll';
 import { Container, Card, Row, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRubleSign, faHandHoldingDollar } from '@fortawesome/free-solid-svg-icons';
+import { faRubleSign } from '@fortawesome/free-solid-svg-icons';
 
 import therapy from "../../assets/services_img/therapy.jpg";
 import surgery from "../../assets/services_img/surgery.jpg";
@@ -103,6 +103,7 @@ function ServicesClinic() {
                                     <Card.Footer className='d-flex flex-row align-items-center'>
                                         <img src={rub} alt="руб" className="rub-style me-2" />
                                         <span>{card.price}</span>
+                                        <FontAwesomeIcon icon={faRubleSign} />
                                     </Card.Footer>
                                 </Card>
                             </div>

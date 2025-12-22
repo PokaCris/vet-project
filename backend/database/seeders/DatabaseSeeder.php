@@ -124,7 +124,7 @@ class DatabaseSeeder extends Seeder
                     'diagnosis' => 'Плановый осмотр',
                     'result' => 'Животное здорово. Все показатели в норме. Рекомендовано контрольное посещение через 6 месяцев.',
                     'recommendations' => 'Продолжать текущий режим питания и прогулок.',
-                    'status' => 'completed',
+                    'status' => 'in_progress',
                 ],
                 [
                     'pet_id' => $pets->first()->id,
@@ -154,7 +154,7 @@ class DatabaseSeeder extends Seeder
                     'diagnosis' => 'Первичный прием',
                     'result' => 'Выявлена аллергия на определенные компоненты корма. Взяты пробы для анализа.',
                     'recommendations' => 'Исключить курицу из рациона. Давать антигистаминные препараты 2 раза в день в течение недели.',
-                    'status' => 'completed',
+                    'status' => 'in_progress',
                 ],
                 [
                     'pet_id' => $pets->get(1)->id,

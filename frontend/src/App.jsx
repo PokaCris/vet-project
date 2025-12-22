@@ -10,7 +10,7 @@ import DoctorInfo from './pages/DoctorInfo/DoctorInfo';
 import Contacts from './pages/Contacts';
 import PriceClinic from './pages/PriceClinic';
 import About from './pages/AboutPage';
-import Articles from './components/Articles/Articles';
+import ArticlesPage from './components/Articles/Articles';
 import PersonalPage from './pages/PersonalPage';
 
 // AllServices
@@ -51,7 +51,7 @@ function App() {
           <Route path="/doctor/:id" element={<DoctorInfo />} />
           <Route path="/contacts" element={<Contacts />} />
           <Route path="/about" element={<About />} />
-          <Route path="/articles" element={<Articles />} />
+          <Route path="/articles" element={<ArticlesPage />} />
 
           <Route path="/personal-page" element={<PersonalPage />} />
 
