@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { scroller } from 'react-scroll';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 
 import valta from '../../assets/brands/valta.png';
@@ -27,8 +28,17 @@ const LogosSlider = () => {
     const duplicatedLogos = [...logos, ...logos];
 
     const handleButtonClick = () => {
-        navigate('/about');
-    };
+    navigate('/about');
+    
+    setTimeout(() => {
+        scroller.scrollTo('partnersElem', {
+            duration: 800,
+            delay: 0,
+            smooth: true,
+            offset: -100,
+        });
+    }, 400);
+};
 
     return (
         <>

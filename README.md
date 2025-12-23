@@ -95,8 +95,8 @@ cd backend
 
 - для windows:
 ```cmd
-scripts\windows\sessions.bat          # Создать таблицу сессий
-scripts\windows\migrateAndSeed.bat    # Применить миграции и заполнить тестовыми даннымиданными
+    scripts\windows\sessions.bat          # Создать таблицу сессий
+    scripts\windows\migrateAndSeed.bat    # Применить миграции и заполнить тестовыми даннымиданными
 ```
 
 - Для linux/mac:

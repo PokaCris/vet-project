@@ -92,7 +92,7 @@ function ContactList() {
                             в удобном месте с парковкой. При необходимости можно вызвать врача на дом.
                         </p>
                     </div>
-                    <Row className="contact-main-row mb-5">
+                    <Row className="contact-main-row mb-5 d-flex align-items-center">
                         <Col lg={5} className="mb-4 mb-lg-0">
                             <div className="contact-cards-wrapper">
                                 {contacts.map((contact) => (
@@ -127,7 +127,7 @@ function ContactList() {
                                 ))}
                             </div>
                         </Col>
-                    
+
                         <Col lg={7}>
                             <h4 className="contact-clinic-title mb-4">Наша клиника</h4>
                             <div className="clinic-carousel-wrapper">
@@ -137,6 +137,7 @@ function ContactList() {
                                     fade
                                     indicators
                                     controls
+                                    interval={3000}
                                     className="clinic-carousel"
                                 >
                                     {carouselItems.map((item) => (
@@ -168,7 +169,7 @@ function ContactList() {
                             )}
                             <iframe
                                 title="Карта расположения ветклиники"
-                                src="https://yandex.ru/map-widget/v1/?ll=38.976885%2C45.039266&z=16&l=map&pt=38.976885%2C45.039266%2Cpm2gnm&text=Ветклиника%20%22VetCare%22"
+                                src="https://yandex.ru/map-widget/v1/?z=16&ll=38.976885%2C45.039266&pt=38.976885%2C45.039266%2Cpm2gnm~Ветклиника%20VetClinic"
                                 width="100%"
                                 height="400"
                                 className="contact-map-iframe"
@@ -176,11 +177,6 @@ function ContactList() {
                                 loading="lazy"
                                 onLoad={() => setMapLoaded(true)}
                             ></iframe>
-                        </div>
-                        <div className="contact-map-note mt-3">
-                            <p className="text-muted small mb-0">
-                                Нажмите на метку для подробной информации о клинике
-                            </p>
                         </div>
                     </div>
                     <div className="contact-directions mb-5">

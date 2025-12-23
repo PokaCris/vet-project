@@ -11,16 +11,86 @@
 }
 
 .doctor-info-image-container {
-    background: none;
     position: relative;
     overflow: hidden;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    animation: theme 21s linear infinite;
+    background: #74C390;
+}
+
+.doctor-info-image-container:after,
+.doctor-info-image-container:before {
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    width: 50vmax;
+    height: 50vmax;
+    background: rgba(255, 255, 255, 0.1);
+    animation: background 45s linear infinite;
+    border-radius: 30%;
+}
+
+.doctor-info-image-container:after {
+    left: -10%;
+    top: -10%;
+}
+
+.doctor-info-image-container:before {
+    right: -10%;
+    bottom: -10%;
+    animation-delay: -15s;
+    animation-direction: reverse;
+}
+
+@keyframes theme {
+    0% {
+        background: #77c091;
+    }
+    
+    16% {
+        background: #6ac0ba;
+    }
+    
+    33% {
+        background: #6fb8c0;
+    }
+    
+    50% {
+        background: #5095b1;
+    }
+    
+    66% {
+        background: #5b82b6;
+    }    
+    
+    83% {
+        background: #60a791;
+    }
+
+    100% {
+        background: #7ba56a;
+    }
+}
+
+@keyframes background {
+    0% {
+        transform: rotate(0deg);
+    }
+    
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .doctor-info-image {
     width: 100%;
+    height: 100%;
     transition: transform 0.3s ease;
+    position: relative;
+    z-index: 1;
 }
 
 .doctor-info-image:hover {

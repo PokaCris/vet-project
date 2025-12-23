@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Button, Card, Badge } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
 
 import { doctorsData } from '../../data/doctorsData';
 import leftArrow from '../../assets/arrows/left-arrow.png';

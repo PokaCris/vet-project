@@ -20,10 +20,29 @@ function AppointmentModal({ show, handleClose }) {
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
+
+        if (name === 'phone') {
+            handlePhoneChange(e);
+            return;
+        }
+
+        let processedValue;
+
+        if (type === 'checkbox') {
+            processedValue = checked;
+        }
+        else if (name === 'name') {
+            processedValue = formatName(value);
+        }
+        else {
+            processedValue = value;
+        }
+
         setFormData(prev => ({
             ...prev,
-            [name]: type === 'checkbox' ? checked : value
+            [name]: processedValue
         }));
+
         if (errors[name]) {
             setErrors(prev => ({ ...prev, [name]: '' }));
         }
@@ -40,6 +59,10 @@ function AppointmentModal({ show, handleClose }) {
         const phoneDigits = formData.phone.replace(/\D/g, '');
         if (!formData.phone.trim() || phoneDigits.length < 11) {
             newErrors.phone = 'Введите корректный номер телефона';
+        }
+
+        if (!formData.pet_info.trim()) {
+            newErrors.pet_info = 'Введите информацию о питомце';
         }
 
         if (!formData.agreed_to_terms) {
@@ -112,6 +135,14 @@ function AppointmentModal({ show, handleClose }) {
         return formatted;
     };
 
+    const formatName = (value) => {
+        if (!value) return '';
+        return value.trim().replace(/\s+/g, ' ')
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ');
+    };
+
     const handlePhoneChange = (e) => {
         const formatted = formatPhone(e.target.value);
         setFormData(prev => ({ ...prev, phone: formatted }));
@@ -169,15 +200,19 @@ function AppointmentModal({ show, handleClose }) {
                             </Form.Group>
 
                             <Form.Group className="mb-3">
-                                <Form.Label>Питомец (кличка, вид)</Form.Label>
+                                <Form.Label>Питомец (кличка, вид) *</Form.Label>
                                 <Form.Control
                                     type="text"
                                     name="pet_info"
                                     value={formData.pet_info}
                                     onChange={handleChange}
+                                    isInvalid={!!errors.pet_info}
                                     disabled={isSubmitting}
                                     className='input-field'
                                 />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.pet_info}
+                                </Form.Control.Feedback>
                             </Form.Group>
 
                             <Form.Group className="mb-3">

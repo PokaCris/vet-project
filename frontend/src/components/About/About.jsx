@@ -1,5 +1,4 @@
 import { Container, Breadcrumb, Row, Col } from 'react-bootstrap';
-import './About.css';
 
 import number1 from '../../assets/numbers/7500.png';
 import number2 from '../../assets/numbers/9.png';
@@ -12,6 +11,8 @@ import purinaLogo from '../../assets/brands/purina.png';
 import bayerLogo from '../../assets/brands/bayer.jpg';
 import triolLogo from '../../assets/brands/triol.jpg';
 import animalIdLogo from '../../assets/brands/animalid.png';
+
+import './About.css';
 
 function About() {
     return (
@@ -48,11 +49,11 @@ function About() {
                                         <div className='about-number-image mb-3'>
                                             <img 
                                                 src={number1} 
-                                                alt="Более 7500 операций" 
+                                                alt="7500 операций" 
                                                 className='img-fluid rounded'
                                             />
                                         </div>
-                                        <h3 className='about-number-title mb-3'>Более 7500 операций</h3>
+                                        <h3 className='about-number-title my-3'>7500 операций</h3>
                                         <p className='about-number-text'>
                                             Успешно проведенных хирургических вмешательств различной сложности
                                         </p>
@@ -80,11 +81,11 @@ function About() {
                                         <div className='about-number-image mb-3'>
                                             <img 
                                                 src={number3} 
-                                                alt="Более 50000 питомцев" 
+                                                alt="50000 питомцев" 
                                                 className='img-fluid rounded'
                                             />
                                         </div>
-                                        <h3 className='about-number-title mb-3'>Более 50000 питомцев</h3>
+                                        <h3 className='about-number-title mb-3'>50000 питомцев</h3>
                                         <p className='about-number-text'>
                                             Получили помощь и вернулись к здоровой жизни благодаря современному оборудованию
                                         </p>
@@ -93,7 +94,7 @@ function About() {
                             </Row>
                         </div>
 
-                        <div className='mb-5'>
+                        <div id="partnersElem" className='mb-5'>
                             <h2 className='about-section-title mb-4'>Наши партнеры</h2>
                             <p className='about-text mb-4'>
                                 Мы сотрудничаем только с проверенными поставщиками и производителями, 
@@ -105,11 +106,11 @@ function About() {
 
                                     <Col md={6} className='mb-4'>
                                         <div className='about-partner-card p-4'>
-                                            <div className='d-flex align-items-start mb-3'>
-                                                <div className='about-partner-logo me-3'>
+                                            <div className='d-flex align-items-center mb-0'>
+                                                <div className='about-partner-logo me-3 align-self-start'>
                                                     <img src={valtaLogo} alt="Валта Пет Продактс" className='img-fluid' />
                                                 </div>
-                                                <div>
+                                                <div className='align-self-center'>
                                                     <h4 className='about-partner-title mb-2'>Валта Пет Продактс</h4>
                                                     <p className='about-partner-text mb-0'>
                                                         Крупнейший поставщик зоотоваров в России с 19-летним опытом. 
@@ -122,7 +123,7 @@ function About() {
 
                                     <Col md={6} className='mb-4'>
                                         <div className='about-partner-card p-4'>
-                                            <div className='d-flex align-items-start mb-3'>
+                                            <div className='d-flex align-items-start mb-0'>
                                                 <div className='about-partner-logo me-3'>
                                                     <img src={ivankoLogo} alt="Иванко" className='img-fluid' />
                                                 </div>
@@ -139,7 +140,7 @@ function About() {
 
                                     <Col md={6} className='mb-4'>
                                         <div className='about-partner-card p-4'>
-                                            <div className='d-flex align-items-start mb-3'>
+                                            <div className='d-flex align-items-start mb-0'>
                                                 <div className='about-partner-logo me-3'>
                                                     <img src={royalCaninLogo} alt="Royal Canin" className='img-fluid' />
                                                 </div>
@@ -156,7 +157,7 @@ function About() {
 
                                     <Col md={6} className='mb-4'>
                                         <div className='about-partner-card p-4'>
-                                            <div className='d-flex align-items-start mb-3'>
+                                            <div className='d-flex align-items-start mb-0'>
                                                 <div className='about-partner-logo me-3'>
                                                     <img src={purinaLogo} alt="Nestle Purina" className='img-fluid' />
                                                 </div>
@@ -173,7 +174,7 @@ function About() {
 
                                     <Col md={6} className='mb-4'>
                                         <div className='about-partner-card p-4'>
-                                            <div className='d-flex align-items-start mb-3'>
+                                            <div className='d-flex align-items-start mb-0'>
                                                 <div className='about-partner-logo me-3'>
                                                     <img src={bayerLogo} alt="Bayer" className='img-fluid' />
                                                 </div>
@@ -190,7 +191,7 @@ function About() {
 
                                     <Col md={6} className='mb-4'>
                                         <div className='about-partner-card p-4'>
-                                            <div className='d-flex align-items-start mb-3'>
+                                            <div className='d-flex align-items-start mb-0'>
                                                 <div className='about-partner-logo me-3'>
                                                     <img src={triolLogo} alt="Триол" className='img-fluid' />
                                                 </div>
@@ -207,7 +208,7 @@ function About() {
 
                                     <Col md={12} className='mb-4'>
                                         <div className='about-partner-card p-4'>
-                                            <div className='d-flex align-items-start mb-3'>
+                                            <div className='d-flex align-items-start mb-0'>
                                                 <div className='about-partner-logo me-3'>
                                                     <img src={animalIdLogo} alt="Animal-ID" className='img-fluid' />
                                                 </div>
