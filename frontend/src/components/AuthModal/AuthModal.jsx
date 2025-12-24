@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Modal, Button, Form, Spinner, Alert } from 'react-bootstrap';
 import { useAuth } from '../../context/AuthContext';
-
 import './AuthModal.css';
 
 const AuthModal = ({ show, onHide, onSuccess }) => {
@@ -21,6 +20,53 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [apiError, setApiError] = useState('');
+
+    const validateForm = () => {
+        const newErrors = {};
+
+        if (!isLogin) {
+            if (!formData.first_name.trim()) {
+                newErrors.first_name = 'Введите ваше имя';
+            }
+
+            if (!formData.email.trim()) {
+                newErrors.email = 'Введите email';
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(formData.email)) {
+                newErrors.email = 'Введите корректный email';
+            }
+
+            const phoneDigits = formData.phone.replace(/\D/g, '');
+            if (!formData.phone.trim() || phoneDigits.length < 11) {
+                newErrors.phone = 'Введите корректный номер телефона';
+            }
+
+            if (!formData.password.trim()) {
+                newErrors.password = 'Введите пароль';
+            } else if (formData.password.length < 6) {
+                newErrors.password = 'Пароль должен содержать минимум 6 символов';
+            }
+
+            if (formData.password !== formData.password_confirmation) {
+                newErrors.password_confirmation = 'Пароли не совпадают';
+            }
+
+            if (!formData.agreed_to_privacy) {
+                newErrors.agreed_to_privacy = 'Необходимо согласие на обработку данных';
+            }
+        } else {
+            if (!formData.email.trim()) {
+                newErrors.email = 'Введите email';
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(formData.email)) {
+                newErrors.email = 'Введите корректный email';
+            }
+
+            if (!formData.password.trim()) {
+                newErrors.password = 'Введите пароль';
+            }
+        }
+
+        return newErrors;
+    };
 
     const formatPhoneInput = (value) => {
         const numbers = value.replace(/\D/g, '');
@@ -47,9 +93,13 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
         const formattedValue = formatPhoneInput(value);
         setFormData(prev => ({ ...prev, [name]: formattedValue }));
 
-        if (errors[name]) {
-            setErrors(prev => ({ ...prev, [name]: '' }));
+        const phoneDigits = formattedValue.replace(/\D/g, '');
+        if (phoneDigits.length < 11) {
+            setErrors(prev => ({ ...prev, phone: 'Введите корректный номер телефона' }));
+        } else {
+            setErrors(prev => ({ ...prev, phone: '' }));
         }
+
         setApiError('');
     };
 
@@ -62,7 +112,8 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
     };
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, type, checked } = e.target;
+        const inputValue = type === 'checkbox' ? checked : value;
 
         if (name === 'phone') {
             handlePhoneChange(e);
@@ -71,17 +122,55 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
 
         const formattedValue = (name === 'first_name' || name === 'last_name')
             ? formatName(value)
-            : value;
+            : inputValue;
 
         setFormData(prev => ({ ...prev, [name]: formattedValue }));
+
         if (errors[name]) {
             setErrors(prev => ({ ...prev, [name]: '' }));
         }
+
+        if (name === 'password' && !isLogin) {
+            if (formattedValue.length < 6) {
+                setErrors(prev => ({ ...prev, password: 'Пароль должен содержать минимум 6 символов' }));
+            } else {
+                setErrors(prev => ({ ...prev, password: '' }));
+            }
+            if (formData.password_confirmation && formattedValue !== formData.password_confirmation) {
+                setErrors(prev => ({ ...prev, password_confirmation: 'Пароли не совпадают' }));
+            }
+        }
+
+        if (name === 'password_confirmation' && !isLogin) {
+            if (formattedValue !== formData.password) {
+                setErrors(prev => ({ ...prev, password_confirmation: 'Пароли не совпадают' }));
+            } else {
+                setErrors(prev => ({ ...prev, password_confirmation: '' }));
+            }
+        }
+
+        if (name === 'email') {
+            if (!formattedValue.trim()) {
+                setErrors(prev => ({ ...prev, email: 'Введите email' }));
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(formattedValue)) {
+                setErrors(prev => ({ ...prev, email: 'Введите корректный email' }));
+            } else {
+                setErrors(prev => ({ ...prev, email: '' }));
+            }
+        }
+
         setApiError('');
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        const formErrors = validateForm();
+        if (Object.keys(formErrors).length > 0) {
+            setErrors(formErrors);
+            return;
+        }
+        
         setIsSubmitting(true);
         setApiError('');
         setErrors({});
@@ -139,16 +228,24 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
                 <Modal.Title className="w-100 py-2 text-center">
                     <div className="d-flex justify-content-center align-items-center">
                         <button
-                            className={`btn btn-link text-decoration-none ${isLogin ? 'text-dark fw-bold' : 'text-secondary'} p-0 me-2`}
-                            onClick={() => setIsLogin(true)}
+                            className={`auth-tab-btn ${isLogin ? 'active' : ''}`}
+                            onClick={() => {
+                                setIsLogin(true);
+                                setErrors({});
+                                setApiError('');
+                            }}
                             type="button"
                         >
                             Вход
                         </button>
-                        <span className="text-secondary">/</span>
+                        <span className="auth-tab-divider">/</span>
                         <button
-                            className={`btn btn-link text-decoration-none ${!isLogin ? 'text-dark fw-bold' : 'text-secondary'} p-0 ms-2`}
-                            onClick={() => setIsLogin(false)}
+                            className={`auth-tab-btn ${!isLogin ? 'active' : ''}`}
+                            onClick={() => {
+                                setIsLogin(false);
+                                setErrors({});
+                                setApiError('');
+                            }}
                             type="button"
                         >
                             Регистрация
@@ -174,7 +271,11 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
                                     required={!isLogin}
                                     disabled={isSubmitting}
                                     className='input-field'
+                                    isInvalid={!!errors.first_name}
                                 />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.first_name}
+                                </Form.Control.Feedback>
                             </Form.Group>
 
                             <Form.Group className="mb-3">
@@ -202,7 +303,11 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
                                     disabled={isSubmitting}
                                     maxLength={18}
                                     className='input-field'
+                                    isInvalid={!!errors.phone}
                                 />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.phone}
+                                </Form.Control.Feedback>
                             </Form.Group>
                         </>
                     )}
@@ -218,7 +323,11 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
                             required
                             disabled={isSubmitting}
                             className='input-field'
+                            isInvalid={!!errors.email}
                         />
+                        <Form.Control.Feedback type="invalid">
+                            {errors.email}
+                        </Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group className="mb-3">
@@ -232,7 +341,11 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
                             required
                             disabled={isSubmitting}
                             className='input-field'
+                            isInvalid={!!errors.password}
                         />
+                        <Form.Control.Feedback type="invalid">
+                            {errors.password}
+                        </Form.Control.Feedback>
                     </Form.Group>
 
                     {!isLogin && (
@@ -248,7 +361,11 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
                                     required={!isLogin}
                                     disabled={isSubmitting}
                                     className='input-field'
+                                    isInvalid={!!errors.password_confirmation}
                                 />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.password_confirmation}
+                                </Form.Control.Feedback>
                             </Form.Group>
 
                             <Form.Group className="mb-3">
@@ -267,8 +384,12 @@ const AuthModal = ({ show, onHide, onSuccess }) => {
                                     onChange={handleChange}
                                     disabled={isSubmitting}
                                     className='form-check-input-custom'
+                                    isInvalid={!!errors.agreed_to_privacy}
                                     isValid
                                 />
+                                <Form.Control.Feedback type="invalid" className="d-block">
+                                    {errors.agreed_to_privacy}
+                                </Form.Control.Feedback>
                             </Form.Group>
                         </>
                     )}

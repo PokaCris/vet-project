@@ -100,5 +100,4 @@ echo
 echo "Test users:"
 echo "1. ivanov@example.com / password123"
 echo "2. petrova@example.com / password123"
-echo "3. sidorov@example.com / password123"
 echo "========================================"
